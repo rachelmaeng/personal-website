@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working - Rachel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .recipe-item {
+            cursor: pointer;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s ease-out;
+        }
+
+        .recipe-item:first-child {
+            padding-top: 0;
+        }
+
+        .recipe-item:last-child {
+            border-bottom: none;
+        }
+
+        .recipe-item:hover .list-item-title {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+
+        .recipe-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+
+        .recipe-header::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--accent);
+            transition: width 0.4s ease-out;
+        }
+
+        .recipe-item:hover .recipe-header::after {
+            width: 60px;
+        }
+
+        .recipe-toggle {
+            color: var(--medium-gray);
+            font-size: 1.25rem;
+            transition: all 0.4s ease-out;
+        }
+
+        .recipe-item:hover .recipe-toggle {
+            color: var(--accent);
+        }
+
+        .recipe-item.active .recipe-toggle {
+            transform: rotate(180deg);
+        }
+
+        .recipe-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .recipe-item.active .recipe-content {
+            max-height: 3000px;
+        }
+
+        .recipe-details {
+            padding-top: 1.5rem;
+            color: var(--medium-gray);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .recipe-details h4 {
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .recipe-details ul {
+            list-style: disc;
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-details li {
+            margin-bottom: 0.35rem;
+        }
+
+        .recipe-details ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .recipe-details ol li {
+            margin-bottom: 0.6rem;
+        }
+
+        .recipe-note {
+            font-style: italic;
+            color: var(--medium-gray);
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background-color: rgba(212, 175, 106, 0.08);
+            border-radius: 4px;
+            border-left: 3px solid var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <canvas id="constellation-canvas"></canvas>
+
+    <!-- Korean Color Palette Switcher -->
+    <div class="palette-switcher">
+        <div class="palette-wheel">
+            <div class="palette-button" data-palette="default" data-name="Original" onclick="switchPalette('default')"></div>
+            <div class="palette-button" data-palette="blue" data-name="청 (Blue)" onclick="switchPalette('blue')"></div>
+            <div class="palette-button" data-palette="red" data-name="적 (Red)" onclick="switchPalette('red')"></div>
+            <div class="palette-button" data-palette="yellow" data-name="황 (Yellow)" onclick="switchPalette('yellow')"></div>
+            <div class="palette-button" data-palette="white" data-name="백 (White)" onclick="switchPalette('white')"></div>
+            <div class="palette-button" data-palette="black" data-name="흑 (Black)" onclick="switchPalette('black')"></div>
+        </div>
+    </div>
+
+    <main class="content-page">
+        <div class="page-header">
+            <h1 class="page-title">WORKING</h1>
+            <p class="page-description">What I'm making</p>
+        </div>
+
+        <section class="content-section" id="building">
+            <h2 class="section-title">BUILDING</h2>
+            <ul class="simple-list">
+                <li class="list-item">
+                    <h3 class="list-item-title">Cycle tracking app</h3>
+                    <p class="list-item-text">I'm building a meal and movement tracking app for women that adapts to your cycle and reflects patterns back to you, instead of telling you what to do (in progress)</p>
+                </li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="writing">
+            <h2 class="section-title">WRITING</h2>
+            <ul class="simple-list">
+                <li class="list-item">
+                    <a href="https://open.substack.com/pub/rachelmaeng/p/the-extinction-of-the-preteen?utm_campaign=post-expanded-share&utm_medium=web" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">The Extinction of the Preteen</h3>
+                        <p class="list-item-text">Substack essay on childhood and growing up too fast</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://substack.com/@rachelmaengo/note/p-182064818?r=4sustf&utm_source=notes-share-action&utm_medium=web" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Get Back in the Kitchen (But Not That Kitchen)</h3>
+                        <p class="list-item-text">Substack essay on gender dynamics in professional cooking</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="cooking">
+            <h2 class="section-title">COOKING</h2>
+            <ul class="simple-list">
+                <li class="recipe-item" onclick="toggleRecipe(this)">
+                    <div class="recipe-header">
+                        <h3 class="list-item-title">Gyudon (Japanese Beef Bowl)</h3>
+                        <span class="recipe-toggle">▼</span>
+                    </div>
+                    <div class="recipe-content">
+                        <div class="recipe-details">
+                            <h4>Ingredients</h4>
+                            <ul>
+                                <li>½ onion (4 oz, 113 g)</li>
+                                <li>1 green onion/scallion</li>
+                                <li>½ lb thinly sliced beef (such as ribeye)</li>
+                                <li>½ cup dashi (Japanese soup stock)</li>
+                                <li>2 Tbsp sake</li>
+                                <li>2 Tbsp mirin</li>
+                                <li>3 Tbsp soy sauce</li>
+                                <li>1 Tbsp sugar</li>
+                                <li>2 servings cooked Japanese short-grain rice</li>
+                                <li>Pickled red ginger for garnish</li>
+                            </ul>
+                            <h4>Instructions</h4>
+                            <ol>
+                                <li>Slice the onion thinly and cut the green onion diagonally into thin slices. Cut semi-frozen beef into 3-inch pieces.</li>
+                                <li>In a large frying pan, combine dashi, sake, mirin, soy sauce, and sugar; stir to dissolve sugar.</li>
+                                <li>Add onion slices, spreading them throughout the pan.</li>
+                                <li>Distribute beef over onions, separating the slices.</li>
+                                <li>Cover and heat to medium; simmer for 3-4 minutes once boiling.</li>
+                                <li>Skim off scum and fat once or twice during cooking.</li>
+                                <li>Sprinkle green onions on top and cook covered for 1 more minute.</li>
+                                <li>Divide rice into bowls, drizzle with sauce, top with beef and onion mixture, and garnish with pickled ginger.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="recipe-item" onclick="toggleRecipe(this)">
+                    <div class="recipe-header">
+                        <h3 class="list-item-title">LA Galbi (Korean Short Ribs)</h3>
+                        <span class="recipe-toggle">▼</span>
+                    </div>
+                    <div class="recipe-content">
+                        <div class="recipe-details">
+                            <h4>Ingredients</h4>
+                            <ul>
+                                <li>3-4 pounds cross-cut beef short ribs, about ⅓-inch thick</li>
+                                <li>½ Korean/Asian pear (or 1 apple), grated</li>
+                                <li>2 tablespoons minced garlic</li>
+                                <li>½ medium onion, grated</li>
+                                <li>1 teaspoon minced ginger</li>
+                                <li>½ cup soy sauce</li>
+                                <li>½ cup water</li>
+                                <li>3-4 tablespoons sugar</li>
+                                <li>2 tablespoons honey</li>
+                                <li>¼ cup cooking rice wine (mirin)</li>
+                                <li>2 tablespoons sesame oil</li>
+                                <li>3 scallions finely chopped</li>
+                                <li>½ teaspoon black pepper</li>
+                                <li>1 teaspoon sesame seeds (optional)</li>
+                            </ul>
+                            <h4>Instructions</h4>
+                            <ol>
+                                <li>Rinse ribs to remove bone dust and surface blood, then drain. Pound lightly with a meat tenderizer or stretch with your hands to tenderize.</li>
+                                <li>Blend pear with onion, garlic, and ginger until fine. Mix all marinade ingredients in a large bowl.</li>
+                                <li>Coat ribs with marinade and refrigerate 6-8 hours (overnight preferred), flipping halfway through.</li>
+                                <li>Heat grill to medium-high and cook 2-3 minutes per side, turning once. Alternatively, broil for 5-6 minutes on first side, then 3-4 minutes after flipping, or pan-fry over medium heat for 4-5 minutes per side.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="recipe-item" onclick="toggleRecipe(this)">
+                    <div class="recipe-header">
+                        <h3 class="list-item-title">Chicken Shawarma</h3>
+                        <span class="recipe-toggle">▼</span>
+                    </div>
+                    <div class="recipe-content">
+                        <div class="recipe-details">
+                            <h4>Ingredients</h4>
+                            <ul>
+                                <li>3/4 tbsp ground cumin</li>
+                                <li>3/4 tbsp turmeric powder</li>
+                                <li>3/4 tbsp ground coriander</li>
+                                <li>3/4 tbsp garlic powder</li>
+                                <li>3/4 tbsp paprika</li>
+                                <li>1/2 tsp ground cloves</li>
+                                <li>1/2 tsp cayenne pepper (or more to taste)</li>
+                                <li>Salt</li>
+                                <li>8 boneless, skinless chicken thighs</li>
+                                <li>1 large onion, thinly sliced</li>
+                                <li>1 large lemon, juice of</li>
+                                <li>1/3 cup extra virgin olive oil</li>
+                                <li>6 pita pockets</li>
+                                <li>Tahini sauce or Greek tzatziki sauce</li>
+                                <li>Baby arugula</li>
+                                <li>Mediterranean salad</li>
+                                <li>Pickles or kalamata olives (optional)</li>
+                            </ul>
+                            <h4>Instructions</h4>
+                            <ol>
+                                <li>Mix cumin, turmeric, coriander, garlic powder, paprika, and cloves in a small bowl.</li>
+                                <li>Pat chicken thighs dry, season with salt on both sides, then slice into bite-sized pieces.</li>
+                                <li>Place chicken in a large bowl. Add spice mixture and toss to coat. Add onions, lemon juice, and olive oil. Toss together. Cover and refrigerate for 3 hours or overnight.</li>
+                                <li>Preheat oven to 425°F. Remove chicken from fridge and let sit at room temperature briefly.</li>
+                                <li>Spread marinated chicken with onions in a single layer on an oiled baking sheet. Roast for 30 minutes. For crispier chicken, briefly broil on the top rack, watching carefully.</li>
+                                <li>To serve, open pita pockets, spread with tahini or tzatziki sauce, add chicken shawarma, arugula, Mediterranean salad, and pickles or olives.</li>
+                            </ol>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="recipe-item" onclick="toggleRecipe(this)">
+                    <div class="recipe-header">
+                        <h3 class="list-item-title">Banana Loaf Cake</h3>
+                        <span class="recipe-toggle">▼</span>
+                    </div>
+                    <div class="recipe-content">
+                        <div class="recipe-details">
+                            <h4>Ingredients</h4>
+                            <ul>
+                                <li>3-4 ripe bananas, mashed</li>
+                                <li>1/3 cup melted butter</li>
+                                <li>3/4 cup sugar</li>
+                                <li>1 egg, beaten</li>
+                                <li>1 teaspoon vanilla extract</li>
+                                <li>1 teaspoon baking soda</li>
+                                <li>Pinch of salt</li>
+                                <li>1 1/2 cups all-purpose flour</li>
+                            </ul>
+                            <h4>Instructions</h4>
+                            <ol>
+                                <li>Preheat oven to 350°F (175°C). Grease a 9x5 inch loaf pan.</li>
+                                <li>In a mixing bowl, mash the ripe bananas with a fork until smooth.</li>
+                                <li>Stir the melted butter into the mashed bananas.</li>
+                                <li>Mix in the sugar, beaten egg, and vanilla extract.</li>
+                                <li>Sprinkle the baking soda and salt over the mixture and mix in.</li>
+                                <li>Add the flour and stir until just incorporated. Do not overmix.</li>
+                                <li>Pour the batter into the prepared loaf pan.</li>
+                                <li>Bake for 60-65 minutes, or until a toothpick (or a chopstick) inserted into the center comes out clean.</li>
+                                <li>Cool in the pan for 10 minutes, then turn out onto a wire rack to cool completely.</li>
+                            </ol>
+                            <div class="recipe-note">
+                                Add slices of banana or some chocolate on top!
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <li class="recipe-item" onclick="toggleRecipe(this)">
+                    <div class="recipe-header">
+                        <h3 class="list-item-title">Homemade Cream Puffs</h3>
+                        <span class="recipe-toggle">▼</span>
+                    </div>
+                    <div class="recipe-content">
+                        <div class="recipe-details">
+                            <h4>Ingredients - Pastry Cream</h4>
+                            <ul>
+                                <li>1 cup whole milk</li>
+                                <li>1 cup heavy cream</li>
+                                <li>⅓ cup + 3 Tbsp granulated sugar (divided)</li>
+                                <li>1 vanilla bean (split lengthwise)</li>
+                                <li>¼ tsp salt</li>
+                                <li>5 large egg yolks (room temperature)</li>
+                                <li>3 Tbsp cornstarch</li>
+                                <li>4 Tbsp unsalted butter (softened)</li>
+                            </ul>
+                            <h4>Ingredients - Choux Pastry</h4>
+                            <ul>
+                                <li>1 cup water</li>
+                                <li>½ cup unsalted butter</li>
+                                <li>¼ tsp salt</li>
+                                <li>1 cup all-purpose flour</li>
+                                <li>4 large eggs (room temperature)</li>
+                                <li>Powdered sugar (for dusting)</li>
+                            </ul>
+                            <h4>Instructions - Pastry Cream</h4>
+                            <ol>
+                                <li>Combine cream, milk, sugar, vanilla bean, and salt in a saucepan over medium heat, stirring until sugar dissolves and mixture simmers. Cool 10 minutes.</li>
+                                <li>Whisk egg yolks with remaining sugar until beginning to dissolve.</li>
+                                <li>Sprinkle cornstarch over egg mixture and whisk until combined.</li>
+                                <li>Slowly drizzle cooled cream into eggs while whisking constantly to temper them.</li>
+                                <li>Pour combined mixture back into saucepan and heat over medium, whisking frequently until thickened.</li>
+                                <li>Strain through fine mesh into a bowl, discard vanilla bean.</li>
+                                <li>Whisk in butter pieces one at a time until combined.</li>
+                                <li>Cover surface with plastic wrap and cool 30 minutes, then refrigerate at least 2-4 hours.</li>
+                            </ol>
+                            <h4>Instructions - Choux Pastry</h4>
+                            <ol>
+                                <li>Preheat oven to 400°F and line baking sheets with parchment paper.</li>
+                                <li>Combine water, butter, and salt in saucepan over medium heat; bring to rolling boil.</li>
+                                <li>Add flour, reduce heat to medium-low, and stir continuously until mixture forms a ball pulling from pot sides.</li>
+                                <li>Remove from heat and stir several minutes to cool. Add eggs one at a time, stirring well after each addition.</li>
+                                <li>Transfer to piping bag and pipe 2" wide by 1" tall mounds, spacing 1½ inches apart.</li>
+                                <li>Dampen fingers and gently press down any peaks.</li>
+                                <li>Bake 30 minutes until dry and light golden brown.</li>
+                                <li>Pierce lower center of each puff with a sharp knife about halfway deep.</li>
+                                <li>Return to oven, turn off heat, and crack door open for 10 minutes.</li>
+                                <li>Cool completely on baking sheet.</li>
+                                <li>Fill with pastry cream using a piping bag fitted with a small tip.</li>
+                                <li>Dust with powdered sugar just before serving.</li>
+                            </ol>
+                            <div class="recipe-note">
+                                I found a newfound love of whipped cream when I made it at home! Before this I thought I didn't like whipped cream!
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Austin, Texas</p>
+            <p>© 2025</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleRecipe(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+    <script src="effects.js"></script>
+</body>
+</html>

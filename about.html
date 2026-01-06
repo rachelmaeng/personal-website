@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Rachel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="constellation-canvas"></canvas>
+
+    <!-- Korean Color Palette Switcher -->
+    <div class="palette-switcher">
+        <div class="palette-wheel">
+            <div class="palette-button" data-palette="default" data-name="Original" onclick="switchPalette('default')"></div>
+            <div class="palette-button" data-palette="blue" data-name="청 (Blue)" onclick="switchPalette('blue')"></div>
+            <div class="palette-button" data-palette="red" data-name="적 (Red)" onclick="switchPalette('red')"></div>
+            <div class="palette-button" data-palette="yellow" data-name="황 (Yellow)" onclick="switchPalette('yellow')"></div>
+            <div class="palette-button" data-palette="white" data-name="백 (White)" onclick="switchPalette('white')"></div>
+            <div class="palette-button" data-palette="black" data-name="흑 (Black)" onclick="switchPalette('black')"></div>
+        </div>
+    </div>
+
+    <main class="content-page">
+        <div class="page-header">
+            <h1 class="page-title">ABOUT</h1>
+        </div>
+
+        <section class="content-section">
+            <div style="max-width: 650px;">
+                <p class="drop-cap" style="color: var(--medium-gray);">
+                    Hi, I'm Rachel. I'm in Austin and I just finished at UT with a history degree!
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    I started college planning to go to med school, briefly thought about law school, and ended up studying history instead. Turns out I care way more about understanding how things work than I do about being a doctor or lawyer. I genuinely enjoy digging into archives and figuring out why systems function the way they do.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    I'm Korean-American. My grandma makes her own soju, my mom has never made a Thanksgiving turkey, and I still can't make kimchi as well as either of them (working on it though). I grew up switching between languages and cultures, which probably shaped how I see things more than I realize.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    Right now I work in marketing ops at a startup. I'm good at operational stuff - building systems, coordinating teams, making sure things don't break. There's something satisfying about when everything just runs smoothly. I'm looking for more work like that.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    I love green (hence this entire site). I cook a lot because eating good food is honestly one of life's best things, I play the flute, and I fall into Wikipedia spirals way too often.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    This site is where I archive things I'm thinking about, watching, reading, and making.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; color: var(--medium-gray);">
+                    rachelmaeng03@gmail.com
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Austin, Texas</p>
+            <p>© 2025</p>
+        </div>
+    </footer>
+
+    <script src="effects.js"></script>
+</body>
+</html>

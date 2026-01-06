@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art - Rachel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <canvas id="constellation-canvas"></canvas>
+
+    <!-- Korean Color Palette Switcher -->
+    <div class="palette-switcher">
+        <div class="palette-wheel">
+            <div class="palette-button" data-palette="default" data-name="Original" onclick="switchPalette('default')"></div>
+            <div class="palette-button" data-palette="blue" data-name="청 (Blue)" onclick="switchPalette('blue')"></div>
+            <div class="palette-button" data-palette="red" data-name="적 (Red)" onclick="switchPalette('red')"></div>
+            <div class="palette-button" data-palette="yellow" data-name="황 (Yellow)" onclick="switchPalette('yellow')"></div>
+            <div class="palette-button" data-palette="white" data-name="백 (White)" onclick="switchPalette('white')"></div>
+            <div class="palette-button" data-palette="black" data-name="흑 (Black)" onclick="switchPalette('black')"></div>
+        </div>
+    </div>
+
+    <main class="content-page">
+        <div class="page-header">
+            <h1 class="page-title">ART</h1>
+            <p class="page-description">in no particular order</p>
+            <p class="page-description">art i love</p>
+            <p class="page-description">give them a click!</p>
+        </div>
+
+        <section class="content-section" id="films">
+            <h2 class="section-title">FILMS</h2>
+            <ul class="simple-list">
+                <li class="list-item">
+                    <a href="https://www.imdb.com/title/tt0361748/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Inglourious Basterds</h3>
+                        <p class="list-item-subtitle">Quentin Tarantino, 2009</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://www.imdb.com/title/tt6587046/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">The Boy and the Heron</h3>
+                        <p class="list-item-subtitle">Hayao Miyazaki, 2023</p>
+                        <p class="list-item-text">although howl's moving castle is a close studio ghibli second i do think the boy and the heron is miyazaki's magnum opus</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://www.imdb.com/title/tt0068646/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">The Godfather</h3>
+                        <p class="list-item-subtitle">Francis Ford Coppola, 1972</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://www.imdb.com/title/tt2179136/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">American Sniper</h3>
+                        <p class="list-item-subtitle">Clint Eastwood, 2014</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="music">
+            <h2 class="section-title">MUSIC</h2>
+            <ul class="simple-list">
+                <li class="list-item">
+                    <a href="https://open.spotify.com/track/2oF4mu55DPVyKqV5KGvB8s" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Pas de Deux</h3>
+                        <p class="list-item-subtitle">Pyotr Ilyich Tchaikovsky</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://open.spotify.com/track/3sLqPBY092B2tGfTz7gOWR" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Knocking on Heaven's Door</h3>
+                        <p class="list-item-subtitle">Guns N' Roses</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://open.spotify.com/track/5zA8vzDGqPl2AzZkEYQGKh" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Uptown Girl</h3>
+                        <p class="list-item-subtitle">Billy Joel</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://open.spotify.com/track/4prEPl61C8qZpeo3IkYSMl" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Sleepyhead</h3>
+                        <p class="list-item-subtitle">Passion Pit</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://open.spotify.com/track/2fuCquhmrzHpu5xcA1ci9x" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Under Pressure</h3>
+                        <p class="list-item-subtitle">Queen & David Bowie</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://open.spotify.com/track/7kv7zBjMtVf0eIJle2VZxn" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Southern Nights</h3>
+                        <p class="list-item-subtitle">Glen Campbell</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <section class="content-section" id="websites">
+            <h2 class="section-title">COOL WEBSITES</h2>
+            <ul class="simple-list">
+                <li class="list-item">
+                    <a href="https://brutalistwebsites.com/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Brutalist Websites</h3>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://www.cameronsworld.net/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Cameron's World</h3>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://www.windows93.net/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Windows93</h3>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://www.typewolf.com/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Typewolf</h3>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://press.stripe.com/" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Stripe Press</h3>
+                    </a>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Austin, Texas</p>
+            <p>© 2025</p>
+        </div>
+    </footer>
+
+    <script src="effects.js"></script>
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rachel</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            overflow-x: hidden;
+        }
+
+        .main-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem 2rem;
+            position: relative;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: absolute;
+            top: 3rem;
+            right: 2rem;
+            display: flex;
+            gap: 2rem;
+            z-index: 10;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        .nav-link {
+            font-size: 0.95rem;
+            color: var(--light-green);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+            font-weight: 400;
+        }
+
+        .nav-link:hover {
+            color: var(--accent);
+        }
+
+        .nav-link.active {
+            color: var(--accent);
+        }
+
+        .sub-nav {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            margin-top: 0.5rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: rgba(26, 61, 58, 0.95);
+            padding: 1rem;
+            border-radius: 4px;
+            min-width: 150px;
+        }
+
+        .sub-nav.active {
+            display: flex;
+        }
+
+        .sub-nav a {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            text-align: right;
+        }
+
+        .sub-nav a:hover {
+            color: var(--accent);
+        }
+
+        /* Center Content */
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .name {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--light-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .korean-name {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-left: 1rem;
+        }
+
+        .title {
+            font-size: 1.1rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .bio {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--medium-gray);
+            margin-bottom: 1rem;
+        }
+
+        .bio:first-of-type {
+            font-size: 1.1rem;
+        }
+
+        /* Bottom Contact */
+        .bottom-contact {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .contact-section {
+            flex: 1;
+        }
+
+        .contact-heading {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: baseline;
+        }
+
+        .contact-link {
+            font-size: 0.9rem;
+            color: var(--light-green);
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: var(--accent);
+        }
+
+        .copy-feedback {
+            position: fixed;
+            background-color: var(--accent);
+            color: var(--dark-green);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            transform: translate(-50%, -100%);
+            margin-top: -10px;
+        }
+
+        .copy-feedback.show {
+            opacity: 1;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            transition: color 0.3s ease;
+            align-self: flex-end;
+        }
+
+        .language-toggle:hover {
+            color: var(--accent);
+        }
+
+        .language-toggle span {
+            font-size: 0.85rem;
+            color: inherit;
+        }
+
+        [lang="ko"] {
+            display: none;
+        }
+
+        body.korean [lang="en"] {
+            display: none;
+        }
+
+        body.korean [lang="ko"] {
+            display: block;
+        }
+
+        body.korean [lang="ko"].inline {
+            display: inline;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 2rem 1.5rem;
+            }
+
+            .top-nav {
+                position: relative;
+                top: 0;
+                right: 0;
+                margin-bottom: 3rem;
+                justify-content: flex-end;
+            }
+
+            .name {
+                font-size: 1.5rem;
+            }
+
+            .title {
+                font-size: 1rem;
+            }
+
+            .bio {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="constellation-canvas"></canvas>
+
+    <!-- Copy Feedback -->
+    <div class="copy-feedback" id="copyFeedback">
+        <span lang="en">Email copied!</span>
+        <span lang="ko">이메일 복사됨!</span>
+    </div>
+
+    <!-- Korean Color Palette Switcher -->
+    <div class="palette-switcher">
+        <div class="palette-wheel">
+            <div class="palette-button" data-palette="default" data-name="Original" onclick="switchPalette('default')"></div>
+            <div class="palette-button" data-palette="blue" data-name="청 (Blue)" onclick="switchPalette('blue')"></div>
+            <div class="palette-button" data-palette="red" data-name="적 (Red)" onclick="switchPalette('red')"></div>
+            <div class="palette-button" data-palette="yellow" data-name="황 (Yellow)" onclick="switchPalette('yellow')"></div>
+            <div class="palette-button" data-palette="white" data-name="백 (White)" onclick="switchPalette('white')"></div>
+            <div class="palette-button" data-palette="black" data-name="흑 (Black)" onclick="switchPalette('black')"></div>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <!-- Top Navigation -->
+        <nav class="top-nav">
+            <div class="nav-item">
+                <a class="nav-link" onclick="toggleSubNav('art')">
+                    <span lang="en">Art</span>
+                    <span lang="ko">예술</span>
+                </a>
+                <div class="sub-nav" id="art-subnav">
+                    <a href="art.html#films"><span lang="en">Films</span><span lang="ko">영화</span></a>
+                    <a href="art.html#music"><span lang="en">Music</span><span lang="ko">음악</span></a>
+                    <a href="art.html#websites"><span lang="en">Cool websites</span><span lang="ko">멋진 웹사이트</span></a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" onclick="toggleSubNav('archive')">
+                    <span lang="en">Archive</span>
+                    <span lang="ko">아카이브</span>
+                </a>
+                <div class="sub-nav" id="archive-subnav">
+                    <a href="archive.html#books"><span lang="en">Books</span><span lang="ko">책</span></a>
+                    <a href="archive.html#articles"><span lang="en">Articles</span><span lang="ko">글</span></a>
+                    <a href="archive.html#resources"><span lang="en">Resources</span><span lang="ko">자료</span></a>
+                </div>
+            </div>
+            <div class="nav-item">
+                <a class="nav-link" onclick="toggleSubNav('working')">
+                    <span lang="en">Working</span>
+                    <span lang="ko">작업</span>
+                </a>
+                <div class="sub-nav" id="working-subnav">
+                    <a href="working.html#building"><span lang="en">Building</span><span lang="ko">작업들</span></a>
+                    <a href="working.html#writing"><span lang="en">Writing</span><span lang="ko">글쓰기</span></a>
+                    <a href="working.html#cooking"><span lang="en">Cooking</span><span lang="ko">요리</span></a>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Center Content -->
+        <div class="content">
+            <h1 class="name">
+                Rachel Maeng <span class="korean-name">맹지현</span>
+            </h1>
+            <p class="title">
+                <span lang="en">Austin, Texas</span>
+                <span lang="ko">오스틴, 텍사스</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">Hi there, I'm Rachel. I'm in Austin and I just finished at UT with a history degree.</span>
+                <span lang="ko">안녕하세요, 레이첼이에요. 오스틴에 살고 있고 UT에서 역사학 학위를 막 졸업했어요.</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">I started college planning to go to med school, spent three years as a biology major, and gradually realized I cared way more about understanding how systems work than about being a doctor. History was the right home for that curiosity; digging into archives to figure out why institutions function the way they do.</span>
+                <span lang="ko">대학에 처음 들어갈 때는 의대를 가려고 했고, 3년 동안 생물학을 전공했어요. 그런데 점점 의사가 되는 것보다 시스템이 어떻게 작동하는지 이해하는 게 훨씬 더 중요하다는 걸 깨달았어요. 역사학이 그 호기심을 위한 올바른 집이었죠. 기관들이 왜 그렇게 기능하는지 알아내기 위해 아카이브를 파헤치는 거예요.</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">Right now I'm building a wellness app that treats the menstrual cycle as an integrated system for food, movement, and mood. Most women's health tech completely misses this. The research gap is staggering (I mean women weren't even routinely included in clinical trials until the 90s!!), and the product gap is worse. I want to try to fix both.</span>
+                <span lang="ko">지금은 생리 주기를 음식, 운동, 그리고 기분의 통합 시스템으로 다루는 웰니스 앱을 만들고 있어요. 대부분의 여성 건강 기술은 이걸 완전히 놓치고 있어요. 연구 격차가 엄청나요 (여성들이 90년대까지도 임상 시험에 정기적으로 포함되지 않았다는 거 아세요!!), 그리고 제품 격차는 더 심해요. 둘 다 고치려고 노력하고 싶어요.</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">I'm Korean-American. My grandma used to make her own soju, my mom has never made a Thanksgiving turkey, and I still can't make kimchi as well as either of them (though I'm getting closer!). I grew up switching between languages and cultures, which probably shaped how I see systems more than I realize.</span>
+                <span lang="ko">저는 한국계 미국인이에요. 제 한국 이름은 지현이에요. 할머니는 직접 소주를 만드셨고, 엄마는 한 번도 추수감사절 칠면조를 만든 적이 없어요. 그리고 저는 아직도 둘만큼 김치를 잘 못 담가요 (하지만 점점 나아지고 있어요!). 언어와 문화 사이를 오가며 자랐고, 그게 제가 시스템을 보는 방식을 제가 깨닫는 것보다 더 많이 형성했을 거예요.</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">I love green (hence this entire site). I cook a lot because eating good food is honestly one of life's best things, in my opinion. I play the flute. I fall into Wikipedia spirals way too often. And I get genuinely excited about how things actually work. Whether that's institutions, systems, bodies, or apps.</span>
+                <span lang="ko">저는 초록색을 좋아해요. 좋은 음식을 먹는 게 솔직히 인생에서 가장 좋은 것 중 하나라서 요리를 많이 해요. 플루트를 연주해요. 위키피디아 소용돌이에 너무 자주 빠져요. 그리고 어떤 것들이 실제로 어떻게 작동하는지에 대해 진심으로 흥분해요. 그게 기관이든, 시스템이든, 신체든, 앱이든요.</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">This site is where I archive things I'm thinking about, watching, reading, and making.</span>
+                <span lang="ko">이 사이트는 제가 생각하고, 보고, 읽고, 만드는 것들을 보관하는 곳이에요.</span>
+            </p>
+
+            <!-- Bottom Contact -->
+            <div class="bottom-contact">
+                <div class="contact-section">
+                    <p class="contact-heading">
+                        <span lang="en">On the web</span>
+                        <span lang="ko">웹에서</span>
+                    </p>
+                    <div class="contact-links">
+                        <span class="contact-link" onclick="copyEmail(event)">
+                            <span lang="en">Email</span>
+                            <span lang="ko">이메일</span>
+                        </span>
+                        <a href="https://www.linkedin.com/in/rachelhmaeng/" target="_blank" class="contact-link">
+                            <span lang="en">LinkedIn</span>
+                            <span lang="ko">링크드인</span>
+                        </a>
+                        <a href="https://substack.com/@rachelmaengo" target="_blank" class="contact-link">
+                            <span lang="en">Substack</span>
+                            <span lang="ko">서브스택</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Language Toggle -->
+                <div class="language-toggle" onclick="toggleLanguage()">
+                    <span lang="en">KOR</span>
+                    <span lang="ko">ENG</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="effects.js"></script>
+    <script>
+        function toggleSubNav(navId) {
+            // Close all sub-navs
+            document.querySelectorAll('.sub-nav').forEach(nav => {
+                if (nav.id !== navId + '-subnav') {
+                    nav.classList.remove('active');
+                }
+            });
+
+            // Remove active class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Toggle the clicked sub-nav
+            const subNav = document.getElementById(navId + '-subnav');
+            subNav.classList.toggle('active');
+
+            // Add active class to clicked nav link
+            if (subNav.classList.contains('active')) {
+                event.target.classList.add('active');
+            }
+        }
+
+        function copyEmail(event) {
+            const email = 'rachelmaeng03@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                const feedback = document.getElementById('copyFeedback');
+
+                // Position the feedback near the cursor
+                feedback.style.left = event.clientX + 'px';
+                feedback.style.top = event.clientY + 'px';
+
+                feedback.classList.add('show');
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            });
+        }
+
+        function toggleLanguage() {
+            document.body.classList.toggle('korean');
+        }
+
+        // Close sub-navs when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-item')) {
+                document.querySelectorAll('.sub-nav').forEach(nav => {
+                    nav.classList.remove('active');
+                });
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+            }
+        });
+    </script>
+</body>
+</html>
