@@ -800,21 +800,26 @@ a, button {
         bottom: auto;
         left: auto;
         transform: translateY(-50%);
-        gap: 0.25rem;
+        gap: 0.4rem;
     }
 
     .palette-wheel {
-        gap: 0.25rem;
+        gap: 0.4rem;
     }
 
     .palette-button {
-        width: 10px;
-        height: 10px;
+        width: 14px;
+        height: 14px;
     }
 
     /* Add right padding to content so colors don't overlap */
     body {
-        padding-right: 1.5rem;
+        padding-right: 2rem;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    html {
+        -webkit-overflow-scrolling: touch;
     }
 
     .hero-subtitle {
