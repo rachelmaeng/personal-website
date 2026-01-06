@@ -107,125 +107,6 @@
             margin-left: 1rem;
         }
 
-        /* Name order switches in Korean mode */
-        .name-en { display: inline; }
-        .name-ko { display: none; }
-        body.korean .name-en { display: none; }
-        body.korean .name-ko { display: inline; }
-
-        /* Typewriter effect */
-        .typewriter-wrapper {
-            display: inline-block;
-        }
-
-        .typewriter {
-            display: inline-block;
-            overflow: hidden;
-            border-right: 2px solid var(--accent);
-            white-space: nowrap;
-            width: 0;
-            animation: typing 1.5s steps(12, end) 0.5s forwards, blink-caret 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent; }
-            50% { border-color: var(--accent); }
-        }
-
-        .typewriter-done {
-            border-right: none;
-            animation: typing 1.5s steps(12, end) forwards;
-        }
-
-        /* Interactive Timeline */
-        .timeline {
-            margin: 2rem 0;
-            position: relative;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 100%;
-            height: 1px;
-            background: linear-gradient(to right, transparent, var(--accent), transparent);
-        }
-
-        .timeline-items {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-        }
-
-        .timeline-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            flex: 1;
-        }
-
-        .timeline-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--dark-green);
-            border: 2px solid var(--accent);
-            border-radius: 50%;
-            margin-bottom: 0.75rem;
-            transition: all 0.3s ease;
-            z-index: 1;
-        }
-
-        .timeline-item:hover .timeline-dot,
-        .timeline-item.active .timeline-dot {
-            background: var(--accent);
-            transform: scale(1.3);
-        }
-
-        .timeline-label {
-            font-size: 0.75rem;
-            color: var(--medium-gray);
-            text-align: center;
-            transition: color 0.3s ease;
-            max-width: 80px;
-        }
-
-        .timeline-item:hover .timeline-label,
-        .timeline-item.active .timeline-label {
-            color: var(--accent);
-        }
-
-        .timeline-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s ease, opacity 0.3s ease;
-            opacity: 0;
-            margin-top: 1rem;
-        }
-
-        .timeline-content.active {
-            max-height: 200px;
-            opacity: 1;
-        }
-
-        .timeline-content p {
-            font-size: 0.95rem;
-            color: var(--medium-gray);
-            line-height: 1.6;
-            padding: 1rem;
-            background: rgba(212, 175, 106, 0.1);
-            border-radius: 8px;
-            border-left: 2px solid var(--accent);
-        }
-
         .title {
             font-size: 1.1rem;
             color: var(--accent);
@@ -361,29 +242,6 @@
             .bio {
                 font-size: 0.95rem;
             }
-
-            .timeline-items {
-                gap: 0.25rem;
-            }
-
-            .timeline-label {
-                font-size: 0.65rem;
-                max-width: 60px;
-            }
-
-            .timeline-dot {
-                width: 10px;
-                height: 10px;
-            }
-
-            .timeline-content p {
-                font-size: 0.85rem;
-                padding: 0.75rem;
-            }
-
-            .typewriter {
-                animation: typing 1.5s steps(12, end) 0.3s forwards, blink-caret 0.75s step-end infinite;
-            }
         }
     </style>
 </head>
@@ -449,8 +307,7 @@
         <!-- Center Content -->
         <div class="content">
             <h1 class="name">
-                <span class="name-en"><span class="typewriter-wrapper"><span class="typewriter">Rachel Maeng</span></span> <span class="korean-name">맹지현</span></span>
-                <span class="name-ko"><span class="korean-name">맹지현</span> <span class="typewriter-wrapper"><span class="typewriter">Rachel Maeng</span></span></span>
+                Rachel Maeng <span class="korean-name">맹지현</span>
             </h1>
             <p class="title">
                 <span lang="en">Austin, Texas</span>
@@ -462,63 +319,15 @@
                 <span lang="ko">안녕하세요, 레이첼이에요. 오스틴에 살고 있고 UT에서 역사학 학위를 막 졸업했어요.</span>
             </p>
 
-            <!-- Interactive Timeline -->
-            <div class="timeline">
-                <div class="timeline-items">
-                    <div class="timeline-item" onclick="toggleTimeline(0)">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-label">
-                            <span lang="en">Med School Plans</span>
-                            <span lang="ko">의대 계획</span>
-                        </span>
-                    </div>
-                    <div class="timeline-item" onclick="toggleTimeline(1)">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-label">
-                            <span lang="en">Biology Major</span>
-                            <span lang="ko">생물학 전공</span>
-                        </span>
-                    </div>
-                    <div class="timeline-item" onclick="toggleTimeline(2)">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-label">
-                            <span lang="en">History Degree</span>
-                            <span lang="ko">역사학 학위</span>
-                        </span>
-                    </div>
-                    <div class="timeline-item" onclick="toggleTimeline(3)">
-                        <div class="timeline-dot"></div>
-                        <span class="timeline-label">
-                            <span lang="en">Wellness App</span>
-                            <span lang="ko">웰니스 앱</span>
-                        </span>
-                    </div>
-                </div>
-                <div class="timeline-content" id="timeline-0">
-                    <p>
-                        <span lang="en">I started college planning to go to med school. I was fascinated by the human body as a system.</span>
-                        <span lang="ko">대학에 처음 들어갈 때는 의대를 가려고 했어요. 인체를 시스템으로서 매력적으로 느꼈어요.</span>
-                    </p>
-                </div>
-                <div class="timeline-content" id="timeline-1">
-                    <p>
-                        <span lang="en">Spent three years as a biology major, but gradually realized I cared way more about understanding how systems work than about being a doctor.</span>
-                        <span lang="ko">3년 동안 생물학을 전공했지만, 점점 의사가 되는 것보다 시스템이 어떻게 작동하는지 이해하는 게 더 중요하다는 걸 깨달았어요.</span>
-                    </p>
-                </div>
-                <div class="timeline-content" id="timeline-2">
-                    <p>
-                        <span lang="en">History was the right home for my curiosity—digging into archives to figure out why institutions function the way they do.</span>
-                        <span lang="ko">역사학이 그 호기심을 위한 올바른 집이었어요. 기관들이 왜 그렇게 기능하는지 알아내기 위해 아카이브를 파헤치는 거예요.</span>
-                    </p>
-                </div>
-                <div class="timeline-content" id="timeline-3">
-                    <p>
-                        <span lang="en">Now I'm building a wellness app that treats the menstrual cycle as an integrated system. The research gap is staggering (women weren't even routinely included in clinical trials until the 90s!) and the product gap is worse. I want to fix both.</span>
-                        <span lang="ko">지금은 생리 주기를 통합 시스템으로 다루는 웰니스 앱을 만들고 있어요. 연구 격차가 엄청나고 제품 격차는 더 심해요. 둘 다 고치고 싶어요.</span>
-                    </p>
-                </div>
-            </div>
+            <p class="bio">
+                <span lang="en">I started college planning to go to med school, spent three years as a biology major, and gradually realized I cared way more about understanding how systems work than about being a doctor. History was the right home for that curiosity; digging into archives to figure out why institutions function the way they do.</span>
+                <span lang="ko">대학에 처음 들어갈 때는 의대를 가려고 했고, 3년 동안 생물학을 전공했어요. 그런데 점점 의사가 되는 것보다 시스템이 어떻게 작동하는지 이해하는 게 훨씬 더 중요하다는 걸 깨달았어요. 역사학이 그 호기심을 위한 올바른 집이었죠. 기관들이 왜 그렇게 기능하는지 알아내기 위해 아카이브를 파헤치는 거예요.</span>
+            </p>
+
+            <p class="bio">
+                <span lang="en">Right now I'm building a wellness app that treats the menstrual cycle as an integrated system for food, movement, and mood. Most women's health tech completely misses this. The research gap is staggering (women weren't even routinely included in clinical trials until the 90s!) and the product gap is worse. I want to fix both.</span>
+                <span lang="ko">지금은 생리 주기를 음식, 운동, 그리고 기분의 통합 시스템으로 다루는 웰니스 앱을 만들고 있어요. 대부분의 여성 건강 기술은 이걸 완전히 놓치고 있어요. 연구 격차가 엄청나요 (여성들이 90년대까지도 임상 시험에 정기적으로 포함되지 않았다는 거 아세요!!), 그리고 제품 격차는 더 심해요. 둘 다 고치려고 노력하고 싶어요.</span>
+            </p>
 
             <p class="bio">
                 <span lang="en">I'm Korean-American. My grandma makes her own soju, my mom has never made a Thanksgiving turkey, and I still can't make kimchi as well as either of them (though I'm getting closer!). I grew up switching between languages and cultures, which probably shaped how I see systems more than I realize.</span>
@@ -611,35 +420,6 @@
         function toggleLanguage() {
             document.body.classList.toggle('korean');
         }
-
-        // Timeline toggle function
-        function toggleTimeline(index) {
-            const items = document.querySelectorAll('.timeline-item');
-            const contents = document.querySelectorAll('.timeline-content');
-
-            // Toggle the clicked item
-            const clickedItem = items[index];
-            const clickedContent = document.getElementById('timeline-' + index);
-
-            const wasActive = clickedItem.classList.contains('active');
-
-            // Close all items
-            items.forEach(item => item.classList.remove('active'));
-            contents.forEach(content => content.classList.remove('active'));
-
-            // If it wasn't active, open it
-            if (!wasActive) {
-                clickedItem.classList.add('active');
-                clickedContent.classList.add('active');
-            }
-        }
-
-        // Stop typewriter caret after animation
-        setTimeout(() => {
-            document.querySelectorAll('.typewriter').forEach(el => {
-                el.classList.add('typewriter-done');
-            });
-        }, 2500);
 
         // Close sub-navs when clicking outside
         document.addEventListener('click', (e) => {
