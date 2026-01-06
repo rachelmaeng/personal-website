@@ -795,8 +795,11 @@ a, button {
     }
 
     .palette-switcher {
+        top: auto;
+        right: auto;
         bottom: 1rem;
         left: 1rem;
+        transform: none;
         gap: 0.35rem;
     }
 
