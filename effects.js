@@ -138,7 +138,7 @@ animate();
 
 // ===== CURSOR TRAIL EFFECT =====
 let lastTrailTime = 0;
-const trailInterval = 50; // milliseconds between trail sparkles
+const trailInterval = 30; // milliseconds between trail sparkles (more frequent)
 
 document.addEventListener('mousemove', (e) => {
     const now = Date.now();
@@ -147,19 +147,21 @@ document.addEventListener('mousemove', (e) => {
 
     const trail = document.createElement('div');
     trail.className = 'cursor-trail';
+    // Randomize size for variety
+    const size = 24 + Math.random() * 16; // 24-40px
     trail.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 32 32">
+        <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32">
             <g>
-                <path d="M16 8 L18 15 L24 16 L18 17 L16 24 L14 17 L8 16 L14 15 Z"
-                      fill="#FFD700" opacity="0.7"/>
+                <path d="M16 4 L18 14 L28 16 L18 18 L16 28 L14 18 L4 16 L14 14 Z"
+                      fill="#FFD700" opacity="0.9"/>
             </g>
         </svg>
     `;
-    trail.style.left = e.clientX - 10 + 'px';
-    trail.style.top = e.clientY - 10 + 'px';
+    trail.style.left = e.clientX - size/2 + 'px';
+    trail.style.top = e.clientY - size/2 + 'px';
     document.body.appendChild(trail);
 
-    setTimeout(() => trail.remove(), 600);
+    setTimeout(() => trail.remove(), 800);
 });
 
 // ===== KOREAN COLOR PALETTE SWITCHER =====
