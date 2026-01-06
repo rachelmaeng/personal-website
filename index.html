@@ -459,7 +459,14 @@
 
         // Typewriter effect for name
         const englishName = "Rachel Maeng";
-        const koreanName = "맹지현";
+        // Korean typing sequence - simulates actual Korean keyboard input
+        // 맹지현 typed as jamo: ㅁ→매→맹 ㅈ→지 ㅎ→혀→현
+        const koreanSequence = [
+            "ㅁ", "매", "맹",
+            "맹ㅈ", "맹지",
+            "맹지ㅎ", "맹지혀", "맹지현"
+        ];
+
         const nameEnEl = document.getElementById('name-en');
         const nameKoEl = document.getElementById('name-ko');
         const cursorEnEl = document.getElementById('cursor-en');
@@ -483,10 +490,10 @@
         }
 
         function typeKorean() {
-            if (koIndex < koreanName.length) {
-                nameKoEl.textContent += koreanName.charAt(koIndex);
+            if (koIndex < koreanSequence.length) {
+                nameKoEl.textContent = koreanSequence[koIndex];
                 koIndex++;
-                setTimeout(typeKorean, typeSpeed + 50);
+                setTimeout(typeKorean, typeSpeed + 30);
             } else {
                 // All done, hide cursor after a moment
                 setTimeout(() => {
