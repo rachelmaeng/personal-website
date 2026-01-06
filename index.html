@@ -107,6 +107,30 @@
             margin-left: 1rem;
         }
 
+        /* Typewriter effect */
+        .typewriter-text {
+            display: inline;
+        }
+
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--accent);
+            margin-left: 2px;
+            vertical-align: text-bottom;
+            animation: blink-caret 0.75s step-end infinite;
+        }
+
+        .typewriter-cursor.hidden {
+            display: none;
+        }
+
+        @keyframes blink-caret {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
         .title {
             font-size: 1.1rem;
             color: var(--accent);
@@ -307,7 +331,7 @@
         <!-- Center Content -->
         <div class="content">
             <h1 class="name">
-                Rachel Maeng <span class="korean-name">맹지현</span>
+                <span class="typewriter-text" id="name-en"></span><span class="typewriter-cursor" id="cursor-en"></span> <span class="korean-name"><span class="typewriter-text" id="name-ko"></span><span class="typewriter-cursor hidden" id="cursor-ko"></span></span>
             </h1>
             <p class="title">
                 <span lang="en">Austin, Texas</span>
@@ -432,6 +456,47 @@
                 });
             }
         });
+
+        // Typewriter effect for name
+        const englishName = "Rachel Maeng";
+        const koreanName = "맹지현";
+        const nameEnEl = document.getElementById('name-en');
+        const nameKoEl = document.getElementById('name-ko');
+        const cursorEnEl = document.getElementById('cursor-en');
+        const cursorKoEl = document.getElementById('cursor-ko');
+
+        let enIndex = 0;
+        let koIndex = 0;
+        const typeSpeed = 100;
+
+        function typeEnglish() {
+            if (enIndex < englishName.length) {
+                nameEnEl.textContent += englishName.charAt(enIndex);
+                enIndex++;
+                setTimeout(typeEnglish, typeSpeed);
+            } else {
+                // English done, hide English cursor, show Korean cursor, start Korean
+                cursorEnEl.classList.add('hidden');
+                cursorKoEl.classList.remove('hidden');
+                setTimeout(typeKorean, 300);
+            }
+        }
+
+        function typeKorean() {
+            if (koIndex < koreanName.length) {
+                nameKoEl.textContent += koreanName.charAt(koIndex);
+                koIndex++;
+                setTimeout(typeKorean, typeSpeed + 50);
+            } else {
+                // All done, hide cursor after a moment
+                setTimeout(() => {
+                    cursorKoEl.classList.add('hidden');
+                }, 1500);
+            }
+        }
+
+        // Start typing after a short delay
+        setTimeout(typeEnglish, 500);
     </script>
 </body>
 </html>

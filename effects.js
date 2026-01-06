@@ -3,6 +3,18 @@ const canvas = document.getElementById('constellation-canvas');
 const ctx = canvas.getContext('2d');
 let stars = [];
 let animationId;
+let mouse = { x: null, y: null, radius: 150 };
+
+// Track mouse position for constellation interaction
+canvas.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+});
+
+canvas.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+});
 
 function resizeCanvas() {
     canvas.width = window.innerWidth;
@@ -13,6 +25,8 @@ class Star {
     constructor() {
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
+        this.baseX = this.x;
+        this.baseY = this.y;
         this.vx = (Math.random() - 0.5) * 0.3;
         this.vy = (Math.random() - 0.5) * 0.3;
         this.radius = Math.random() * 1.5 + 0.5;
@@ -22,11 +36,32 @@ class Star {
     }
 
     update() {
-        this.x += this.vx;
-        this.y += this.vy;
+        // Base movement
+        this.baseX += this.vx;
+        this.baseY += this.vy;
 
-        if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-        if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+        if (this.baseX < 0 || this.baseX > canvas.width) this.vx *= -1;
+        if (this.baseY < 0 || this.baseY > canvas.height) this.vy *= -1;
+
+        // Mouse interaction - stars gently move away from cursor
+        if (mouse.x !== null && mouse.y !== null) {
+            const dx = this.baseX - mouse.x;
+            const dy = this.baseY - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < mouse.radius) {
+                const force = (mouse.radius - distance) / mouse.radius;
+                const angle = Math.atan2(dy, dx);
+                this.x = this.baseX + Math.cos(angle) * force * 30;
+                this.y = this.baseY + Math.sin(angle) * force * 30;
+            } else {
+                this.x = this.baseX;
+                this.y = this.baseY;
+            }
+        } else {
+            this.x = this.baseX;
+            this.y = this.baseY;
+        }
 
         // Fade in gradually
         if (this.opacity < this.targetOpacity) {
