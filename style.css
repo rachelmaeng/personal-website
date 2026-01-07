@@ -435,6 +435,46 @@ a, button {
     }
 }
 
+/* Back to Home Button */
+.back-home {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    z-index: 100;
+    text-decoration: none;
+    color: var(--light-green);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    transition: all 0.3s ease;
+}
+
+.back-home .arrow {
+    transition: transform 0.3s ease;
+}
+
+.back-home .text {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    transition: max-width 0.3s ease, margin-left 0.3s ease;
+    margin-left: 0;
+}
+
+.back-home:hover .text {
+    max-width: 80px;
+    margin-left: 0.4rem;
+}
+
+.back-home:hover {
+    color: var(--accent);
+}
+
+.back-home:hover .arrow {
+    transform: translateX(-3px);
+}
+
 /* Content Pages */
 .content-page {
     max-width: 900px;
