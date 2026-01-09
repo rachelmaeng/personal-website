@@ -5,54 +5,504 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Films - Rachel</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script>
+        // Apply saved palette immediately to prevent flash
+        (function() {
+            const palettes = {
+                default: { '--dark-green': '#0F2820', '--light-green': '#F5EDD8', '--accent': '#D4AF6A', '--medium-gray': '#B8A888' },
+                blue: { '--dark-green': '#0F3057', '--light-green': '#E8F1F5', '--accent': '#00B4D8', '--medium-gray': '#90B8C8' },
+                red: { '--dark-green': '#3D0C02', '--light-green': '#F9E5D8', '--accent': '#D4535A', '--medium-gray': '#C89B88' },
+                yellow: { '--dark-green': '#3D2F0C', '--light-green': '#F9F3E5', '--accent': '#F5C842', '--medium-gray': '#D4B886' },
+                white: { '--dark-green': '#2C2C2C', '--light-green': '#F5F5F5', '--accent': '#E8E8E8', '--medium-gray': '#B8B8B8' },
+                black: { '--dark-green': '#0A0A0A', '--light-green': '#D4D4D4', '--accent': '#A8A8A8', '--medium-gray': '#888888' }
+            };
+            const saved = localStorage.getItem('selectedPalette');
+            if (saved && palettes[saved]) {
+                Object.keys(palettes[saved]).forEach(key => {
+                    document.documentElement.style.setProperty(key, palettes[saved][key]);
+                });
+            }
+        })();
+    </script>
+    <style>
+        /* 3D Carousel Styles */
+        .carousel-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .carousel {
+            position: relative;
+            width: 220px;
+            height: 330px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-card {
+            position: absolute;
+            width: 220px;
+            height: 330px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            backface-visibility: hidden;
+        }
+
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-card .card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 1rem;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.9));
+            color: var(--light-green);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .carousel-card:hover .card-overlay,
+        .carousel-card.active .card-overlay {
+            opacity: 1;
+        }
+
+        .card-overlay h3 {
+            font-size: 1rem;
+            margin: 0 0 0.3rem 0;
+            color: var(--light-green);
+        }
+
+        .card-overlay p {
+            font-size: 0.85rem;
+            margin: 0;
+            color: var(--accent);
+        }
+
+        /* Card positions */
+        .carousel-card[data-position="-2"] {
+            transform: translateX(-280px) scale(0.6) rotateY(35deg);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .carousel-card[data-position="-1"] {
+            transform: translateX(-160px) scale(0.8) rotateY(25deg);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .carousel-card[data-position="0"] {
+            transform: translateX(0) scale(1) rotateY(0deg);
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .carousel-card[data-position="1"] {
+            transform: translateX(160px) scale(0.8) rotateY(-25deg);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .carousel-card[data-position="2"] {
+            transform: translateX(280px) scale(0.6) rotateY(-35deg);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .carousel-card[data-position="hidden"] {
+            transform: translateX(0) scale(0.4);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .carousel-card.active {
+            box-shadow: 0 15px 40px rgba(212, 175, 106, 0.3);
+        }
+
+        /* Navigation arrows */
+        .carousel-nav {
+            background: rgba(245, 237, 216, 0.2);
+            border: 2px solid var(--light-green);
+            color: var(--light-green);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.4rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-nav:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Carousel indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--light-green);
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            opacity: 1;
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+
+        /* Current film info */
+        .current-film-info {
+            text-align: center;
+            margin-top: 1.5rem;
+            min-height: 60px;
+        }
+
+        .current-film-info h3 {
+            font-size: 1.3rem;
+            margin: 0 0 0.3rem 0;
+            color: var(--light-green);
+        }
+
+        .current-film-info p {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--accent);
+        }
+
+        .current-film-info a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .current-film-info a:hover {
+            color: var(--accent);
+        }
+
+        /* Recent carousel - second carousel */
+        #recent-section .carousel-container {
+            margin-top: 0;
+        }
+
+        #recentCarousel .carousel-card {
+            width: 200px;
+            height: 300px;
+        }
+
+        #recent-section .carousel {
+            width: 200px;
+            height: 300px;
+        }
+
+        /* Adjust positions for recent carousel */
+        #recentCarousel .carousel-card[data-position="-2"] {
+            transform: translateX(-260px) scale(0.6) rotateY(35deg);
+        }
+
+        #recentCarousel .carousel-card[data-position="-1"] {
+            transform: translateX(-150px) scale(0.8) rotateY(25deg);
+        }
+
+        #recentCarousel .carousel-card[data-position="1"] {
+            transform: translateX(150px) scale(0.8) rotateY(-25deg);
+        }
+
+        #recentCarousel .carousel-card[data-position="2"] {
+            transform: translateX(260px) scale(0.6) rotateY(-35deg);
+        }
+
+        /* Tab Selector */
+        .tab-selector {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            font-family: 'Crimson Text', serif;
+            font-size: 1rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--medium-gray);
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .tab-button::before {
+            content: '✦';
+            margin-right: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: var(--accent);
+        }
+
+        .tab-button.active::before {
+            opacity: 1;
+        }
+
+        .tab-button:hover {
+            color: var(--light-green);
+        }
+
+        /* Section visibility */
+        .film-section {
+            display: none;
+        }
+
+        .film-section.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
+    <canvas id="constellation-canvas"></canvas>
+
     <!-- Back to Home -->
     <a href="index.html" class="back-home">
         <span class="arrow">←</span>
         <span class="text">Home</span>
     </a>
 
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="index.html" class="site-title">Rachel</a>
-            <div class="nav-links">
-                <a href="music.html">Music</a>
-                <a href="films.html">Films</a>
-                <a href="reading.html">Reading</a>
-                <a href="essays.html">Essays</a>
-                <a href="writing.html">Writing</a>
-                <a href="links.html">Links</a>
-                <a href="about.html">About</a>
-            </div>
+    <!-- Korean Color Palette Switcher -->
+    <div class="palette-switcher">
+        <div class="palette-wheel">
+            <div class="palette-button" data-palette="default" data-name="Original" onclick="switchPalette('default')"></div>
+            <div class="palette-button" data-palette="blue" data-name="청 (Blue)" onclick="switchPalette('blue')"></div>
+            <div class="palette-button" data-palette="red" data-name="적 (Red)" onclick="switchPalette('red')"></div>
+            <div class="palette-button" data-palette="yellow" data-name="황 (Yellow)" onclick="switchPalette('yellow')"></div>
+            <div class="palette-button" data-palette="white" data-name="백 (White)" onclick="switchPalette('white')"></div>
+            <div class="palette-button" data-palette="black" data-name="흑 (Black)" onclick="switchPalette('black')"></div>
         </div>
-    </nav>
+    </div>
 
     <main class="content-page">
         <div class="page-header">
-            <h1 class="page-title">Films</h1>
-            <p class="page-description">From art house cinema to popular entertainment, a running list of what I'm watching.</p>
+            <h1 class="page-title">FILMS</h1>
+            <p class="page-description">What I'm watching</p>
         </div>
 
-        <section class="content-section">
-            <h2 class="section-title">Recently Watched</h2>
-            <ul class="simple-list">
-                <li class="list-item">
-                    <h3 class="list-item-title">Film Title</h3>
-                    <p class="list-item-subtitle">Director, Year</p>
-                    <p class="list-item-text">Your quick take or what stood out to you.</p>
-                </li>
-            </ul>
+        <div class="tab-selector">
+            <button class="tab-button active" onclick="switchTab('favorites')">Favorites</button>
+            <button class="tab-button" onclick="switchTab('recent')">Recently Watched</button>
+        </div>
+
+        <section class="content-section film-section active" id="favorites-section">
+
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <button class="carousel-nav prev" onclick="moveCarousel(-1)">←</button>
+
+                    <div class="carousel" id="filmCarousel">
+                        <div class="carousel-card" data-position="0" data-index="0"
+                             data-title="Inglourious Basterds"
+                             data-info="Quentin Tarantino, 2009"
+                             data-url="https://www.imdb.com/title/tt0361748/">
+                            <img src="https://image.tmdb.org/t/p/w500/7sfbEnaARXDDhKm0CZ7D7uc2sbo.jpg" alt="Inglourious Basterds">
+                            <div class="card-overlay">
+                                <h3>Inglourious Basterds</h3>
+                                <p>2009</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="1" data-index="1"
+                             data-title="The Boy and the Heron"
+                             data-info="Hayao Miyazaki, 2023"
+                             data-url="https://www.imdb.com/title/tt6587046/">
+                            <img src="https://image.tmdb.org/t/p/w500/f4oZTcfGrVTXKTWg157AwikXqmP.jpg" alt="The Boy and the Heron">
+                            <div class="card-overlay">
+                                <h3>The Boy and the Heron</h3>
+                                <p>2023</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="2" data-index="2"
+                             data-title="The Godfather"
+                             data-info="Francis Ford Coppola, 1972"
+                             data-url="https://www.imdb.com/title/tt0068646/">
+                            <img src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" alt="The Godfather">
+                            <div class="card-overlay">
+                                <h3>The Godfather</h3>
+                                <p>1972</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="3"
+                             data-title="American Sniper"
+                             data-info="Clint Eastwood, 2014"
+                             data-url="https://www.imdb.com/title/tt2179136/">
+                            <img src="https://image.tmdb.org/t/p/w500/i1U46OwMc6vlm7OoSUKfqUH615e.jpg" alt="American Sniper">
+                            <div class="card-overlay">
+                                <h3>American Sniper</h3>
+                                <p>2014</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="4"
+                             data-title="Sunny"
+                             data-info="Kang Hyeong-cheol, 2011"
+                             data-url="https://www.imdb.com/title/tt1937339/">
+                            <img src="https://image.tmdb.org/t/p/w500/m21yedsv5rGNmvOU0X9ARvxC0XM.jpg" alt="Sunny">
+                            <div class="card-overlay">
+                                <h3>Sunny</h3>
+                                <p>2011</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="5"
+                             data-title="Your Name."
+                             data-info="Makoto Shinkai, 2016"
+                             data-url="https://www.imdb.com/title/tt5311514/">
+                            <img src="https://image.tmdb.org/t/p/w500/q719jXXEzOoYaps6babgKnONONX.jpg" alt="Your Name.">
+                            <div class="card-overlay">
+                                <h3>Your Name.</h3>
+                                <p>2016</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="6"
+                             data-title="Scarface"
+                             data-info="Brian De Palma, 1983"
+                             data-url="https://www.imdb.com/title/tt0086250/">
+                            <img src="https://image.tmdb.org/t/p/w500/iQ5ztdjvteGeboxtmRdXEChJOHh.jpg" alt="Scarface">
+                            <div class="card-overlay">
+                                <h3>Scarface</h3>
+                                <p>1983</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-nav next" onclick="moveCarousel(1)">→</button>
+                </div>
+
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <div class="carousel-indicator active" data-index="0" onclick="goToSlide(0)"></div>
+                    <div class="carousel-indicator" data-index="1" onclick="goToSlide(1)"></div>
+                    <div class="carousel-indicator" data-index="2" onclick="goToSlide(2)"></div>
+                    <div class="carousel-indicator" data-index="3" onclick="goToSlide(3)"></div>
+                    <div class="carousel-indicator" data-index="4" onclick="goToSlide(4)"></div>
+                    <div class="carousel-indicator" data-index="5" onclick="goToSlide(5)"></div>
+                    <div class="carousel-indicator" data-index="6" onclick="goToSlide(6)"></div>
+                </div>
+
+                <div class="current-film-info" id="currentFilmInfo">
+                    <a href="https://www.imdb.com/title/tt0361748/" target="_blank">
+                        <h3>Inglourious Basterds</h3>
+                        <p>Quentin Tarantino, 2009</p>
+                    </a>
+                </div>
+            </div>
         </section>
 
-        <section class="content-section">
-            <h2 class="section-title">Art House Favorites</h2>
-            <div class="content-grid">
-                <div class="content-item">
-                    <h3 class="item-title">Film Title</h3>
-                    <p class="item-meta">Director, Year</p>
-                    <p class="item-description">What makes this one essential for you.</p>
+        <section class="content-section film-section" id="recent-section">
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <button class="carousel-nav prev" onclick="moveRecentCarousel(-1)">←</button>
+
+                    <div class="carousel" id="recentCarousel">
+                        <div class="carousel-card" data-position="0" data-index="0"
+                             data-title="Train Dreams"
+                             data-info="Clint Bentley, 2024"
+                             data-url="https://www.imdb.com/title/tt29768334/">
+                            <img src="https://image.tmdb.org/t/p/w500/wfzYOVdafdbD1d3SxNqiBtV2Yhx.jpg" alt="Train Dreams">
+                            <div class="card-overlay">
+                                <h3>Train Dreams</h3>
+                                <p>2024</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="1" data-index="1"
+                             data-title="Oldboy"
+                             data-info="Park Chan-wook, 2003"
+                             data-url="https://www.imdb.com/title/tt0364569/">
+                            <img src="https://image.tmdb.org/t/p/w500/pWDtjs568ZfOTMbURQBYuT4Qxka.jpg" alt="Oldboy">
+                            <div class="card-overlay">
+                                <h3>Oldboy</h3>
+                                <p>2003</p>
+                            </div>
+                        </div>
+
+                        <div class="carousel-card" data-position="2" data-index="2"
+                             data-title="Letters from Iwo Jima"
+                             data-info="Clint Eastwood, 2006"
+                             data-url="https://www.imdb.com/title/tt0498380/">
+                            <img src="https://image.tmdb.org/t/p/w500/kZokxQtzMPURvijWYFuvh1fAvnv.jpg" alt="Letters from Iwo Jima">
+                            <div class="card-overlay">
+                                <h3>Letters from Iwo Jima</h3>
+                                <p>2006</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-nav next" onclick="moveRecentCarousel(1)">→</button>
+                </div>
+
+                <div class="carousel-indicators" id="recentIndicators">
+                    <div class="carousel-indicator active" data-index="0" onclick="goToRecentSlide(0)"></div>
+                    <div class="carousel-indicator" data-index="1" onclick="goToRecentSlide(1)"></div>
+                    <div class="carousel-indicator" data-index="2" onclick="goToRecentSlide(2)"></div>
+                </div>
+
+                <div class="current-film-info" id="currentRecentInfo">
+                    <a href="https://www.imdb.com/title/tt29768334/" target="_blank">
+                        <h3>Train Dreams</h3>
+                        <p>Clint Bentley, 2024</p>
+                    </a>
                 </div>
             </div>
         </section>
@@ -64,5 +514,191 @@
             <p>© 2025</p>
         </div>
     </footer>
+
+    <script src="effects.js"></script>
+    <script>
+        // Tab switching
+        function switchTab(tab) {
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const sections = document.querySelectorAll('.film-section');
+
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            sections.forEach(sec => sec.classList.remove('active'));
+
+            if (tab === 'favorites') {
+                tabButtons[0].classList.add('active');
+                document.getElementById('favorites-section').classList.add('active');
+            } else {
+                tabButtons[1].classList.add('active');
+                document.getElementById('recent-section').classList.add('active');
+            }
+        }
+
+        // Carousel functionality (Favorites)
+        let currentIndex = 0;
+        const cards = document.querySelectorAll('#filmCarousel .carousel-card');
+        const indicators = document.querySelectorAll('#carouselIndicators .carousel-indicator');
+        const totalCards = cards.length;
+
+        function updateCarousel() {
+            cards.forEach((card, index) => {
+                let position = index - currentIndex;
+
+                // Wrap around for infinite feel
+                if (position < -2) position = 'hidden';
+                else if (position > 2) position = 'hidden';
+
+                card.dataset.position = position;
+                card.classList.toggle('active', position === 0);
+            });
+
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
+
+            // Update film info
+            const activeCard = cards[currentIndex];
+            const infoDiv = document.getElementById('currentFilmInfo');
+            infoDiv.innerHTML = `
+                <a href="${activeCard.dataset.url}" target="_blank">
+                    <h3>${activeCard.dataset.title}</h3>
+                    <p>${activeCard.dataset.info}</p>
+                </a>
+            `;
+        }
+
+        function moveCarousel(direction) {
+            currentIndex = (currentIndex + direction + totalCards) % totalCards;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') moveCarousel(-1);
+            if (e.key === 'ArrowRight') moveCarousel(1);
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const carousel = document.getElementById('filmCarousel');
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) moveCarousel(1);  // Swipe left
+                else moveCarousel(-1);  // Swipe right
+            }
+        }
+
+        // Click on card to go to that film
+        cards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                if (parseInt(card.dataset.position) === 0) {
+                    // Center card - open link
+                    window.open(card.dataset.url, '_blank');
+                } else {
+                    // Side card - navigate to it
+                    goToSlide(index);
+                }
+            });
+        });
+
+        // Initialize
+        updateCarousel();
+
+        // ===== RECENT CAROUSEL =====
+        let recentIndex = 0;
+        const recentCards = document.querySelectorAll('#recentCarousel .carousel-card');
+        const recentIndicators = document.querySelectorAll('#recentIndicators .carousel-indicator');
+        const totalRecentCards = recentCards.length;
+
+        function updateRecentCarousel() {
+            recentCards.forEach((card, index) => {
+                let position = index - recentIndex;
+
+                // Wrap around for infinite feel
+                if (position < -2) position = 'hidden';
+                else if (position > 2) position = 'hidden';
+
+                card.dataset.position = position;
+                card.classList.toggle('active', position === 0);
+            });
+
+            // Update indicators
+            recentIndicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === recentIndex);
+            });
+
+            // Update film info
+            const activeCard = recentCards[recentIndex];
+            const infoDiv = document.getElementById('currentRecentInfo');
+            infoDiv.innerHTML = `
+                <a href="${activeCard.dataset.url}" target="_blank">
+                    <h3>${activeCard.dataset.title}</h3>
+                    <p>${activeCard.dataset.info}</p>
+                </a>
+            `;
+        }
+
+        function moveRecentCarousel(direction) {
+            recentIndex = (recentIndex + direction + totalRecentCards) % totalRecentCards;
+            updateRecentCarousel();
+        }
+
+        function goToRecentSlide(index) {
+            recentIndex = index;
+            updateRecentCarousel();
+        }
+
+        // Touch/swipe support for recent carousel
+        const recentCarouselEl = document.getElementById('recentCarousel');
+        let recentTouchStartX = 0;
+
+        recentCarouselEl.addEventListener('touchstart', (e) => {
+            recentTouchStartX = e.changedTouches[0].screenX;
+        });
+
+        recentCarouselEl.addEventListener('touchend', (e) => {
+            const recentTouchEndX = e.changedTouches[0].screenX;
+            const diff = recentTouchStartX - recentTouchEndX;
+            if (Math.abs(diff) > 50) {
+                if (diff > 0) moveRecentCarousel(1);
+                else moveRecentCarousel(-1);
+            }
+        });
+
+        // Click on recent cards
+        recentCards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                if (parseInt(card.dataset.position) === 0) {
+                    window.open(card.dataset.url, '_blank');
+                } else {
+                    goToRecentSlide(index);
+                }
+            });
+        });
+
+        // Initialize recent carousel
+        updateRecentCarousel();
+    </script>
 </body>
 </html>
