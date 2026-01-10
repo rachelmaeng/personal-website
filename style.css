@@ -92,15 +92,15 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    border: 2px solid rgba(255, 255, 255, 0.5);
 }
 
 .palette-button[data-palette="default"] {
-    background: #0a3a0a;
+    background: #1a5a1a;
 }
 
 .palette-button[data-palette="blue"] {
-    background: #0a1628;
+    background: #1a3050;
 }
 
 .palette-button[data-palette="red"] {
