@@ -197,7 +197,7 @@ const palettes = {
         '--medium-gray': '#B8A888'
     },
     blue: { // 청 - East, spring
-        '--dark-green': '#00007d',
+        '--dark-green': '#0a1628',
         '--light-green': '#E8F1F5',
         '--accent': '#6B9BD8',
         '--medium-gray': '#90B8C8'
