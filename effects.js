@@ -215,10 +215,10 @@ const palettes = {
         '--medium-gray': '#D4B886'
     },
     white: { // 백 - West, autumn
-        '--dark-green': '#E8E8E8',
+        '--dark-green': '#C0C0C0',
         '--light-green': '#1A1A1A',
-        '--accent': '#555555',
-        '--medium-gray': '#666666'
+        '--accent': '#444444',
+        '--medium-gray': '#555555'
     },
     black: { // 흑 - North, winter
         '--dark-green': '#0A0A0A',
