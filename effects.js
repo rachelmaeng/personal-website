@@ -214,11 +214,11 @@ const palettes = {
         '--accent': '#FFD700',
         '--medium-gray': '#D4B886'
     },
-    white: { // 백 - West, autumn (cream/paper)
-        '--dark-green': '#F5EDD8',
-        '--light-green': '#2C2416',
-        '--accent': '#8B7355',
-        '--medium-gray': '#6B5D4D'
+    white: { // 백 - West, autumn (grey)
+        '--dark-green': '#3A3A3A',
+        '--light-green': '#F5F5F5',
+        '--accent': '#AAAAAA',
+        '--medium-gray': '#888888'
     },
     black: { // 흑 - North, winter
         '--dark-green': '#0A0A0A',
