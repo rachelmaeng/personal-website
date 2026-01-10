@@ -109,21 +109,35 @@ function createStars() {
 }
 
 function drawConnections() {
-    const maxDistance = 150;
-    ctx.lineWidth = 0.7;
+    const maxDistance = 200;
+    ctx.lineWidth = 0.8;
 
+    // Each star connects only to its 2 nearest neighbors (creates chain-like constellations)
     for (let i = 0; i < stars.length; i++) {
-        for (let j = i + 1; j < stars.length; j++) {
-            const dx = stars[i].x - stars[j].x;
-            const dy = stars[i].y - stars[j].y;
-            const distance = Math.sqrt(dx * dx + dy * dy);
+        // Find distances to all other stars
+        let distances = [];
+        for (let j = 0; j < stars.length; j++) {
+            if (i !== j) {
+                const dx = stars[i].x - stars[j].x;
+                const dy = stars[i].y - stars[j].y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+                if (distance < maxDistance) {
+                    distances.push({ index: j, distance: distance });
+                }
+            }
+        }
 
-            if (distance < maxDistance) {
-                // Factor in both stars' opacity for the connection
-                const opacity = (1 - distance / maxDistance) * Math.min(stars[i].opacity, stars[j].opacity);
+        // Sort by distance and only connect to nearest 2
+        distances.sort((a, b) => a.distance - b.distance);
+        const connectTo = distances.slice(0, 2);
+
+        for (let conn of connectTo) {
+            const j = conn.index;
+            // Only draw if i < j to avoid duplicate lines
+            if (i < j) {
+                const opacity = (1 - conn.distance / maxDistance) * Math.min(stars[i].opacity, stars[j].opacity);
                 ctx.globalAlpha = opacity * 0.9;
 
-                // Create gradient between the two star colors
                 const gradient = ctx.createLinearGradient(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
                 gradient.addColorStop(0, stars[i].color);
                 gradient.addColorStop(1, stars[j].color);
