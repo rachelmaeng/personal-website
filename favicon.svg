@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <!-- Dark green background -->
-  <rect width="32" height="32" fill="#001e00"/>
+  <!-- Dark green background with rounded corners -->
+  <rect width="32" height="32" rx="6" ry="6" fill="#001e00"/>
   <!-- Gold 4-pointed star -->
   <path d="M16 6 L17.5 13 L24 16 L17.5 19 L16 26 L14.5 19 L8 16 L14.5 13 Z" fill="#D4AF6A"/>
 </svg>
