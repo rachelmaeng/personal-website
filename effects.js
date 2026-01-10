@@ -21,6 +21,22 @@ function resizeCanvas() {
     canvas.height = window.innerHeight;
 }
 
+// Colorful star palette - warm and cool tones
+const starColors = [
+    '#FFD700', // Gold
+    '#FFA500', // Orange
+    '#FF6B6B', // Coral red
+    '#E8A87C', // Peach
+    '#85DCB8', // Mint
+    '#41B3A3', // Teal
+    '#C38D9E', // Dusty rose
+    '#F8B500', // Amber
+    '#98D8C8', // Seafoam
+    '#F7DC6F', // Soft yellow
+    '#BB8FCE', // Lavender
+    '#85C1E9', // Sky blue
+];
+
 class Star {
     constructor() {
         this.x = Math.random() * canvas.width;
@@ -33,6 +49,8 @@ class Star {
         this.opacity = 0;
         this.targetOpacity = 1;
         this.fadeSpeed = Math.random() * 0.02 + 0.01;
+        // Assign a random color to each star
+        this.color = starColors[Math.floor(Math.random() * starColors.length)];
     }
 
     update() {
@@ -74,7 +92,7 @@ class Star {
 
     draw() {
         ctx.globalAlpha = this.opacity;
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
         ctx.fill();
@@ -92,7 +110,6 @@ function createStars() {
 
 function drawConnections() {
     const maxDistance = 150;
-    ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
     ctx.lineWidth = 0.3;
 
     for (let i = 0; i < stars.length; i++) {
@@ -104,7 +121,14 @@ function drawConnections() {
             if (distance < maxDistance) {
                 // Factor in both stars' opacity for the connection
                 const opacity = (1 - distance / maxDistance) * Math.min(stars[i].opacity, stars[j].opacity);
-                ctx.globalAlpha = opacity;
+                ctx.globalAlpha = opacity * 0.6;
+
+                // Create gradient between the two star colors
+                const gradient = ctx.createLinearGradient(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
+                gradient.addColorStop(0, stars[i].color);
+                gradient.addColorStop(1, stars[j].color);
+                ctx.strokeStyle = gradient;
+
                 ctx.beginPath();
                 ctx.moveTo(stars[i].x, stars[i].y);
                 ctx.lineTo(stars[j].x, stars[j].y);
@@ -167,7 +191,7 @@ document.addEventListener('mousemove', (e) => {
 // ===== KOREAN COLOR PALETTE SWITCHER =====
 const palettes = {
     default: {
-        '--dark-green': '#1A3D3A',
+        '--dark-green': '#001e00',
         '--light-green': '#F5EDD8',
         '--accent': '#D4AF6A',
         '--medium-gray': '#B8A888'

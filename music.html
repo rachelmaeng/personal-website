@@ -5,55 +5,453 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Music - Rachel</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* 3D Carousel Styles */
+        .carousel-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .carousel {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-card {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            backface-visibility: hidden;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+        }
+
+        /* Vinyl grooves effect */
+        .carousel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                circle at center,
+                transparent 0px,
+                transparent 2px,
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 3px
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        /* Center hole */
+        .carousel-card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+            background: var(--dark-green);
+            border-radius: 50%;
+            z-index: 4;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .carousel-card img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Vinyl shine effect */
+        .carousel-card .vinyl-shine {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(
+                135deg,
+                rgba(255, 255, 255, 0.1) 0%,
+                transparent 40%,
+                transparent 60%,
+                rgba(255, 255, 255, 0.05) 100%
+            );
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        /* Hide card overlay - info shown below */
+        .carousel-card .card-overlay {
+            display: none;
+        }
+
+        /* Card positions */
+        .carousel-card[data-position="-2"] {
+            transform: translateX(-240px) scale(0.6) rotateY(35deg);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .carousel-card[data-position="-1"] {
+            transform: translateX(-140px) scale(0.8) rotateY(25deg);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .carousel-card[data-position="0"] {
+            transform: translateX(0) scale(1) rotateY(0deg);
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .carousel-card[data-position="1"] {
+            transform: translateX(140px) scale(0.8) rotateY(-25deg);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .carousel-card[data-position="2"] {
+            transform: translateX(240px) scale(0.6) rotateY(-35deg);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .carousel-card[data-position="hidden"] {
+            transform: translateX(0) scale(0.4);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .carousel-card.active {
+            box-shadow: 0 15px 40px rgba(212, 175, 106, 0.3);
+        }
+
+        /* Spin animation for vinyl */
+        @keyframes spin {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .carousel-card[data-position="0"]:hover img,
+        .carousel-card.playing img {
+            animation: spin 3s linear infinite;
+        }
+
+        /* Play indicator on center vinyl */
+        .carousel-card[data-position="0"]::before {
+            cursor: pointer;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .carousel {
+                width: 180px;
+                height: 180px;
+            }
+
+            .carousel-card {
+                width: 180px;
+                height: 180px;
+            }
+
+            .carousel-card img {
+                width: 90px;
+                height: 90px;
+            }
+
+            .carousel-card[data-position="-2"],
+            .carousel-card[data-position="2"] {
+                display: none;
+            }
+
+            .carousel-card[data-position="-1"] {
+                transform: translateX(-100px) scale(0.7) rotateY(25deg);
+            }
+
+            .carousel-card[data-position="1"] {
+                transform: translateX(100px) scale(0.7) rotateY(-25deg);
+            }
+
+            .carousel-nav {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+
+            .carousel-wrapper {
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .carousel {
+                width: 150px;
+                height: 150px;
+            }
+
+            .carousel-card {
+                width: 150px;
+                height: 150px;
+            }
+
+            .carousel-card img {
+                width: 75px;
+                height: 75px;
+            }
+
+            .carousel-card[data-position="-1"] {
+                transform: translateX(-80px) scale(0.65) rotateY(25deg);
+            }
+
+            .carousel-card[data-position="1"] {
+                transform: translateX(80px) scale(0.65) rotateY(-25deg);
+            }
+
+            .carousel-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Navigation arrows */
+        .carousel-nav {
+            background: rgba(245, 237, 216, 0.15);
+            border: 2px solid var(--light-green);
+            color: var(--light-green);
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.5rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            backdrop-filter: blur(5px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .carousel-nav:hover {
+            background: var(--light-green);
+            color: var(--dark-green);
+            transform: scale(1.15);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .carousel-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Carousel indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--light-green);
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            opacity: 1;
+            background: var(--accent);
+            transform: scale(1.2);
+        }
+
+        /* Current song info */
+        .current-song-info {
+            text-align: center;
+            margin-top: 1.5rem;
+            min-height: 60px;
+        }
+
+        .current-song-info h3 {
+            font-size: 1.3rem;
+            margin: 0 0 0.3rem 0;
+            color: var(--light-green);
+        }
+
+        .current-song-info p {
+            font-size: 1rem;
+            margin: 0;
+            color: var(--accent);
+        }
+
+        .current-song-info a {
+            color: inherit;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .current-song-info a:hover {
+            color: var(--accent);
+        }
+
+    </style>
 </head>
 <body>
+    <canvas id="constellation-canvas"></canvas>
+
     <!-- Back to Home -->
     <a href="index.html" class="back-home">
         <span class="arrow">←</span>
         <span class="text">Home</span>
     </a>
 
-    <nav class="main-nav">
-        <div class="nav-container">
-            <a href="index.html" class="site-title">Rachel</a>
-            <div class="nav-links">
-                <a href="music.html">Music</a>
-                <a href="films.html">Films</a>
-                <a href="reading.html">Reading</a>
-                <a href="essays.html">Essays</a>
-                <a href="writing.html">Writing</a>
-                <a href="links.html">Links</a>
-                <a href="about.html">About</a>
-            </div>
-        </div>
-    </nav>
-
     <main class="content-page">
         <div class="page-header">
-            <h1 class="page-title">Music</h1>
-            <p class="page-description">What I've been listening to lately.</p>
+            <h1 class="page-title">MUSIC</h1>
+            <p class="page-description">Click to listen to my favorites :)</p>
         </div>
 
         <section class="content-section">
-            <h2 class="section-title">Current Rotation</h2>
-            <ul class="simple-list">
-                <li class="list-item">
-                    <h3 class="list-item-title">Add your current favorites here</h3>
-                    <p class="list-item-subtitle">Artist Name</p>
-                    <p class="list-item-text">Why you're loving this right now, what mood it fits, or just a quick note about it.</p>
-                </li>
-            </ul>
-        </section>
+            <div class="carousel-container">
+                <div class="carousel-wrapper">
+                    <button class="carousel-nav prev" onclick="moveCarousel(-1)">←</button>
 
-        <section class="content-section">
-            <h2 class="section-title">All-Time Favorites</h2>
-            <div class="content-grid">
-                <div class="content-item">
-                    <h3 class="item-title">Album/Artist Name</h3>
-                    <p class="item-meta">Genre</p>
-                    <p class="item-description">What makes this one stick with you.</p>
+                    <div class="carousel" id="musicCarousel">
+                        <div class="carousel-card" data-position="0" data-index="0"
+                             data-title="Knockin' on Heaven's Door"
+                             data-info="Guns N' Roses"
+                             data-url="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr"
+                             data-deezer="505510232">
+                            <img src="https://i.scdn.co/image/ab67616d00001e0292d21aef6c0d288cc4c05973" alt="Knockin' on Heaven's Door">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="1" data-index="1"
+                             data-title="Uptown Girl"
+                             data-info="Billy Joel"
+                             data-url="https://open.spotify.com/track/5zA8vzDGqPl2AzZkEYQGKh"
+                             data-deezer="1025659">
+                            <img src="https://i.scdn.co/image/ab67616d00001e0229c68eb2726f08eca5ba8613" alt="Uptown Girl">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="2" data-index="2"
+                             data-title="Sleepyhead"
+                             data-info="Passion Pit"
+                             data-url="https://open.spotify.com/track/4prEPl61C8qZpeo3IkYSMl"
+                             data-deezer="5816228">
+                            <img src="https://i.scdn.co/image/ab67616d00001e023437e8bbed340ca556c42c04" alt="Sleepyhead">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="3"
+                             data-title="Under Pressure"
+                             data-info="Queen & David Bowie"
+                             data-url="https://open.spotify.com/track/2fuCquhmrzHpu5xcA1ci9x"
+                             data-deezer="568116092">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02a1e05e1048e2cf2737adf742" alt="Under Pressure">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="4"
+                             data-title="Southern Nights"
+                             data-info="Glen Campbell"
+                             data-url="https://open.spotify.com/track/7kv7zBjMtVf0eIJle2VZxn"
+                             data-deezer="3476171">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02461762c15f05e141fe6f3097" alt="Southern Nights">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="5"
+                             data-title="Layla"
+                             data-info="Derek & The Dominos"
+                             data-url="https://open.spotify.com/track/2kkvB3RNRzwjFdGhaUA0tz"
+                             data-deezer="1175612">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02fbcaf7402f38faac27610efc" alt="Layla">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="6"
+                             data-title="November Rain"
+                             data-info="Guns N' Roses"
+                             data-url="https://open.spotify.com/track/3YRCqOhFifThpSRFJ1VWFM"
+                             data-deezer="1169683">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02e44963b8bb127552ac761873" alt="November Rain">
+                            <div class="vinyl-shine"></div>
+                        </div>
+
+                        <div class="carousel-card" data-position="hidden" data-index="7"
+                             data-title="Pas de Deux"
+                             data-info="Pyotr Ilyich Tchaikovsky"
+                             data-url="https://open.spotify.com/track/2oF4mu55DPVyKqV5KGvB8s"
+                             data-deezer="72110867">
+                            <img src="https://i.scdn.co/image/ab67616d00001e02388d94cc6a144675cf482e1b" alt="Pas de Deux">
+                            <div class="vinyl-shine"></div>
+                        </div>
+                    </div>
+
+                    <button class="carousel-nav next" onclick="moveCarousel(1)">→</button>
                 </div>
+
+                <div class="carousel-indicators" id="carouselIndicators">
+                    <div class="carousel-indicator active" data-index="0" onclick="goToSlide(0)"></div>
+                    <div class="carousel-indicator" data-index="1" onclick="goToSlide(1)"></div>
+                    <div class="carousel-indicator" data-index="2" onclick="goToSlide(2)"></div>
+                    <div class="carousel-indicator" data-index="3" onclick="goToSlide(3)"></div>
+                    <div class="carousel-indicator" data-index="4" onclick="goToSlide(4)"></div>
+                    <div class="carousel-indicator" data-index="5" onclick="goToSlide(5)"></div>
+                    <div class="carousel-indicator" data-index="6" onclick="goToSlide(6)"></div>
+                    <div class="carousel-indicator" data-index="7" onclick="goToSlide(7)"></div>
+                </div>
+
+                <div class="current-song-info" id="currentSongInfo">
+                    <a href="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr" target="_blank">
+                        <h3>Knockin' on Heaven's Door</h3>
+                        <p>Guns N' Roses</p>
+                    </a>
+                </div>
+
             </div>
         </section>
     </main>
@@ -64,5 +462,99 @@
             <p>© 2025</p>
         </div>
     </footer>
+
+    <script src="effects.js"></script>
+    <script>
+        // Carousel functionality
+        let currentIndex = 0;
+        const cards = document.querySelectorAll('.carousel-card');
+        const indicators = document.querySelectorAll('.carousel-indicator');
+        const totalCards = cards.length;
+
+        function updateCarousel() {
+            cards.forEach((card, index) => {
+                let position = index - currentIndex;
+
+                // Wrap around for infinite feel
+                if (position < -2) position = 'hidden';
+                else if (position > 2) position = 'hidden';
+
+                card.dataset.position = position;
+                card.classList.toggle('active', position === 0);
+            });
+
+            // Update indicators
+            indicators.forEach((indicator, index) => {
+                indicator.classList.toggle('active', index === currentIndex);
+            });
+
+            // Update song info
+            const activeCard = cards[currentIndex];
+            const infoDiv = document.getElementById('currentSongInfo');
+            infoDiv.innerHTML = `
+                <a href="${activeCard.dataset.url}" target="_blank">
+                    <h3>${activeCard.dataset.title}</h3>
+                    <p>${activeCard.dataset.info}</p>
+                </a>
+            `;
+        }
+
+        function moveCarousel(direction) {
+            currentIndex = (currentIndex + direction + totalCards) % totalCards;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft') moveCarousel(-1);
+            if (e.key === 'ArrowRight') moveCarousel(1);
+        });
+
+        // Touch/swipe support
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const carousel = document.getElementById('musicCarousel');
+
+        carousel.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        carousel.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) moveCarousel(1);  // Swipe left
+                else moveCarousel(-1);  // Swipe right
+            }
+        }
+
+        // Click on card to open Spotify or navigate
+        cards.forEach((card, index) => {
+            card.addEventListener('click', () => {
+                if (parseInt(card.dataset.position) === 0) {
+                    // Center card - open Spotify
+                    window.open(card.dataset.url, '_blank');
+                } else {
+                    // Side card - navigate to it
+                    goToSlide(index);
+                }
+            });
+        });
+
+        // Initialize
+        updateCarousel();
+    </script>
 </body>
 </html>

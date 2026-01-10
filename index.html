@@ -7,7 +7,7 @@
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         body {
@@ -20,7 +20,7 @@
             flex-direction: column;
             max-width: 800px;
             margin: 0 auto;
-            padding: 3rem 2rem 5rem 2rem;
+            padding: 3rem 2rem 10rem 2rem;
             position: relative;
         }
 
@@ -30,7 +30,7 @@
             top: 3rem;
             right: 2rem;
             display: flex;
-            gap: 2rem;
+            gap: 1.5rem;
             z-index: 10;
         }
 
@@ -43,8 +43,9 @@
             color: var(--light-green);
             text-decoration: none;
             cursor: pointer;
-            transition: color 0.3s ease;
-            font-weight: 400;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            position: relative;
         }
 
         .nav-link:hover {
@@ -58,29 +59,52 @@
         .sub-nav {
             position: absolute;
             top: 100%;
-            right: 0;
-            margin-top: 0.5rem;
-            display: none;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: 0.75rem;
+            display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            background-color: var(--dark-green);
-            padding: 0.75rem 1rem;
-            border-radius: 4px;
-            border: 1px solid var(--accent);
+            gap: 0.2rem;
             white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            background: rgba(26, 61, 58, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border: 1px solid rgba(212, 175, 106, 0.2);
         }
 
         .sub-nav.active {
-            display: flex;
+            opacity: 1;
+            visibility: visible;
         }
 
         .sub-nav a {
             font-size: 0.85rem;
             color: var(--medium-gray);
             text-decoration: none;
-            transition: color 0.3s ease;
-            text-align: right;
+            transition: all 0.3s ease;
+            text-align: left;
+            opacity: 0;
+            transform: translateY(-5px);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
         }
+
+        .sub-nav.active a {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation delays */
+        .sub-nav.active a:nth-child(1) { transition-delay: 0.03s; }
+        .sub-nav.active a:nth-child(2) { transition-delay: 0.06s; }
+        .sub-nav.active a:nth-child(3) { transition-delay: 0.09s; }
+        .sub-nav.active a:nth-child(4) { transition-delay: 0.12s; }
+        .sub-nav.active a:nth-child(5) { transition-delay: 0.15s; }
 
         .sub-nav a:hover {
             color: var(--accent);
@@ -91,22 +115,60 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             max-width: 600px;
             margin: 0 auto;
+            padding-top: 3rem;
+            transition: padding-top 0.4s ease;
+        }
+
+        /* Push content down when dropdown is open */
+        body.dropdown-open .content {
+            padding-top: 12rem;
+        }
+
+        /* Intro section - just enough space for scroll reveal */
+        .intro-section {
+            margin-bottom: 2rem;
         }
 
         .name {
             font-size: 2rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--light-green);
             margin-bottom: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+        }
+
+        .english-name {
+            display: inline-flex;
+            align-items: baseline;
         }
 
         .korean-name {
             font-size: 1.5rem;
             color: var(--accent);
             margin-left: 1rem;
+        }
+
+        /* Swap name order in Korean mode */
+        body.korean .name {
+            flex-direction: row-reverse;
+            justify-content: flex-end;
+        }
+
+        body.korean .english-name {
+            font-size: 1.5rem;
+            color: var(--accent);
+        }
+
+        body.korean .korean-name {
+            font-size: 2rem;
+            color: var(--light-green);
+            margin-left: 0;
+            margin-right: 1rem;
         }
 
         /* Typewriter effect */
@@ -150,6 +212,27 @@
         .bio:first-of-type {
             font-size: 1.1rem;
         }
+
+        /* Scroll Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Stagger animations - one paragraph at a time */
+        .bio.reveal:nth-of-type(1) { transition-delay: 0s; }
+        .bio.reveal:nth-of-type(2) { transition-delay: 0.4s; }
+        .bio.reveal:nth-of-type(3) { transition-delay: 0.8s; }
+        .bio.reveal:nth-of-type(4) { transition-delay: 1.2s; }
+        .bio.reveal:nth-of-type(5) { transition-delay: 1.6s; }
+        .bio.reveal:nth-of-type(6) { transition-delay: 2s; }
+        .bottom-contact.reveal { transition-delay: 2.4s; }
 
         /* Bottom Contact */
         .bottom-contact {
@@ -196,7 +279,7 @@
             background-color: var(--accent);
             color: var(--dark-green);
             padding: 0.5rem 1rem;
-            border-radius: 4px;
+            border-radius: 12px;
             font-size: 0.85rem;
             opacity: 0;
             pointer-events: none;
@@ -274,104 +357,98 @@
 <body>
     <canvas id="constellation-canvas"></canvas>
 
+    <!-- Color Palette Switcher -->
+    <div class="palette-switcher">
+        <div class="palette-wheel">
+            <button class="palette-button active" data-palette="default" data-name="Default" onclick="switchPalette('default')"></button>
+            <button class="palette-button" data-palette="blue" data-name="청 Blue" onclick="switchPalette('blue')"></button>
+            <button class="palette-button" data-palette="red" data-name="적 Red" onclick="switchPalette('red')"></button>
+            <button class="palette-button" data-palette="yellow" data-name="황 Yellow" onclick="switchPalette('yellow')"></button>
+            <button class="palette-button" data-palette="white" data-name="백 White" onclick="switchPalette('white')"></button>
+            <button class="palette-button" data-palette="black" data-name="흑 Black" onclick="switchPalette('black')"></button>
+        </div>
+    </div>
+
     <!-- Copy Feedback -->
     <div class="copy-feedback" id="copyFeedback">
         <span lang="en">Email copied!</span>
         <span lang="ko">이메일 복사됨!</span>
     </div>
 
-    <!-- Korean Color Palette Switcher -->
-    <div class="palette-switcher">
-        <div class="palette-wheel">
-            <div class="palette-button" data-palette="default" data-name="Original" onclick="switchPalette('default')"></div>
-            <div class="palette-button" data-palette="blue" data-name="청 (Blue)" onclick="switchPalette('blue')"></div>
-            <div class="palette-button" data-palette="red" data-name="적 (Red)" onclick="switchPalette('red')"></div>
-            <div class="palette-button" data-palette="yellow" data-name="황 (Yellow)" onclick="switchPalette('yellow')"></div>
-            <div class="palette-button" data-palette="white" data-name="백 (White)" onclick="switchPalette('white')"></div>
-            <div class="palette-button" data-palette="black" data-name="흑 (Black)" onclick="switchPalette('black')"></div>
-        </div>
-    </div>
-
     <div class="main-container">
         <!-- Top Navigation -->
         <nav class="top-nav">
             <div class="nav-item">
-                <a class="nav-link" onclick="toggleSubNav('art')">
-                    <span lang="en">Art</span>
-                    <span lang="ko">예술</span>
+                <a class="nav-link" onclick="toggleSubNav('consuming')">
+                    <span lang="en">Consuming</span>
+                    <span lang="ko">소비</span>
                 </a>
-                <div class="sub-nav" id="art-subnav">
-                    <a href="art.html#films"><span lang="en">Films</span><span lang="ko">영화</span></a>
-                    <a href="art.html#music"><span lang="en">Music</span><span lang="ko">음악</span></a>
-                    <a href="art.html#websites"><span lang="en">Cool websites</span><span lang="ko">멋진 웹사이트</span></a>
+                <div class="sub-nav" id="consuming-subnav">
+                    <a href="films.html"><span lang="en">Films</span><span lang="ko">영화</span></a>
+                    <a href="music.html"><span lang="en">Music</span><span lang="ko">음악</span></a>
+                    <a href="books.html"><span lang="en">Books</span><span lang="ko">책</span></a>
+                    <a href="articles.html"><span lang="en">Articles</span><span lang="ko">글</span></a>
+                    <a href="websites.html"><span lang="en">Cool websites</span><span lang="ko">멋진 웹사이트</span></a>
                 </div>
             </div>
             <div class="nav-item">
-                <a class="nav-link" onclick="toggleSubNav('archive')">
-                    <span lang="en">Archive</span>
-                    <span lang="ko">아카이브</span>
+                <a class="nav-link" onclick="toggleSubNav('making')">
+                    <span lang="en">Making</span>
+                    <span lang="ko">만들기</span>
                 </a>
-                <div class="sub-nav" id="archive-subnav">
-                    <a href="archive.html#books"><span lang="en">Books</span><span lang="ko">책</span></a>
-                    <a href="archive.html#articles"><span lang="en">Articles</span><span lang="ko">글</span></a>
-                    <a href="archive.html#resources"><span lang="en">Resources</span><span lang="ko">자료</span></a>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a class="nav-link" onclick="toggleSubNav('working')">
-                    <span lang="en">Working</span>
-                    <span lang="ko">작업</span>
-                </a>
-                <div class="sub-nav" id="working-subnav">
-                    <a href="working.html#building"><span lang="en">Building</span><span lang="ko">작업들</span></a>
-                    <a href="working.html#writing"><span lang="en">Writing</span><span lang="ko">글쓰기</span></a>
-                    <a href="working.html#cooking"><span lang="en">Cooking</span><span lang="ko">요리</span></a>
+                <div class="sub-nav" id="making-subnav">
+                    <a href="building.html"><span lang="en">Building</span><span lang="ko">작업들</span></a>
+                    <a href="writing.html"><span lang="en">Writing</span><span lang="ko">글쓰기</span></a>
+                    <a href="cooking.html"><span lang="en">Cooking</span><span lang="ko">요리</span></a>
                 </div>
             </div>
         </nav>
 
         <!-- Center Content -->
         <div class="content">
-            <h1 class="name">
-                <span class="typewriter-text" id="name-en"></span><span class="typewriter-cursor" id="cursor-en"></span> <span class="korean-name"><span class="typewriter-text" id="name-ko"></span><span class="typewriter-cursor hidden" id="cursor-ko"></span></span>
-            </h1>
-            <p class="title">
-                <span lang="en">Austin, Texas</span>
-                <span lang="ko">오스틴, 텍사스</span>
+            <!-- Intro takes up full viewport -->
+            <div class="intro-section">
+                <h1 class="name">
+                    <span class="english-name"><span class="typewriter-text" id="name-en"></span><span class="typewriter-cursor" id="cursor-en"></span></span><span class="korean-name"><span class="typewriter-text" id="name-ko"></span><span class="typewriter-cursor hidden" id="cursor-ko"></span></span>
+                </h1>
+                <p class="title">
+                    <span lang="en">Currently: Austin, TX</span>
+                    <span lang="ko">현재: 오스틴, TX</span>
+                </p>
+            </div>
+
+            <p class="bio reveal">
+                <span lang="en">Hi there, I'm Rachel. I'm <span id="live-age"></span> years old, in Austin, and I just finished at UT with a history degree.</span>
+                <span lang="ko">안녕하세요, 레이첼이에요. <span id="live-age-ko"></span>살이고, 오스틴에 살고 있고 UT에서 역사학 학위를 막 졸업했어요.</span>
             </p>
 
-            <p class="bio">
-                <span lang="en">Hi there, I'm Rachel. I'm in Austin and I just finished at UT with a history degree.</span>
-                <span lang="ko">안녕하세요, 레이첼이에요. 오스틴에 살고 있고 UT에서 역사학 학위를 막 졸업했어요.</span>
-            </p>
-
-            <p class="bio">
+            <p class="bio reveal">
                 <span lang="en">I started college planning to go to med school, spent three years as a biology major, and gradually realized I cared way more about understanding how systems work than about being a doctor. History was the right home for that curiosity; digging into archives to figure out why institutions function the way they do.</span>
                 <span lang="ko">대학에 처음 들어갈 때는 의대를 가려고 했고, 3년 동안 생물학을 전공했어요. 그런데 점점 의사가 되는 것보다 시스템이 어떻게 작동하는지 이해하는 게 훨씬 더 중요하다는 걸 깨달았어요. 역사학이 그 호기심을 위한 올바른 집이었죠. 기관들이 왜 그렇게 기능하는지 알아내기 위해 아카이브를 파헤치는 거예요.</span>
             </p>
 
-            <p class="bio">
-                <span lang="en">Right now I'm building a wellness app that treats the menstrual cycle as an integrated system for food, movement, and mood. Most women's health tech completely misses this. The research gap is staggering (women weren't even routinely included in clinical trials until the 90s!) and the product gap is worse. I want to fix both.</span>
-                <span lang="ko">지금은 생리 주기를 음식, 운동, 그리고 기분의 통합 시스템으로 다루는 웰니스 앱을 만들고 있어요. 대부분의 여성 건강 기술은 이걸 완전히 놓치고 있어요. 연구 격차가 엄청나요 (여성들이 90년대까지도 임상 시험에 정기적으로 포함되지 않았다는 거 아세요!!), 그리고 제품 격차는 더 심해요. 둘 다 고치려고 노력하고 싶어요.</span>
+            <p class="bio reveal">
+                <span lang="en">Right now I'm building a wellness app that treats the menstrual cycle as an integrated system for food, movement, and mood. Most tech completely misses this. The research gap is staggering (women weren't even routinely included in clinical trials until the 90s!) and the product gap is worse. I want to fix both.</span>
+                <span lang="ko">지금은 생리 주기를 음식, 운동, 그리고 기분의 통합 시스템으로 다루는 웰빙 앱을 만들고 있어요. 대부분의 여성 건강 기술은 이걸 완전히 놓치고 있어요. 연구 격차가 엄청나요 (여성들이 90년대까지도 임상 시험에 정기적으로 포함되지 않았다는 거 아세요!!), 그리고 제품 격차는 더 심해요. 둘 다 고치려고 노력하고 싶어요.</span>
             </p>
 
-            <p class="bio">
+            <p class="bio reveal">
                 <span lang="en">I'm Korean-American. My grandma makes her own soju, my mom has never made a Thanksgiving turkey, and I still can't make kimchi as well as either of them (though I'm getting closer!). I grew up switching between languages and cultures, which probably shaped how I see systems more than I realize.</span>
-                <span lang="ko">저는 한국계 미국인이에요. 제 한국 이름은 지현이에요. 할머니는 직접 소주를 만드셨고, 엄마는 한 번도 추수감사절 칠면조를 만든 적이 없어요. 그리고 저는 아직도 둘만큼 김치를 잘 못 담가요 (하지만 점점 나아지고 있어요!). 언어와 문화 사이를 오가며 자랐고, 그게 제가 시스템을 보는 방식을 제가 깨닫는 것보다 더 많이 형성했을 거예요.</span>
+                <span lang="ko">저는 한국계 미국인이고 제 한국 이름은 지현이에요. 할머니는 직접 소주를 만드셨고, 엄마는 한 번도 미국식 추수감사절 칠면조를 만든 적이 없어요. 그리고 저는 아직도 둘만큼 김치를 잘 못 담가요 (하지만 점점 나아지고 있어요!). 언어와 문화 사이를 오가며 자랐고, 그게 제가 시스템을 보는 방식을 제가 깨닫는 것보다 더 많이 형성했을 거예요.</span>
             </p>
 
-            <p class="bio">
+            <p class="bio reveal">
                 <span lang="en">I love green (hence this entire site). I cook a lot because eating good food is honestly one of life's best things. I play the flute. I fall into Wikipedia spirals way too often. I get genuinely excited about how things work: institutions, bodies, apps, all of it.</span>
                 <span lang="ko">저는 초록색을 좋아해요. 맛있는음식을 먹는 게 솔직히 인생에서 가장 좋은 것 중 하나라서 요리를 많이 해요. 플루트를 연주해요. 위키피디아 소용돌이에 너무 자주 빠져요. 그리고 어떤 것들이 실제로 어떻게 작동하는지에 대해 진심으로 흥분해요. 그게 기관이든, 시스템이든, 신체든, 앱이든요.</span>
             </p>
 
-            <p class="bio">
+            <p class="bio reveal">
                 <span lang="en">This site is where I archive things I'm thinking about, watching, reading, and making.</span>
                 <span lang="ko">이 사이트는 제가 생각하고, 보고, 읽고, 만드는 것들을 보관하는 곳이에요.</span>
             </p>
 
             <!-- Bottom Contact -->
-            <div class="bottom-contact">
+            <div class="bottom-contact reveal">
                 <div class="contact-section">
                     <p class="contact-heading">
                         <span lang="en">On the web</span>
@@ -386,9 +463,13 @@
                             <span lang="en">LinkedIn</span>
                             <span lang="ko">링크드인</span>
                         </a>
-                        <a href="https://substack.com/@rachelmaengo" target="_blank" class="contact-link">
+                        <a href="https://substack.com/@rachelmaeng" target="_blank" class="contact-link">
                             <span lang="en">Substack</span>
                             <span lang="ko">서브스택</span>
+                        </a>
+                        <a href="https://x.com/rachelmaengo" target="_blank" class="contact-link">
+                            <span lang="en">X</span>
+                            <span lang="ko">X</span>
                         </a>
                     </div>
                 </div>
@@ -421,9 +502,12 @@
             const subNav = document.getElementById(navId + '-subnav');
             subNav.classList.toggle('active');
 
-            // Add active class to clicked nav link
+            // Add active class to clicked nav link and push content down
             if (subNav.classList.contains('active')) {
                 event.target.classList.add('active');
+                document.body.classList.add('dropdown-open');
+            } else {
+                document.body.classList.remove('dropdown-open');
             }
         }
 
@@ -456,6 +540,7 @@
                 document.querySelectorAll('.nav-link').forEach(link => {
                     link.classList.remove('active');
                 });
+                document.body.classList.remove('dropdown-open');
             }
         });
 
@@ -506,6 +591,43 @@
 
         // Start typing after a short delay
         setTimeout(typeEnglish, 500);
+
+        // Scroll Reveal Animation - trigger all paragraphs when first one enters
+        const revealElements = document.querySelectorAll('.reveal');
+        let revealed = false;
+
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !revealed) {
+                    revealed = true;
+                    // Add visible to all elements at once - CSS delays handle stagger
+                    revealElements.forEach(el => el.classList.add('visible'));
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Only observe the first bio paragraph
+        const firstBio = document.querySelector('.bio.reveal');
+        if (firstBio) revealObserver.observe(firstBio);
+
+        // Live Age Counter - Born July 24, 2003 at 1:10 PM
+        const birthDate = new Date(2003, 6, 24, 13, 10, 0); // Month is 0-indexed
+        const ageEl = document.getElementById('live-age');
+        const ageElKo = document.getElementById('live-age-ko');
+
+        function updateAge() {
+            const now = new Date();
+            const ageInMs = now - birthDate;
+            const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
+            const formatted = ageInYears.toFixed(9);
+            if (ageEl) ageEl.textContent = formatted;
+            if (ageElKo) ageElKo.textContent = formatted;
+        }
+
+        updateAge();
+        setInterval(updateAge, 50); // Update frequently for smooth ticking
     </script>
 </body>
 </html>
