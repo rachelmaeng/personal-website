@@ -112,7 +112,7 @@ body {
 }
 
 .palette-button[data-palette="white"] {
-    background: #FFFFFF;
+    background: #F5EDD8;
 }
 
 .palette-button[data-palette="black"] {
