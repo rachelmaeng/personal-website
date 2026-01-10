@@ -102,7 +102,7 @@ class Star {
 
 function createStars() {
     stars = [];
-    const starCount = Math.floor((canvas.width * canvas.height) / 15000);
+    const starCount = Math.floor((canvas.width * canvas.height) / 35000);
     for (let i = 0; i < starCount; i++) {
         stars.push(new Star());
     }
@@ -127,9 +127,9 @@ function drawConnections() {
             }
         }
 
-        // Sort by distance and only connect to nearest 2
+        // Sort by distance and only connect to nearest 1
         distances.sort((a, b) => a.distance - b.distance);
-        const connectTo = distances.slice(0, 2);
+        const connectTo = distances.slice(0, 1);
 
         for (let conn of connectTo) {
             const j = conn.index;
