@@ -45,9 +45,9 @@ class Star {
         this.baseY = this.y;
         this.vx = (Math.random() - 0.5) * 0.3;
         this.vy = (Math.random() - 0.5) * 0.3;
-        this.radius = Math.random() * 1.5 + 0.5;
+        this.radius = Math.random() * 2 + 1;
         this.opacity = 0;
-        this.targetOpacity = 1.2;
+        this.targetOpacity = 1.5;
         this.fadeSpeed = Math.random() * 0.02 + 0.01;
         // Assign a random color to each star
         this.color = starColors[Math.floor(Math.random() * starColors.length)];
@@ -110,7 +110,7 @@ function createStars() {
 
 function drawConnections() {
     const maxDistance = 150;
-    ctx.lineWidth = 0.3;
+    ctx.lineWidth = 0.5;
 
     for (let i = 0; i < stars.length; i++) {
         for (let j = i + 1; j < stars.length; j++) {
@@ -121,7 +121,7 @@ function drawConnections() {
             if (distance < maxDistance) {
                 // Factor in both stars' opacity for the connection
                 const opacity = (1 - distance / maxDistance) * Math.min(stars[i].opacity, stars[j].opacity);
-                ctx.globalAlpha = opacity * 0.75;
+                ctx.globalAlpha = opacity * 0.9;
 
                 // Create gradient between the two star colors
                 const gradient = ctx.createLinearGradient(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
