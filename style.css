@@ -96,23 +96,23 @@ body {
 }
 
 .palette-button[data-palette="default"] {
-    background: #3A6B68;
+    background: #0a3a0a;
 }
 
 .palette-button[data-palette="blue"] {
-    background: #1B4965;
+    background: #00007d;
 }
 
 .palette-button[data-palette="red"] {
-    background: #8B1A1A;
+    background: #530000;
 }
 
 .palette-button[data-palette="yellow"] {
-    background: #C9A961;
+    background: #FFD700;
 }
 
 .palette-button[data-palette="white"] {
-    background: #E8E8E8;
+    background: #FFFFFF;
 }
 
 .palette-button[data-palette="black"] {

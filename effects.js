@@ -47,7 +47,7 @@ class Star {
         this.vy = (Math.random() - 0.5) * 0.3;
         this.radius = Math.random() * 1.5 + 0.5;
         this.opacity = 0;
-        this.targetOpacity = 1;
+        this.targetOpacity = 1.2;
         this.fadeSpeed = Math.random() * 0.02 + 0.01;
         // Assign a random color to each star
         this.color = starColors[Math.floor(Math.random() * starColors.length)];
@@ -121,7 +121,7 @@ function drawConnections() {
             if (distance < maxDistance) {
                 // Factor in both stars' opacity for the connection
                 const opacity = (1 - distance / maxDistance) * Math.min(stars[i].opacity, stars[j].opacity);
-                ctx.globalAlpha = opacity * 0.6;
+                ctx.globalAlpha = opacity * 0.75;
 
                 // Create gradient between the two star colors
                 const gradient = ctx.createLinearGradient(stars[i].x, stars[i].y, stars[j].x, stars[j].y);
@@ -197,28 +197,28 @@ const palettes = {
         '--medium-gray': '#B8A888'
     },
     blue: { // 청 - East, spring
-        '--dark-green': '#0F3057',
+        '--dark-green': '#00007d',
         '--light-green': '#E8F1F5',
-        '--accent': '#00B4D8',
+        '--accent': '#6B9BD8',
         '--medium-gray': '#90B8C8'
     },
     red: { // 적 - South, summer
-        '--dark-green': '#3D0C02',
+        '--dark-green': '#530000',
         '--light-green': '#F9E5D8',
         '--accent': '#D4535A',
         '--medium-gray': '#C89B88'
     },
     yellow: { // 황 - Center, earth
         '--dark-green': '#3D2F0C',
-        '--light-green': '#F9F3E5',
-        '--accent': '#F5C842',
+        '--light-green': '#FFFBF0',
+        '--accent': '#FFD700',
         '--medium-gray': '#D4B886'
     },
     white: { // 백 - West, autumn
-        '--dark-green': '#2C2C2C',
-        '--light-green': '#F5F5F5',
-        '--accent': '#E8E8E8',
-        '--medium-gray': '#B8B8B8'
+        '--dark-green': '#FFFFFF',
+        '--light-green': '#1A1A1A',
+        '--accent': '#666666',
+        '--medium-gray': '#888888'
     },
     black: { // 흑 - North, winter
         '--dark-green': '#0A0A0A',
