@@ -45,9 +45,9 @@ class Star {
         this.baseY = this.y;
         this.vx = (Math.random() - 0.5) * 0.3;
         this.vy = (Math.random() - 0.5) * 0.3;
-        this.radius = Math.random() * 2 + 1;
+        this.radius = Math.random() * 2.5 + 1.5;
         this.opacity = 0;
-        this.targetOpacity = 1.5;
+        this.targetOpacity = 1.8;
         this.fadeSpeed = Math.random() * 0.02 + 0.01;
         // Assign a random color to each star
         this.color = starColors[Math.floor(Math.random() * starColors.length)];
@@ -110,7 +110,7 @@ function createStars() {
 
 function drawConnections() {
     const maxDistance = 150;
-    ctx.lineWidth = 0.5;
+    ctx.lineWidth = 0.7;
 
     for (let i = 0; i < stars.length; i++) {
         for (let j = i + 1; j < stars.length; j++) {
@@ -223,7 +223,7 @@ const palettes = {
     black: { // 흑 - North, winter
         '--dark-green': '#0A0A0A',
         '--light-green': '#D4D4D4',
-        '--accent': '#4A4A4A',
+        '--accent': '#AAAAAA',
         '--medium-gray': '#888888'
     }
 };
