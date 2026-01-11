@@ -223,10 +223,10 @@ const palettes = {
         '--medium-gray': '#C89B88'
     },
     yellow: { // 황 - Center, earth
-        '--dark-green': '#FFD32C',
-        '--light-green': '#2C2416',
-        '--accent': '#8B6914',
-        '--medium-gray': '#5C4A1A'
+        '--dark-green': '#4A3C14',
+        '--light-green': '#FFFBF0',
+        '--accent': '#FFD700',
+        '--medium-gray': '#D4B886'
     },
     white: { // 백 - West, autumn (grey)
         '--dark-green': '#5A5A5A',
