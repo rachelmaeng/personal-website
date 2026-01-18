@@ -85,21 +85,21 @@
             transition: opacity 0.3s ease, visibility 0.3s ease;
         }
 
-        /* Work dropdown - left aligned */
-        #work-subnav {
+        /* Consuming dropdown - left aligned */
+        #consuming-subnav {
             left: 0;
         }
 
-        #work-subnav a {
+        #consuming-subnav a {
             text-align: left;
         }
 
-        /* Interests dropdown - right aligned */
-        #interests-subnav {
+        /* Making dropdown - right aligned */
+        #making-subnav {
             right: 0;
         }
 
-        #interests-subnav a {
+        #making-subnav a {
             text-align: right;
         }
 
@@ -403,33 +403,28 @@
         <!-- Top Navigation -->
         <nav class="top-nav">
             <div class="nav-item">
-                <a class="nav-link" onclick="toggleSubNav('work')">
-                    <span lang="en">Work</span>
-                    <span lang="ko">작업</span>
+                <a class="nav-link" onclick="toggleSubNav('consuming')">
+                    <span lang="en">Consuming</span>
+                    <span lang="ko">소비</span>
                 </a>
-                <div class="sub-nav" id="work-subnav">
-                    <a href="building.html"><span lang="en">Projects</span><span lang="ko">프로젝트</span></a>
-                    <a href="writing.html"><span lang="en">Writing</span><span lang="ko">글쓰기</span></a>
-                </div>
-            </div>
-            <div class="nav-item">
-                <a class="nav-link" onclick="toggleSubNav('interests')">
-                    <span lang="en">Interests</span>
-                    <span lang="ko">관심사</span>
-                </a>
-                <div class="sub-nav" id="interests-subnav">
+                <div class="sub-nav" id="consuming-subnav">
                     <a href="films.html"><span lang="en">Films</span><span lang="ko">영화</span></a>
                     <a href="music.html"><span lang="en">Music</span><span lang="ko">음악</span></a>
                     <a href="books.html"><span lang="en">Books</span><span lang="ko">책</span></a>
                     <a href="articles.html"><span lang="en">Articles</span><span lang="ko">글</span></a>
-                    <a href="cooking.html"><span lang="en">Recipes</span><span lang="ko">레시피</span></a>
+                    <a href="websites.html"><span lang="en">Cool websites</span><span lang="ko">멋진 웹사이트</span></a>
                 </div>
             </div>
             <div class="nav-item">
-                <a class="nav-link" href="https://www.linkedin.com/in/rachelhmaeng/" target="_blank">
-                    <span lang="en">LinkedIn</span>
-                    <span lang="ko">링크드인</span>
+                <a class="nav-link" onclick="toggleSubNav('making')">
+                    <span lang="en">Making</span>
+                    <span lang="ko">만들기</span>
                 </a>
+                <div class="sub-nav" id="making-subnav">
+                    <a href="building.html"><span lang="en">Building</span><span lang="ko">작업들</span></a>
+                    <a href="writing.html"><span lang="en">Writing</span><span lang="ko">글쓰기</span></a>
+                    <a href="cooking.html"><span lang="en">Cooking</span><span lang="ko">요리</span></a>
+                </div>
             </div>
         </nav>
 
