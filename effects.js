@@ -174,34 +174,6 @@ resizeCanvas();
 createStars();
 animate();
 
-// ===== CURSOR TRAIL EFFECT =====
-let lastTrailTime = 0;
-const trailInterval = 40; // milliseconds between trail sparkles
-
-document.addEventListener('mousemove', (e) => {
-    const now = Date.now();
-    if (now - lastTrailTime < trailInterval) return;
-    lastTrailTime = now;
-
-    const trail = document.createElement('div');
-    trail.className = 'cursor-trail';
-    // Randomize size for variety
-    const size = 20 + Math.random() * 12; // 20-32px
-    trail.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 32 32">
-            <g>
-                <path d="M16 4 L18 14 L28 16 L18 18 L16 28 L14 18 L4 16 L14 14 Z"
-                      fill="#FFD700" opacity="0.8"/>
-            </g>
-        </svg>
-    `;
-    trail.style.left = e.clientX - size/2 + 'px';
-    trail.style.top = e.clientY - size/2 + 'px';
-    document.body.appendChild(trail);
-
-    setTimeout(() => trail.remove(), 700);
-});
-
 // ===== KOREAN COLOR PALETTE SWITCHER =====
 const palettes = {
     default: {
