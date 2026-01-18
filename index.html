@@ -641,23 +641,22 @@
         const firstBio = document.querySelector('.bio.reveal');
         if (firstBio) revealObserver.observe(firstBio);
 
-        // Age calculation - Born July 24, 2003
-        const birthDate = new Date(2003, 6, 24); // Month is 0-indexed
+        // Live Age Counter - Born July 24, 2003 at 1:10 PM
+        const birthDate = new Date(2003, 6, 24, 13, 10, 0); // Month is 0-indexed
         const ageEl = document.getElementById('live-age');
         const ageElKo = document.getElementById('live-age-ko');
 
-        function calculateAge() {
+        function updateAge() {
             const now = new Date();
-            let age = now.getFullYear() - birthDate.getFullYear();
-            const monthDiff = now.getMonth() - birthDate.getMonth();
-            if (monthDiff < 0 || (monthDiff === 0 && now.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            if (ageEl) ageEl.textContent = age;
-            if (ageElKo) ageElKo.textContent = age;
+            const ageInMs = now - birthDate;
+            const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
+            const formatted = ageInYears.toFixed(9);
+            if (ageEl) ageEl.textContent = formatted;
+            if (ageElKo) ageElKo.textContent = formatted;
         }
 
-        calculateAge();
+        updateAge();
+        setInterval(updateAge, 50); // Update frequently for smooth ticking
     </script>
 </body>
 </html>
