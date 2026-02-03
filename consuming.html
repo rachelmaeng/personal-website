@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consuming - Rachel</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Main Tab Navigation */
+        .main-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 1rem;
+        }
+
+        .main-tab {
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--medium-gray);
+            cursor: pointer;
+            padding: 0.5rem 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .main-tab::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .main-tab.active {
+            color: var(--light-green);
+        }
+
+        .main-tab.active::after {
+            width: 100%;
+        }
+
+        .main-tab:hover {
+            color: var(--light-green);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Films Sub-tabs */
+        .sub-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .sub-tab {
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            color: var(--medium-gray);
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .sub-tab.active {
+            color: var(--accent);
+            background: rgba(212, 175, 106, 0.15);
+        }
+
+        .sub-tab:hover {
+            color: var(--light-green);
+        }
+
+        .sub-content {
+            display: none;
+        }
+
+        .sub-content.active {
+            display: block;
+        }
+
+        /* Carousel Styles */
+        .carousel-container {
+            perspective: 1000px;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .carousel {
+            position: relative;
+            width: 200px;
+            height: 300px;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .carousel-card {
+            position: absolute;
+            width: 200px;
+            height: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            backface-visibility: hidden;
+        }
+
+        .carousel-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Card positions */
+        .carousel-card[data-position="-2"] {
+            transform: translateX(-260px) scale(0.6) rotateY(35deg);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .carousel-card[data-position="-1"] {
+            transform: translateX(-150px) scale(0.8) rotateY(25deg);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .carousel-card[data-position="0"] {
+            transform: translateX(0) scale(1) rotateY(0deg);
+            opacity: 1;
+            z-index: 3;
+        }
+
+        .carousel-card[data-position="1"] {
+            transform: translateX(150px) scale(0.8) rotateY(-25deg);
+            opacity: 0.6;
+            z-index: 2;
+        }
+
+        .carousel-card[data-position="2"] {
+            transform: translateX(260px) scale(0.6) rotateY(-35deg);
+            opacity: 0.3;
+            z-index: 1;
+        }
+
+        .carousel-card[data-position="hidden"] {
+            transform: translateX(0) scale(0.4);
+            opacity: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .carousel-card.active {
+            box-shadow: 0 15px 40px rgba(212, 175, 106, 0.3);
+        }
+
+        /* Navigation arrows - hidden since hover-to-slide */
+        .carousel-nav {
+            display: none;
+        }
+
+        /* Hover hint text */
+        .hover-hint {
+            text-align: center;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.75rem;
+            color: var(--medium-gray);
+            opacity: 0.5;
+            letter-spacing: 0.1em;
+            margin-top: 0.5rem;
+        }
+
+        /* Carousel indicators */
+        .carousel-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .carousel-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--light-green);
+            opacity: 0.3;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .carousel-indicator.active {
+            opacity: 1;
+            background: var(--accent);
+        }
+
+        /* Current info */
+        .current-info {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .current-info h3 {
+            font-size: 1.2rem;
+            margin: 0 0 0.3rem 0;
+            color: var(--light-green);
+        }
+
+        .current-info p {
+            font-size: 0.95rem;
+            margin: 0;
+            color: var(--accent);
+        }
+
+        .current-info a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Music Vinyl Styles */
+        .music-carousel .carousel {
+            width: 200px;
+            height: 200px;
+        }
+
+        .music-carousel .carousel-card {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1a1a1a 0%, #0d0d0d 50%, #1a1a1a 100%);
+            overflow: hidden;
+        }
+
+        .music-carousel .carousel-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: repeating-radial-gradient(
+                circle at center,
+                transparent 0px,
+                transparent 2px,
+                rgba(255, 255, 255, 0.03) 2px,
+                rgba(255, 255, 255, 0.03) 3px
+            );
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .music-carousel .carousel-card::after {
+            display: none;
+        }
+
+        .vinyl-inner {
+            position: absolute;
+            top: 55px;
+            left: 55px;
+            width: 90px;
+            height: 90px;
+            z-index: 3;
+            transform-origin: center;
+        }
+
+        .music-carousel .carousel-card img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .vinyl-center {
+            position: absolute;
+            top: 39px;
+            left: 39px;
+            width: 12px;
+            height: 12px;
+            background: var(--dark-green);
+            border-radius: 50%;
+            z-index: 4;
+            pointer-events: none;
+        }
+
+        .music-carousel .carousel-card[data-position="-1"] {
+            transform: translateX(-130px) scale(0.8) rotateY(25deg);
+        }
+
+        .music-carousel .carousel-card[data-position="1"] {
+            transform: translateX(130px) scale(0.8) rotateY(-25deg);
+        }
+
+        .music-carousel .carousel-card[data-position="-2"] {
+            transform: translateX(-220px) scale(0.6) rotateY(35deg);
+        }
+
+        .music-carousel .carousel-card[data-position="2"] {
+            transform: translateX(220px) scale(0.6) rotateY(-35deg);
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .music-carousel .carousel-card[data-position="0"]:hover .vinyl-inner {
+            animation: spin 3s linear infinite;
+        }
+
+        /* Websites List */
+        .websites-list {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .website-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .website-item:last-child {
+            border-bottom: none;
+        }
+
+        .website-item a {
+            color: var(--light-green);
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .website-item a:hover {
+            color: var(--accent);
+        }
+
+        .website-item a::after {
+            content: '~';
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .website-item a:hover::after {
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .main-tabs {
+                gap: 1.5rem;
+            }
+
+            .carousel-card[data-position="-2"],
+            .carousel-card[data-position="2"] {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="constellation-canvas"></canvas>
+
+    <a href="index.html" class="back-home">
+        <span class="arrow">←</span>
+        <span class="text">Home</span>
+    </a>
+
+    <main class="content-page">
+        <div class="page-header">
+            <h1 class="page-title">CONSUMING</h1>
+        </div>
+
+        <div class="main-tabs">
+            <button class="main-tab active" onclick="switchMainTab('films')">films</button>
+            <button class="main-tab" onclick="switchMainTab('music')">music</button>
+            <button class="main-tab" onclick="switchMainTab('websites')">websites</button>
+            <button class="main-tab" onclick="switchMainTab('recipes')">recipes</button>
+        </div>
+
+        <!-- FILMS TAB -->
+        <div class="tab-content active" id="films-tab">
+            <div class="sub-tabs">
+                <button class="sub-tab active" onclick="switchFilmTab('favorites')">favorites</button>
+                <button class="sub-tab" onclick="switchFilmTab('recent')">recently watched</button>
+            </div>
+
+            <div class="sub-content active" id="favorites-content">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <button class="carousel-nav" onclick="moveFavCarousel(-1)">←</button>
+                        <div class="carousel" id="favCarousel">
+                            <div class="carousel-card" data-position="0" data-index="0" data-title="Inglourious Basterds" data-info="Quentin Tarantino, 2009" data-url="https://www.imdb.com/title/tt0361748/">
+                                <img src="https://image.tmdb.org/t/p/w500/7sfbEnaARXDDhKm0CZ7D7uc2sbo.jpg" alt="Inglourious Basterds">
+                            </div>
+                            <div class="carousel-card" data-position="1" data-index="1" data-title="The Boy and the Heron" data-info="Hayao Miyazaki, 2023" data-url="https://www.imdb.com/title/tt6587046/">
+                                <img src="https://image.tmdb.org/t/p/w500/f4oZTcfGrVTXKTWg157AwikXqmP.jpg" alt="The Boy and the Heron">
+                            </div>
+                            <div class="carousel-card" data-position="2" data-index="2" data-title="The Godfather" data-info="Francis Ford Coppola, 1972" data-url="https://www.imdb.com/title/tt0068646/">
+                                <img src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg" alt="The Godfather">
+                            </div>
+                            <div class="carousel-card" data-position="hidden" data-index="3" data-title="American Sniper" data-info="Clint Eastwood, 2014" data-url="https://www.imdb.com/title/tt2179136/">
+                                <img src="https://image.tmdb.org/t/p/w500/i1U46OwMc6vlm7OoSUKfqUH615e.jpg" alt="American Sniper">
+                            </div>
+                            <div class="carousel-card" data-position="hidden" data-index="4" data-title="Sunny" data-info="Kang Hyeong-cheol, 2011" data-url="https://www.imdb.com/title/tt1937339/">
+                                <img src="https://image.tmdb.org/t/p/w500/m21yedsv5rGNmvOU0X9ARvxC0XM.jpg" alt="Sunny">
+                            </div>
+                            <div class="carousel-card" data-position="hidden" data-index="5" data-title="Scarface" data-info="Brian De Palma, 1983" data-url="https://www.imdb.com/title/tt0086250/">
+                                <img src="https://image.tmdb.org/t/p/w500/iQ5ztdjvteGeboxtmRdXEChJOHh.jpg" alt="Scarface">
+                            </div>
+                        </div>
+                        <button class="carousel-nav" onclick="moveFavCarousel(1)">→</button>
+                    </div>
+                    <div class="carousel-indicators" id="favIndicators"></div>
+                    <p class="hover-hint">hover to browse</p>
+                    <div class="current-info" id="favInfo"></div>
+                </div>
+            </div>
+
+            <div class="sub-content" id="recent-content">
+                <div class="carousel-container">
+                    <div class="carousel-wrapper">
+                        <button class="carousel-nav" onclick="moveRecentCarousel(-1)">←</button>
+                        <div class="carousel" id="recentCarousel">
+                            <div class="carousel-card" data-position="0" data-index="0" data-title="Vice" data-info="Adam McKay, 2018" data-url="https://www.imdb.com/title/tt6266538/">
+                                <img src="https://image.tmdb.org/t/p/w500/1gCab6rNv1r6V64cwsU4oEr649Y.jpg" alt="Vice">
+                            </div>
+                            <div class="carousel-card" data-position="1" data-index="1" data-title="The Patriot" data-info="Roland Emmerich, 2000" data-url="https://www.imdb.com/title/tt0187393/">
+                                <img src="https://image.tmdb.org/t/p/w500/fWZd815QxUCUcrWQZwUkAp9ljG.jpg" alt="The Patriot">
+                            </div>
+                            <div class="carousel-card" data-position="2" data-index="2" data-title="Train Dreams" data-info="Clint Bentley, 2024" data-url="https://www.imdb.com/title/tt29768334/">
+                                <img src="https://image.tmdb.org/t/p/w500/wfzYOVdafdbD1d3SxNqiBtV2Yhx.jpg" alt="Train Dreams">
+                            </div>
+                            <div class="carousel-card" data-position="hidden" data-index="3" data-title="Oldboy" data-info="Park Chan-wook, 2003" data-url="https://www.imdb.com/title/tt0364569/">
+                                <img src="https://image.tmdb.org/t/p/w500/pWDtjs568ZfOTMbURQBYuT4Qxka.jpg" alt="Oldboy">
+                            </div>
+                            <div class="carousel-card" data-position="hidden" data-index="4" data-title="Letters from Iwo Jima" data-info="Clint Eastwood, 2006" data-url="https://www.imdb.com/title/tt0498380/">
+                                <img src="https://image.tmdb.org/t/p/w500/kZokxQtzMPURvijWYFuvh1fAvnv.jpg" alt="Letters from Iwo Jima">
+                            </div>
+                        </div>
+                        <button class="carousel-nav" onclick="moveRecentCarousel(1)">→</button>
+                    </div>
+                    <div class="carousel-indicators" id="recentIndicators"></div>
+                    <p class="hover-hint">hover to browse</p>
+                    <div class="current-info" id="recentInfo"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MUSIC TAB -->
+        <div class="tab-content" id="music-tab">
+            <div class="carousel-container music-carousel">
+                <div class="carousel-wrapper">
+                    <button class="carousel-nav" onclick="moveMusicCarousel(-1)">←</button>
+                    <div class="carousel" id="musicCarousel">
+                        <div class="carousel-card" data-position="0" data-index="0" data-title="Knockin' on Heaven's Door" data-info="Guns N' Roses" data-url="https://open.spotify.com/track/4JiEyzf0Md7KEFFGWDDdCr">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e0292d21aef6c0d288cc4c05973" alt="Knockin' on Heaven's Door">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="1" data-index="1" data-title="Uptown Girl" data-info="Billy Joel" data-url="https://open.spotify.com/track/5zA8vzDGqPl2AzZkEYQGKh">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e0229c68eb2726f08eca5ba8613" alt="Uptown Girl">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="2" data-index="2" data-title="Sleepyhead" data-info="Passion Pit" data-url="https://open.spotify.com/track/4prEPl61C8qZpeo3IkYSMl">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e023437e8bbed340ca556c42c04" alt="Sleepyhead">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="hidden" data-index="3" data-title="Under Pressure" data-info="Queen & David Bowie" data-url="https://open.spotify.com/track/2fuCquhmrzHpu5xcA1ci9x">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e02a1e05e1048e2cf2737adf742" alt="Under Pressure">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="hidden" data-index="4" data-title="Southern Nights" data-info="Glen Campbell" data-url="https://open.spotify.com/track/7kv7zBjMtVf0eIJle2VZxn">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e02461762c15f05e141fe6f3097" alt="Southern Nights">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="hidden" data-index="5" data-title="Layla" data-info="Derek & The Dominos" data-url="https://open.spotify.com/track/2kkvB3RNRzwjFdGhaUA0tz">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e02fbcaf7402f38faac27610efc" alt="Layla">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="hidden" data-index="6" data-title="November Rain" data-info="Guns N' Roses" data-url="https://open.spotify.com/track/3YRCqOhFifThpSRFJ1VWFM">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e02e44963b8bb127552ac761873" alt="November Rain">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                        <div class="carousel-card" data-position="hidden" data-index="7" data-title="Pas de Deux" data-info="Pyotr Ilyich Tchaikovsky" data-url="https://open.spotify.com/track/2oF4mu55DPVyKqV5KGvB8s">
+                            <div class="vinyl-inner">
+                                <img src="https://i.scdn.co/image/ab67616d00001e02388d94cc6a144675cf482e1b" alt="Pas de Deux">
+                                <span class="vinyl-center"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="carousel-nav" onclick="moveMusicCarousel(1)">→</button>
+                </div>
+                <div class="carousel-indicators" id="musicIndicators"></div>
+                <p class="hover-hint">hover to browse</p>
+                <div class="current-info" id="musicInfo"></div>
+            </div>
+        </div>
+
+        <!-- WEBSITES TAB -->
+        <div class="tab-content" id="websites-tab">
+            <div class="websites-list">
+                <div class="website-item"><a href="https://www.sbnation.com/a/17776-football" target="_blank">17776: What football will look like in the future</a></div>
+                <div class="website-item"><a href="https://spielberg-ocr.com/index.html" target="_blank">Spielberg OCR: Catch Me If You Can</a></div>
+                <div class="website-item"><a href="https://www.lesswrong.com/posts/2uJsiQqHTjePTRqi4/superbabies-putting-the-pieces-together" target="_blank">Superbabies: Putting the pieces together</a></div>
+                <div class="website-item"><a href="https://meaningness.com/" target="_blank">Meaningness</a></div>
+                <div class="website-item"><a href="https://en.wikipedia.org/wiki/Wikipedia:Getting_to_Philosophy" target="_blank">Getting to Philosophy</a></div>
+                <div class="website-item"><a href="https://brutalistwebsites.com/" target="_blank">Brutalist Websites</a></div>
+                <div class="website-item"><a href="https://www.cameronsworld.net/" target="_blank">Cameron's World</a></div>
+                <div class="website-item"><a href="https://www.windows93.net/" target="_blank">Windows93</a></div>
+                <div class="website-item"><a href="https://www.typewolf.com/" target="_blank">Typewolf</a></div>
+                <div class="website-item"><a href="https://press.stripe.com/" target="_blank">Stripe Press</a></div>
+            </div>
+        </div>
+
+        <!-- RECIPES TAB -->
+        <div class="tab-content" id="recipes-tab">
+            <div class="websites-list">
+                <div class="website-item"><a href="https://www.justonecookbook.com/gyudon/" target="_blank">Gyudon (Japanese Beef Bowl)</a></div>
+                <div class="website-item"><a href="https://www.koreanbapsang.com/la-galbi-korean-bbq-short-ribs/" target="_blank">LA Galbi (Korean Short Ribs)</a></div>
+                <div class="website-item"><a href="https://www.themediterraneandish.com/chicken-shawarma-recipe/" target="_blank">Chicken Shawarma</a></div>
+                <div class="website-item"><a href="https://www.allrecipes.com/recipe/20144/banana-banana-bread/" target="_blank">Banana Loaf Cake</a></div>
+                <div class="website-item"><a href="https://sugarspunrun.com/cream-puffs/" target="_blank">Homemade Cream Puffs</a></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <p>Austin, Texas</p>
+            <p>© 2025</p>
+        </div>
+    </footer>
+
+    <script src="effects.js"></script>
+    <script>
+        // Main tab switching
+        function switchMainTab(tab) {
+            document.querySelectorAll('.main-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            document.querySelector(`.main-tab[onclick*="${tab}"]`).classList.add('active');
+            document.getElementById(`${tab}-tab`).classList.add('active');
+        }
+
+        // Film sub-tab switching
+        function switchFilmTab(tab) {
+            document.querySelectorAll('.sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.sub-content').forEach(c => c.classList.remove('active'));
+
+            document.querySelector(`.sub-tab[onclick*="${tab}"]`).classList.add('active');
+            document.getElementById(`${tab}-content`).classList.add('active');
+        }
+
+        // Generic carousel functions
+        function createCarousel(carouselId, indicatorsId, infoId) {
+            const cards = document.querySelectorAll(`#${carouselId} .carousel-card`);
+            const indicatorsDiv = document.getElementById(indicatorsId);
+            let currentIndex = 0;
+
+            // Create indicators
+            indicatorsDiv.innerHTML = '';
+            cards.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'carousel-indicator' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goTo(i);
+                indicatorsDiv.appendChild(dot);
+            });
+
+            function update() {
+                cards.forEach((card, index) => {
+                    let position = index - currentIndex;
+                    if (position < -2) position = 'hidden';
+                    else if (position > 2) position = 'hidden';
+                    card.dataset.position = position;
+                    card.classList.toggle('active', position === 0);
+                });
+
+                indicatorsDiv.querySelectorAll('.carousel-indicator').forEach((ind, i) => {
+                    ind.classList.toggle('active', i === currentIndex);
+                });
+
+                const activeCard = cards[currentIndex];
+                const infoDiv = document.getElementById(infoId);
+                infoDiv.innerHTML = `<a href="${activeCard.dataset.url}" target="_blank"><h3>${activeCard.dataset.title}</h3><p>${activeCard.dataset.info}</p></a>`;
+            }
+
+            function move(dir) {
+                currentIndex = (currentIndex + dir + cards.length) % cards.length;
+                update();
+            }
+
+            function goTo(index) {
+                currentIndex = index;
+                update();
+            }
+
+            // Click and hover handlers
+            let hoverTimeout = null;
+
+            cards.forEach((card, index) => {
+                card.onclick = () => {
+                    if (parseInt(card.dataset.position) === 0) {
+                        window.open(card.dataset.url, '_blank');
+                    } else {
+                        goTo(index);
+                    }
+                };
+
+                // Hover to slide with delay
+                card.addEventListener('mouseenter', () => {
+                    if (parseInt(card.dataset.position) !== 0) {
+                        clearTimeout(hoverTimeout);
+                        hoverTimeout = setTimeout(() => {
+                            goTo(index);
+                        }, 400);
+                    }
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    clearTimeout(hoverTimeout);
+                });
+            });
+
+            update();
+            return { move, goTo };
+        }
+
+        // Initialize carousels
+        const favCarousel = createCarousel('favCarousel', 'favIndicators', 'favInfo');
+        const recentCarousel = createCarousel('recentCarousel', 'recentIndicators', 'recentInfo');
+        const musicCarousel = createCarousel('musicCarousel', 'musicIndicators', 'musicInfo');
+
+        function moveFavCarousel(dir) { favCarousel.move(dir); }
+        function moveRecentCarousel(dir) { recentCarousel.move(dir); }
+        function moveMusicCarousel(dir) { musicCarousel.move(dir); }
+
+        // Auto-play audio previews on hover (iTunes 30-second clips)
+        const audioPlayer = new Audio();
+        audioPlayer.volume = 0.5;
+
+        const previewUrls = {
+            '4JiEyzf0Md7KEFFGWDDdCr': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a2/2e/cb/a22ecb76-7524-b16b-78c2-ce87dbed80a7/mzaf_6077337810180564926.plus.aac.p.m4a',
+            '5zA8vzDGqPl2AzZkEYQGKh': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/47/ed/6a/47ed6a89-63aa-12c0-7b13-8c2c086f3f47/mzaf_13314293207054965636.plus.aac.p.m4a',
+            '4prEPl61C8qZpeo3IkYSMl': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/33/cd/05/33cd05ab-afcb-597c-df0a-940d4e0df85a/mzaf_14407020666078378320.plus.aac.p.m4a',
+            '2fuCquhmrzHpu5xcA1ci9x': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/88/ed/d2/88edd28f-7aa9-fc46-4ddb-0c4e9a5fd7b2/mzaf_7010235254143732396.plus.aac.p.m4a',
+            '7kv7zBjMtVf0eIJle2VZxn': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/af/eb/3c/afeb3c7e-740a-3d42-3655-0694288d8adb/mzaf_17445450633999791994.plus.aac.p.m4a',
+            '2kkvB3RNRzwjFdGhaUA0tz': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/94/e8/01/94e80130-1c56-d474-d742-d5925eb76725/mzaf_4915490710680006786.plus.aac.p.m4a',
+            '3YRCqOhFifThpSRFJ1VWFM': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/3c/eb/6b/3ceb6b17-b62b-9cb9-ee69-6c161aea7506/mzaf_11294109330794350435.plus.aac.p.m4a',
+            '2oF4mu55DPVyKqV5KGvB8s': 'https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/df/83/ed/df83edb4-dc60-dc0a-a28a-ae23b9797a3d/mzaf_4222497495444858046.plus.aac.p.m4a'
+        };
+
+        document.querySelectorAll('#musicCarousel .carousel-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                if (card.dataset.position === '0') {
+                    const trackUrl = card.dataset.url;
+                    const trackId = trackUrl ? trackUrl.split('/').pop() : null;
+                    if (trackId && previewUrls[trackId]) {
+                        audioPlayer.src = previewUrls[trackId];
+                        audioPlayer.play().catch(() => {});
+                    }
+                }
+            });
+
+            card.addEventListener('mouseleave', () => {
+                audioPlayer.pause();
+                audioPlayer.currentTime = 0;
+            });
+        });
+    </script>
+</body>
+</html>

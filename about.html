@@ -9,8 +9,31 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <style>
+        .copy-email:hover {
+            opacity: 0.7;
+        }
+        .copy-feedback {
+            position: fixed;
+            background-color: rgba(76, 175, 80, 0.9);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 100;
+            transform: translate(-50%, -100%);
+            margin-top: -10px;
+        }
+        .copy-feedback.show {
+            opacity: 1;
+        }
+    </style>
 </head>
 <body>
+    <div class="copy-feedback" id="copyFeedback">Email copied!</div>
     <canvas id="constellation-canvas"></canvas>
 
     <!-- Back to Home -->
@@ -27,7 +50,7 @@
         <section class="content-section">
             <div style="max-width: 650px;">
                 <p class="drop-cap" style="color: var(--medium-gray);">
-                    I'm Rachel, based in Austin. I recently graduated from UT Austin with a degree in history.
+                    Hi my name is Rachel H Maeng (yes my middle name is h haha), <span id="live-age" style="font-family: 'SF Mono', 'Fira Code', monospace; color: var(--accent);"></span> years old, based in Austin. I recently graduated from UT Austin with a degree in history.
                 </p>
 
                 <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
@@ -51,7 +74,7 @@
                 </p>
 
                 <p style="font-size: 1rem; line-height: 1.6; color: var(--medium-gray);">
-                    rachelmaeng03@gmail.com
+                    <span class="copy-email" onclick="copyEmail(event)" style="color: var(--accent); cursor: pointer; transition: opacity 0.3s ease;">Contact me <span style="text-decoration: underline;">here</span>!</span>
                 </p>
             </div>
         </section>
@@ -65,5 +88,34 @@
     </footer>
 
     <script src="effects.js"></script>
+    <script>
+        // Live Age Counter - Born July 24, 2003 at 1:10 PM
+        const birthDate = new Date(2003, 6, 24, 13, 10, 0);
+        const ageEl = document.getElementById('live-age');
+
+        function updateAge() {
+            const now = new Date();
+            const ageInMs = now - birthDate;
+            const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
+            const formatted = ageInYears.toFixed(9);
+            if (ageEl) ageEl.textContent = formatted;
+        }
+
+        updateAge();
+        setInterval(updateAge, 50);
+
+        function copyEmail(event) {
+            const email = 'rachelmaeng03@gmail.com';
+            navigator.clipboard.writeText(email).then(() => {
+                const feedback = document.getElementById('copyFeedback');
+                feedback.style.left = event.clientX + 'px';
+                feedback.style.top = event.clientY + 'px';
+                feedback.classList.add('show');
+                setTimeout(() => {
+                    feedback.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
 </body>
 </html>
