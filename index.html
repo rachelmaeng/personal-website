@@ -16,12 +16,11 @@
         }
 
         .split-layout {
-            min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 4rem 2rem;
-            gap: 6rem;
+            padding: 3rem 2rem 1rem;
+            gap: 5rem;
             max-width: 1100px;
             margin: 0 auto;
         }
@@ -33,7 +32,7 @@
         }
 
         .name-section {
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
         }
 
         .main-name {
@@ -59,7 +58,7 @@
             font-size: 1.1rem;
             line-height: 1.7;
             color: var(--medium-gray);
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             font-weight: 300;
         }
 
@@ -90,7 +89,7 @@
         .simple-nav {
             display: flex;
             gap: 2rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
         }
 
         .simple-nav a {
@@ -144,59 +143,41 @@
             flex-shrink: 0;
         }
 
-        /* Wavy Scalloped Frame */
-        .wavy-frame {
+        /* Squiggly Frame */
+        .squiggly-frame {
             position: relative;
             display: inline-block;
             transform: rotate(2deg);
             transition: transform 0.4s ease;
-            padding: 14px;
-            background: linear-gradient(145deg, #8B6914, #A67C2E, #C49A3C, #A67C2E, #8B6914);
-            border-radius: 18px;
-            box-shadow:
-                0 10px 35px rgba(0, 0, 0, 0.4),
-                inset 0 1px 3px rgba(255, 220, 130, 0.4),
-                inset 0 -1px 3px rgba(80, 50, 10, 0.4);
         }
 
-        .wavy-frame:hover {
+        .squiggly-frame:hover {
             transform: rotate(0deg) scale(1.02);
         }
 
-        /* Wavy SVG border using clip-path */
-        .wavy-frame-border {
+        .squiggly-frame-bg {
             position: absolute;
-            inset: 0;
-            border-radius: 18px;
-            overflow: hidden;
-            pointer-events: none;
+            inset: -12px;
+            z-index: 0;
         }
 
-        .wavy-frame-border::before {
-            content: '';
-            position: absolute;
-            inset: 3px;
-            border: 2.5px solid rgba(212, 175, 106, 0.6);
-            border-radius: 14px;
-            box-shadow:
-                inset 0 0 8px rgba(139, 105, 20, 0.3),
-                0 0 4px rgba(212, 175, 106, 0.2);
+        .squiggly-frame-bg svg {
+            width: 100%;
+            height: 100%;
         }
 
-        .wavy-frame-inner {
+        .squiggly-frame-inner {
             position: relative;
-            border-radius: 12px;
+            z-index: 1;
+            border-radius: 6px;
             overflow: hidden;
-            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.2);
         }
 
-        .wavy-frame img {
-            width: 240px;
-            height: 320px;
+        .squiggly-frame img {
+            width: 220px;
+            height: 300px;
             object-fit: cover;
             display: block;
-            border-radius: 10px;
-            filter: saturate(1.05) contrast(1.02);
         }
 
         /* Copy Feedback */
@@ -246,9 +227,9 @@
                 justify-content: center;
             }
 
-            .wavy-frame img {
-                width: 220px;
-                height: 290px;
+            .squiggly-frame img {
+                width: 200px;
+                height: 270px;
             }
         }
     </style>
@@ -318,18 +299,33 @@
             </div>
         </div>
 
-        <!-- Right Content - Wavy Frame -->
+        <!-- Right Content - Squiggly Frame -->
         <div class="right-content">
-            <div class="wavy-frame">
-                <div class="wavy-frame-border"></div>
-                <div class="wavy-frame-inner">
+            <div class="squiggly-frame">
+                <div class="squiggly-frame-bg">
+                    <svg viewBox="0 0 244 324" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Squiggly border path -->
+                        <path d="M8 12 Q12 2, 24 4 Q36 0, 48 5 Q60 1, 72 4 Q84 0, 96 3 Q108 0, 120 4 Q132 1, 144 3 Q156 0, 168 4 Q180 1, 192 3 Q204 0, 216 4 Q228 1, 236 8
+                               Q242 20, 238 32 Q244 44, 240 56 Q244 68, 240 80 Q244 92, 240 104 Q244 116, 240 128 Q244 140, 240 152 Q244 164, 240 176 Q244 188, 240 200 Q244 212, 240 224 Q244 236, 240 248 Q244 260, 240 272 Q244 284, 240 296 Q242 308, 236 316
+                               Q228 322, 216 320 Q204 324, 192 319 Q180 323, 168 320 Q156 324, 144 321 Q132 324, 120 320 Q108 323, 96 321 Q84 324, 72 320 Q60 323, 48 319 Q36 324, 24 320 Q12 322, 8 316
+                               Q2 308, 4 296 Q0 284, 4 272 Q0 260, 4 248 Q0 236, 4 224 Q0 212, 4 200 Q0 188, 4 176 Q0 164, 4 152 Q0 140, 4 128 Q0 116, 4 104 Q0 92, 4 80 Q0 68, 4 56 Q0 44, 4 32 Q0 20, 8 12 Z"
+                              stroke="var(--accent)" stroke-width="2.5" fill="none" opacity="0.8"/>
+                        <!-- Second slightly offset squiggly line for hand-drawn feel -->
+                        <path d="M10 14 Q14 5, 26 6 Q38 2, 50 7 Q62 3, 74 6 Q86 2, 98 5 Q110 2, 122 6 Q134 3, 146 5 Q158 2, 170 6 Q182 3, 194 5 Q206 2, 218 6 Q228 3, 234 10
+                               Q240 22, 236 34 Q242 46, 238 58 Q242 70, 238 82 Q242 94, 238 106 Q242 118, 238 130 Q242 142, 238 154 Q242 166, 238 178 Q242 190, 238 202 Q242 214, 238 226 Q242 238, 238 250 Q242 262, 238 274 Q242 286, 238 298 Q240 306, 234 314
+                               Q226 320, 214 318 Q202 322, 190 317 Q178 321, 166 318 Q154 322, 142 319 Q130 322, 118 318 Q106 321, 94 319 Q82 322, 70 318 Q58 321, 46 317 Q34 322, 22 318 Q14 320, 10 314
+                               Q4 306, 6 298 Q2 286, 6 274 Q2 262, 6 250 Q2 238, 6 226 Q2 214, 6 202 Q2 190, 6 178 Q2 166, 6 154 Q2 142, 6 130 Q2 118, 6 106 Q2 94, 6 82 Q2 70, 6 58 Q2 46, 6 34 Q2 22, 10 14 Z"
+                              stroke="var(--accent)" stroke-width="1.5" fill="none" opacity="0.4"/>
+                    </svg>
+                </div>
+                <div class="squiggly-frame-inner">
                     <img src="graduation.jpg" alt="Rachel Maeng graduation photo">
                 </div>
             </div>
         </div>
     </div>
 
-    <footer style="text-align: center; padding: 2rem 0 1.5rem; font-size: 0.8rem; color: var(--medium-gray); opacity: 0.7;">
+    <footer style="text-align: center; padding: 1rem 0 1rem; font-size: 0.8rem; color: var(--medium-gray); opacity: 0.7;">
         made with ♥ by RHM
         <p style="font-size: 0.7rem; margin-top: 0.4rem; font-style: italic;">last updated: 02/03/26</p>
     </footer>
