@@ -13,6 +13,9 @@
         body {
             overflow-x: hidden;
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         .split-layout {
@@ -146,6 +149,8 @@
         /* Squiggly Frame */
         .squiggly-frame {
             position: relative;
+            width: 280px;
+            height: 360px;
             display: inline-block;
             transform: rotate(2deg);
             transition: transform 0.4s ease;
@@ -155,29 +160,26 @@
             transform: rotate(0deg) scale(1.02);
         }
 
-        .squiggly-frame-bg {
-            position: absolute;
-            inset: -12px;
-            z-index: 0;
-        }
-
-        .squiggly-frame-bg svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .squiggly-frame-inner {
-            position: relative;
-            z-index: 1;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-
         .squiggly-frame img {
+            position: absolute;
+            top: 30px;
+            left: 30px;
             width: 220px;
             height: 300px;
             object-fit: cover;
             display: block;
+            border-radius: 2px;
+        }
+
+        .frame-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            overflow: visible;
         }
 
         /* Copy Feedback */
@@ -227,9 +229,16 @@
                 justify-content: center;
             }
 
+            .squiggly-frame {
+                width: 240px;
+                height: 310px;
+            }
+
             .squiggly-frame img {
-                width: 200px;
-                height: 270px;
+                top: 25px;
+                left: 25px;
+                width: 190px;
+                height: 260px;
             }
         }
     </style>
@@ -302,30 +311,40 @@
         <!-- Right Content - Squiggly Frame -->
         <div class="right-content">
             <div class="squiggly-frame">
-                <div class="squiggly-frame-bg">
-                    <svg viewBox="0 0 244 324" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Squiggly border path -->
-                        <path d="M8 12 Q12 2, 24 4 Q36 0, 48 5 Q60 1, 72 4 Q84 0, 96 3 Q108 0, 120 4 Q132 1, 144 3 Q156 0, 168 4 Q180 1, 192 3 Q204 0, 216 4 Q228 1, 236 8
-                               Q242 20, 238 32 Q244 44, 240 56 Q244 68, 240 80 Q244 92, 240 104 Q244 116, 240 128 Q244 140, 240 152 Q244 164, 240 176 Q244 188, 240 200 Q244 212, 240 224 Q244 236, 240 248 Q244 260, 240 272 Q244 284, 240 296 Q242 308, 236 316
-                               Q228 322, 216 320 Q204 324, 192 319 Q180 323, 168 320 Q156 324, 144 321 Q132 324, 120 320 Q108 323, 96 321 Q84 324, 72 320 Q60 323, 48 319 Q36 324, 24 320 Q12 322, 8 316
-                               Q2 308, 4 296 Q0 284, 4 272 Q0 260, 4 248 Q0 236, 4 224 Q0 212, 4 200 Q0 188, 4 176 Q0 164, 4 152 Q0 140, 4 128 Q0 116, 4 104 Q0 92, 4 80 Q0 68, 4 56 Q0 44, 4 32 Q0 20, 8 12 Z"
-                              stroke="var(--accent)" stroke-width="2.5" fill="none" opacity="0.8"/>
-                        <!-- Second slightly offset squiggly line for hand-drawn feel -->
-                        <path d="M10 14 Q14 5, 26 6 Q38 2, 50 7 Q62 3, 74 6 Q86 2, 98 5 Q110 2, 122 6 Q134 3, 146 5 Q158 2, 170 6 Q182 3, 194 5 Q206 2, 218 6 Q228 3, 234 10
-                               Q240 22, 236 34 Q242 46, 238 58 Q242 70, 238 82 Q242 94, 238 106 Q242 118, 238 130 Q242 142, 238 154 Q242 166, 238 178 Q242 190, 238 202 Q242 214, 238 226 Q242 238, 238 250 Q242 262, 238 274 Q242 286, 238 298 Q240 306, 234 314
-                               Q226 320, 214 318 Q202 322, 190 317 Q178 321, 166 318 Q154 322, 142 319 Q130 322, 118 318 Q106 321, 94 319 Q82 322, 70 318 Q58 321, 46 317 Q34 322, 22 318 Q14 320, 10 314
-                               Q4 306, 6 298 Q2 286, 6 274 Q2 262, 6 250 Q2 238, 6 226 Q2 214, 6 202 Q2 190, 6 178 Q2 166, 6 154 Q2 142, 6 130 Q2 118, 6 106 Q2 94, 6 82 Q2 70, 6 58 Q2 46, 6 34 Q2 22, 10 14 Z"
-                              stroke="var(--accent)" stroke-width="1.5" fill="none" opacity="0.4"/>
-                    </svg>
-                </div>
-                <div class="squiggly-frame-inner">
-                    <img src="graduation.jpg" alt="Rachel Maeng graduation photo">
-                </div>
+                <img src="graduation.jpg" alt="Rachel Maeng graduation photo">
+                <svg class="frame-svg" viewBox="0 0 280 360" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" fill="var(--accent)" d="
+                        M 10,18
+                        Q 50,-8 90,18  Q 130,44 170,18  Q 210,-8 250,18
+                        Q 272,8 268,32
+                        Q 294,70 268,110  Q 242,150 268,190
+                        Q 294,230 268,270  Q 242,310 268,340
+                        Q 274,358 256,350
+                        Q 216,376 176,350  Q 136,324 96,350  Q 56,376 18,350
+                        Q 4,356 10,338
+                        Q -16,298 10,258  Q 36,218 10,178
+                        Q -16,138 10,98  Q 36,58 10,30
+                        Q 2,14 10,18
+                        Z
+                        M 48,48
+                        Q 82,34 118,48  Q 152,62 186,48  Q 220,34 240,50
+                        Q 250,62 244,78
+                        Q 258,112 244,148  Q 230,182 244,218
+                        Q 258,252 244,288  Q 234,308 240,316
+                        Q 244,326 232,322
+                        Q 198,338 164,322  Q 130,306 96,322  Q 62,338 42,322
+                        Q 32,318 36,304
+                        Q 22,270 36,236  Q 50,202 36,168
+                        Q 22,134 36,100  Q 48,68 40,54
+                        Q 38,44 48,48
+                        Z
+                    "/>
+                </svg>
             </div>
         </div>
     </div>
 
-    <footer style="text-align: center; padding: 1rem 0 1rem; font-size: 0.8rem; color: var(--medium-gray); opacity: 0.7;">
+    <footer style="text-align: center; padding: 1rem 0 1rem; font-size: 0.8rem; color: var(--medium-gray); opacity: 0.7; margin-top: auto;">
         made with ♥ by RHM
         <p style="font-size: 0.7rem; margin-top: 0.4rem; font-style: italic;">last updated: 02/03/26</p>
     </footer>
