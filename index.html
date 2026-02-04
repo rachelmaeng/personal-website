@@ -262,6 +262,109 @@
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.3);
         }
 
+        /* Polaroid developing effect */
+        .photo-develop-wrapper {
+            position: relative;
+            display: block;
+            width: 240px;
+            height: 320px;
+        }
+
+        .photo-develop-wrapper img {
+            animation: polaroidReveal 4s ease-out forwards;
+        }
+
+        /* Developing overlay that fades away */
+        .photo-develop-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 5;
+            pointer-events: none;
+            animation: developFade 4s ease-out forwards;
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(245, 237, 216, 1) 0%,
+                    rgba(245, 237, 216, 0.98) 20%,
+                    rgba(230, 215, 180, 0.95) 40%,
+                    rgba(245, 237, 216, 0.97) 60%,
+                    rgba(245, 237, 216, 1) 100%
+                );
+        }
+
+        /* Chemical wash streaks */
+        .photo-develop-overlay::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(95deg,
+                    transparent 0%,
+                    rgba(200, 180, 140, 0.3) 20%,
+                    transparent 40%,
+                    rgba(210, 190, 150, 0.2) 60%,
+                    transparent 80%
+                );
+            animation: chemicalWash 3.5s ease-in-out forwards;
+            opacity: 0;
+        }
+
+        /* Warm tint that fades as photo develops */
+        .photo-develop-overlay::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(180, 140, 60, 0.15) 0%,
+                rgba(160, 120, 50, 0.1) 50%,
+                rgba(180, 140, 60, 0.15) 100%
+            );
+            animation: tintFade 5s ease-out forwards;
+        }
+
+        @keyframes polaroidReveal {
+            0% {
+                filter: brightness(1.8) contrast(0.3) saturate(0) sepia(0.3);
+            }
+            25% {
+                filter: brightness(1.4) contrast(0.5) saturate(0.2) sepia(0.4);
+            }
+            50% {
+                filter: brightness(1.15) contrast(0.75) saturate(0.5) sepia(0.3);
+            }
+            75% {
+                filter: brightness(1.05) contrast(0.9) saturate(0.8) sepia(0.1);
+            }
+            100% {
+                filter: brightness(1) contrast(1) saturate(1.05) sepia(0);
+            }
+        }
+
+        @keyframes developFade {
+            0% { opacity: 1; }
+            15% { opacity: 0.95; }
+            30% { opacity: 0.7; }
+            50% { opacity: 0.4; }
+            70% { opacity: 0.15; }
+            85% { opacity: 0.05; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes chemicalWash {
+            0% { opacity: 0; transform: translateY(0); }
+            20% { opacity: 0.6; transform: translateY(-5%); }
+            50% { opacity: 0.4; transform: translateY(-15%); }
+            80% { opacity: 0.1; transform: translateY(-30%); }
+            100% { opacity: 0; transform: translateY(-40%); }
+        }
+
+        @keyframes tintFade {
+            0% { opacity: 1; }
+            60% { opacity: 0.4; }
+            100% { opacity: 0; }
+        }
+
         /* Copy Feedback */
         .copy-feedback {
             position: fixed;
@@ -393,7 +496,10 @@
                     <div class="frame-edge-ornament bottom"></div>
                     <div class="frame-edge-ornament left-edge"></div>
                     <div class="frame-edge-ornament right-edge"></div>
-                    <img src="graduation.jpg" alt="Rachel Maeng graduation photo">
+                    <div class="photo-develop-wrapper">
+                        <div class="photo-develop-overlay"></div>
+                        <img src="graduation.jpg" alt="Rachel Maeng graduation photo">
+                    </div>
                 </div>
             </div>
         </div>
