@@ -25,7 +25,13 @@
             <p class="page-description">curious things</p>
         </div>
 
-        <section class="content-section">
+        <!-- Tabs -->
+        <div class="writing-tabs">
+            <button class="writing-tab active" onclick="switchTab('personal')">personal</button>
+            <button class="writing-tab" onclick="switchTab('work')">work</button>
+        </div>
+
+        <section class="content-section" id="tab-personal">
             <ul class="simple-list">
                 <li class="list-item">
                     <a href="https://rachelmaeng.substack.com/p/what-english-cant-say" target="_blank" class="list-item-link">
@@ -47,6 +53,71 @@
                 </li>
             </ul>
         </section>
+
+        <section class="content-section" id="tab-work" style="display:none">
+            <ul class="simple-list">
+                <li class="list-item">
+                    <a href="https://podqi.com/blog/madhappy-protecting-the-brand-behind-the-movement" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Madhappy: Protecting the Brand Behind the Movement</h3>
+                        <p class="list-item-subtitle">Podqi</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://podqi.com/blog/how-jones-road-beauty-reclaimed-google-s-front-page-with-podqi" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">How Jones Road Beauty Reclaimed Google's Front Page</h3>
+                        <p class="list-item-subtitle">Podqi</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://podqi.com/blog/milano-cortina-counterfeiting" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">Milano Cortina & the Counterfeit Problem</h3>
+                        <p class="list-item-subtitle">Podqi</p>
+                    </a>
+                </li>
+                <li class="list-item">
+                    <a href="https://podqi.com/blog/how-counterfeiters-hijack-the-world-s-biggest-festival" target="_blank" class="list-item-link">
+                        <h3 class="list-item-title">How Counterfeiters Hijack the World's Biggest Festival</h3>
+                        <p class="list-item-subtitle">Podqi</p>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <style>
+            .writing-tabs {
+                display: flex;
+                gap: 1.5rem;
+                margin-bottom: 2.5rem;
+            }
+            .writing-tab {
+                background: none;
+                border: none;
+                font-family: 'Crimson Text', serif;
+                font-size: 1rem;
+                color: var(--medium-gray);
+                cursor: pointer;
+                padding: 0;
+                padding-bottom: 0.3rem;
+                border-bottom: 1px solid transparent;
+                transition: all 0.3s ease;
+                letter-spacing: 0.05em;
+            }
+            .writing-tab:hover { color: var(--light-green); }
+            .writing-tab.active {
+                color: var(--light-green);
+                border-bottom-color: var(--accent);
+            }
+        </style>
+
+        <script>
+            function switchTab(tab) {
+                document.getElementById('tab-personal').style.display = tab === 'personal' ? '' : 'none';
+                document.getElementById('tab-work').style.display = tab === 'work' ? '' : 'none';
+                document.querySelectorAll('.writing-tab').forEach((el, i) => {
+                    el.classList.toggle('active', (i === 0 && tab === 'personal') || (i === 1 && tab === 'work'));
+                });
+            }
+        </script>
     </main>
 
     <footer class="site-footer">
