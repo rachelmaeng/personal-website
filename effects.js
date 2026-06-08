@@ -120,40 +120,46 @@ animate();
 // ===== KOREAN COLOR PALETTE SWITCHER =====
 const palettes = {
     default: {
-        '--dark-green': '#001e00',
-        '--light-green': '#F5EDD8',
-        '--accent': '#D4AF6A',
-        '--medium-gray': '#B8A888'
+        '--dark-green': '#EDE0C0',
+        '--light-green': '#1A0E06',
+        '--accent': '#C8922A',
+        '--medium-gray': '#6B5540',
+        '--highlight': '#2D5A27'
+    },
+    green: { // forest
+        '--dark-green': '#0F2B0F',
+        '--light-green': '#F0EDD8',
+        '--accent': '#D4C27A',
+        '--medium-gray': '#9BB89B',
+        '--highlight': '#D4C27A'
     },
     blue: { // 청 - East, spring
         '--dark-green': '#0a1628',
         '--light-green': '#E8F1F5',
         '--accent': '#6B9BD8',
-        '--medium-gray': '#90B8C8'
+        '--medium-gray': '#90B8C8',
+        '--highlight': '#6B9BD8'
     },
     red: { // 적 - South, summer
         '--dark-green': '#530000',
         '--light-green': '#F9E5D8',
         '--accent': '#D4535A',
-        '--medium-gray': '#C89B88'
+        '--medium-gray': '#C89B88',
+        '--highlight': '#D4535A'
     },
     yellow: { // 황 - Center, earth
-        '--dark-green': '#8B6508',
-        '--light-green': '#FFF8E7',
-        '--accent': '#FFD700',
-        '--medium-gray': '#D4B886'
-    },
-    white: { // 백 - West, autumn (grey)
-        '--dark-green': '#5A5A5A',
-        '--light-green': '#F5F5F5',
-        '--accent': '#CCCCCC',
-        '--medium-gray': '#999999'
+        '--dark-green': '#FFF5B8',
+        '--light-green': '#3B2800',
+        '--accent': '#D4920A',
+        '--medium-gray': '#8B6E30',
+        '--highlight': '#6B4400'
     },
     black: { // 흑 - North, winter
         '--dark-green': '#0A0A0A',
         '--light-green': '#D4D4D4',
         '--accent': '#AAAAAA',
-        '--medium-gray': '#888888'
+        '--medium-gray': '#888888',
+        '--highlight': '#AAAAAA'
     }
 };
 

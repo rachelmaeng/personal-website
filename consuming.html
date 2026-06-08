@@ -187,9 +187,28 @@
             box-shadow: 0 15px 40px rgba(212, 175, 106, 0.3);
         }
 
-        /* Navigation arrows - hidden since hover-to-slide */
+        /* Navigation arrows */
         .carousel-nav {
-            display: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid rgba(200, 146, 42, 0.4);
+            color: var(--accent);
+            font-size: 1rem;
+            font-family: 'Crimson Text', serif;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            position: relative;
+        }
+        .carousel-nav:hover {
+            background: rgba(200, 146, 42, 0.18);
+            border-color: var(--accent);
         }
 
         /* Hover hint text */
@@ -448,7 +467,7 @@
                         <button class="carousel-nav" onclick="moveFavCarousel(1)">→</button>
                     </div>
                     <div class="carousel-indicators" id="favIndicators"></div>
-                    <p class="hover-hint">hover to browse</p>
+
                     <div class="current-info" id="favInfo"></div>
                 </div>
             </div>
@@ -477,7 +496,7 @@
                         <button class="carousel-nav" onclick="moveRecentCarousel(1)">→</button>
                     </div>
                     <div class="carousel-indicators" id="recentIndicators"></div>
-                    <p class="hover-hint">hover to browse</p>
+
                     <div class="current-info" id="recentInfo"></div>
                 </div>
             </div>
@@ -644,9 +663,7 @@
                 update();
             }
 
-            // Click and hover handlers
-            let hoverTimeout = null;
-
+            // Click handler
             cards.forEach((card, index) => {
                 card.onclick = () => {
                     if (parseInt(card.dataset.position) === 0) {
@@ -655,20 +672,6 @@
                         goTo(index);
                     }
                 };
-
-                // Hover to slide with delay
-                card.addEventListener('mouseenter', () => {
-                    if (parseInt(card.dataset.position) !== 0) {
-                        clearTimeout(hoverTimeout);
-                        hoverTimeout = setTimeout(() => {
-                            goTo(index);
-                        }, 400);
-                    }
-                });
-
-                card.addEventListener('mouseleave', () => {
-                    clearTimeout(hoverTimeout);
-                });
             });
 
             update();
