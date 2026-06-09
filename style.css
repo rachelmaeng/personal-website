@@ -28,7 +28,7 @@ body {
     color: var(--light-green);
     line-height: 1.7;
     font-size: 18px;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20" stroke="%23C8922A" stroke-width="1" opacity="0.7"/><line x1="4" y1="12" x2="20" y2="12" stroke="%23C8922A" stroke-width="1" opacity="0.7"/><circle cx="12" cy="12" r="2" fill="%23C8922A" opacity="0.5"/></svg>') 12 12, auto;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23E8C870" opacity="0.15"/><circle cx="10" cy="10" r="3" fill="%23E8C870" opacity="0.3"/><circle cx="10" cy="10" r="1.5" fill="%23E8C870" opacity="0.9"/></svg>') 10 10, auto;
     position: relative;
     overflow-x: hidden;
 }
