@@ -262,8 +262,8 @@ function drawMoon() {
 
     // Glow
     const moonGlow = ctx.createRadialGradient(mx, my, 5, mx, my, 60);
-    moonGlow.addColorStop(0, 'rgba(200, 210, 230, 0.12)');
-    moonGlow.addColorStop(1, 'rgba(200, 210, 230, 0)');
+    moonGlow.addColorStop(0, 'rgba(230, 220, 180, 0.12)');
+    moonGlow.addColorStop(1, 'rgba(230, 220, 180, 0)');
     ctx.beginPath();
     ctx.arc(mx, my, 60, 0, Math.PI * 2);
     ctx.fillStyle = moonGlow;
@@ -272,7 +272,7 @@ function drawMoon() {
     // Full moon disc
     ctx.beginPath();
     ctx.arc(mx, my, r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(200, 210, 230, 0.7)';
+    ctx.fillStyle = 'rgba(235, 225, 190, 0.7)';
     ctx.fill();
 
     // Shadow overlay to create phase
