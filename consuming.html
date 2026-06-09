@@ -206,8 +206,11 @@
             z-index: 10;
             position: relative;
         }
-        .carousel-nav:last-child {
-            margin-left: 8rem;
+        .carousel-nav.nav-right-film {
+            margin-left: 12rem;
+        }
+        .carousel-nav.nav-right-music {
+            margin-left: 10rem;
         }
         .carousel-nav:hover {
             background: rgba(200, 146, 42, 0.18);
@@ -467,7 +470,7 @@
                                 <img src="https://image.tmdb.org/t/p/w500/iQ5ztdjvteGeboxtmRdXEChJOHh.jpg" alt="Scarface">
                             </div>
                         </div>
-                        <button class="carousel-nav" onclick="moveFavCarousel(1)">→</button>
+                        <button class="carousel-nav nav-right-film" onclick="moveFavCarousel(1)">→</button>
                     </div>
                     <div class="carousel-indicators" id="favIndicators"></div>
 
@@ -499,7 +502,7 @@
                                 <img src="https://image.tmdb.org/t/p/w500/kZokxQtzMPURvijWYFuvh1fAvnv.jpg" alt="Letters from Iwo Jima">
                             </div>
                         </div>
-                        <button class="carousel-nav" onclick="moveRecentCarousel(1)">→</button>
+                        <button class="carousel-nav nav-right-film" onclick="moveRecentCarousel(1)">→</button>
                     </div>
                     <div class="carousel-indicators" id="recentIndicators"></div>
 
@@ -563,7 +566,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="carousel-nav" onclick="moveMusicCarousel(1)">→</button>
+                    <button class="carousel-nav nav-right-music" onclick="moveMusicCarousel(1)">→</button>
                 </div>
                 <div class="carousel-indicators" id="musicIndicators"></div>
                 <p class="hover-hint">hover to browse</p>
