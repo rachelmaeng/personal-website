@@ -202,9 +202,9 @@ function drawBeam(time) {
 
     // Main beam cone
     const grad = ctx.createRadialGradient(x, topY, 0, x, topY, beamLength * 0.7);
-    grad.addColorStop(0, 'rgba(232, 200, 112, 0.25)');
-    grad.addColorStop(0.3, 'rgba(232, 200, 112, 0.08)');
-    grad.addColorStop(0.7, 'rgba(232, 200, 112, 0.02)');
+    grad.addColorStop(0, 'rgba(232, 200, 112, 0.45)');
+    grad.addColorStop(0.3, 'rgba(232, 200, 112, 0.15)');
+    grad.addColorStop(0.7, 'rgba(232, 200, 112, 0.04)');
     grad.addColorStop(1, 'rgba(232, 200, 112, 0)');
 
     ctx.save();
@@ -217,8 +217,8 @@ function drawBeam(time) {
 
     // Inner bright core
     const coreGrad = ctx.createRadialGradient(x, topY, 0, x, topY, beamLength * 0.4);
-    coreGrad.addColorStop(0, 'rgba(255, 240, 200, 0.15)');
-    coreGrad.addColorStop(0.5, 'rgba(255, 240, 200, 0.03)');
+    coreGrad.addColorStop(0, 'rgba(255, 240, 200, 0.3)');
+    coreGrad.addColorStop(0.5, 'rgba(255, 240, 200, 0.08)');
     coreGrad.addColorStop(1, 'rgba(255, 240, 200, 0)');
 
     ctx.beginPath();

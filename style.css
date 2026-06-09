@@ -502,23 +502,7 @@ a, button {
 
 .page-title::before,
 .page-title::after {
-    content: "\2726";
-    position: absolute;
-    color: var(--accent);
-    font-size: 1rem;
-    animation: shimmer 3s ease-in-out infinite;
-}
-
-.page-title::before {
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.page-title::after {
-    right: 0;
-    top: 50%;
-    transform: translateY(-50%);
+    content: none;
 }
 
 .page-description {
