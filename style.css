@@ -3,11 +3,11 @@
     --white: #FFFFFF;
     --gray: #F5F5F5;
     --dark-gray: #333333;
-    --medium-gray: #6B5540;
+    --medium-gray: #7A8890;
     --light-gray: #E0E0E0;
-    --dark-green: #EDE0C0;
-    --light-green: #1A0E06;
-    --accent: #C8922A;
+    --dark-green: #0A0E14;
+    --light-green: #D4D8DC;
+    --accent: #E8C870;
     --border: #000000;
 }
 
@@ -28,9 +28,22 @@ body {
     color: var(--light-green);
     line-height: 1.7;
     font-size: 18px;
-    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><ellipse cx="16" cy="10" rx="3" ry="5.5" fill="%232D6B3C"/><ellipse cx="16" cy="10" rx="3" ry="5.5" fill="%234A8A5C" transform="rotate(60 16 16)"/><ellipse cx="16" cy="10" rx="3" ry="5.5" fill="%232D6B3C" transform="rotate(120 16 16)"/><ellipse cx="16" cy="10" rx="3" ry="5.5" fill="%234A8A5C" transform="rotate(180 16 16)"/><ellipse cx="16" cy="10" rx="3" ry="5.5" fill="%232D6B3C" transform="rotate(240 16 16)"/><ellipse cx="16" cy="10" rx="3" ry="5.5" fill="%234A8A5C" transform="rotate(300 16 16)"/><circle cx="16" cy="16" r="5" fill="%23C8922A"/><circle cx="16" cy="16" r="3" fill="%23F5E8D8"/><circle cx="14.5" cy="15" r="1" fill="%239B7020"/><circle cx="17.5" cy="15" r="1" fill="%239B7020"/><circle cx="16" cy="17.8" r="1" fill="%239B7020"/></svg>') 16 16, auto;
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><line x1="12" y1="4" x2="12" y2="20" stroke="%23C8922A" stroke-width="1" opacity="0.7"/><line x1="4" y1="12" x2="20" y2="12" stroke="%23C8922A" stroke-width="1" opacity="0.7"/><circle cx="12" cy="12" r="2" fill="%23C8922A" opacity="0.5"/></svg>') 12 12, auto;
     position: relative;
     overflow-x: hidden;
+}
+
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.4;
 }
 
 /* Constellation canvas will be added via JavaScript */
@@ -42,28 +55,6 @@ body {
     height: 100%;
     z-index: 0;
     pointer-events: none;
-}
-
-/* Cursor trail */
-.cursor-trail {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0;
-    animation: trailFade 0.6s ease-out forwards;
-}
-
-@keyframes trailFade {
-    0% {
-        opacity: 0.8;
-        transform: scale(1) rotate(0deg);
-    }
-    100% {
-        opacity: 0;
-        transform: scale(0.3) rotate(180deg);
-    }
 }
 
 /* Color palette switcher - Minimal dots */
@@ -86,20 +77,16 @@ body {
 }
 
 .palette-button {
-    width: 18px;
-    height: 18px;
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 1.5px solid rgba(255, 255, 255, 0.3);
 }
 
 .palette-button[data-palette="default"] {
-    background: #EDE0C0;
-}
-
-.palette-button[data-palette="green"] {
     background: #2D6B3C;
 }
 
@@ -121,8 +108,8 @@ body {
 
 .palette-button.active {
     border-color: var(--accent);
-    border-width: 2.5px;
-    box-shadow: 0 0 12px var(--accent);
+    border-width: 1.5px;
+    box-shadow: 0 0 6px var(--accent);
 }
 
 .palette-button:hover {
@@ -153,7 +140,7 @@ main, footer, nav {
 }
 
 a, button {
-    cursor: inherit;
+    cursor: pointer;
 }
 
 /* Navigation */
@@ -515,7 +502,7 @@ a, button {
 
 .page-title::before,
 .page-title::after {
-    content: "✦";
+    content: "\2726";
     position: absolute;
     color: var(--accent);
     font-size: 1rem;
@@ -581,7 +568,7 @@ a, button {
 }
 
 .section-title::before {
-    content: "✦";
+    content: "\2726";
     position: absolute;
     left: 0;
     color: var(--accent);
@@ -728,11 +715,27 @@ a, button {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     text-decoration: none;
     color: inherit;
-    transition: opacity 0.2s ease;
+    transition: all 0.4s ease-out;
+    position: relative;
+}
+
+.content-page .link-item::before {
+    content: "\2192";
+    position: absolute;
+    left: -1.5rem;
+    color: var(--accent);
+    opacity: 0;
+    transition: all 0.4s ease-out;
 }
 
 .content-page .link-item:hover {
-    opacity: 0.5;
+    padding-left: 1.5rem;
+    border-bottom-color: rgba(212, 175, 106, 0.4);
+}
+
+.content-page .link-item:hover::before {
+    opacity: 1;
+    left: 0;
 }
 
 .link-title {
@@ -792,37 +795,6 @@ a, button {
     font-style: italic;
 }
 
-
-/* Link items with enhanced hover */
-.content-page .link-item {
-    display: block;
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.4s ease-out;
-    position: relative;
-}
-
-.content-page .link-item::before {
-    content: "→";
-    position: absolute;
-    left: -1.5rem;
-    color: var(--accent);
-    opacity: 0;
-    transition: all 0.4s ease-out;
-}
-
-.content-page .link-item:hover {
-    padding-left: 1.5rem;
-    border-bottom-color: rgba(212, 175, 106, 0.4);
-}
-
-.content-page .link-item:hover::before {
-    opacity: 1;
-    left: 0;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .hero {
@@ -848,8 +820,8 @@ a, button {
     }
 
     .palette-button {
-        width: 14px;
-        height: 14px;
+        width: 9px;
+        height: 9px;
     }
 
     /* Add right padding to content so colors don't overlap */
