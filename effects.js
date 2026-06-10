@@ -99,8 +99,8 @@ function drawIsland() {
     ctx.stroke();
 
     // Simple tree silhouettes on the left
-    const trees = [[W() * 0.08, baseY - 55], [W() * 0.14, baseY - 70], [W() * 0.20, baseY - 65], [W() * 0.10, baseY - 48]];
-    for (const [tx, ty] of trees) {
+    const trees = [[W() * 0.08, baseY - 55, 10], [W() * 0.14, baseY - 70, 11], [W() * 0.20, baseY - 65, 9], [W() * 0.10, baseY - 48, 8]];
+    for (const [tx, ty, r] of trees) {
         // Trunk
         ctx.beginPath();
         ctx.moveTo(tx, ty);
@@ -111,7 +111,7 @@ function drawIsland() {
         ctx.fill();
         // Foliage
         ctx.beginPath();
-        ctx.arc(tx, ty - 4, 8 + Math.random() * 4, 0, Math.PI * 2);
+        ctx.arc(tx, ty - 4, r, 0, Math.PI * 2);
         ctx.fillStyle = '#0C1118';
         ctx.fill();
     }
