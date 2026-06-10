@@ -229,21 +229,6 @@ function drawBeam(time) {
     ctx.fill();
     ctx.restore();
 
-    // Light reflection on water where beam hits
-    const waterY = H() * 0.72;
-    if (mouse.y > waterY - 50) {
-        const reflectX = x + Math.cos(angle) * (waterY - topY) / Math.sin(angle || 0.01) * Math.sin(angle);
-        ctx.beginPath();
-        for (let i = -40; i < 40; i += 4) {
-            const rx = mouse.x + i;
-            const ry = waterY + 5 + Math.sin(time * 2 + i * 0.1) * 3;
-            const alpha = 0.1 * (1 - Math.abs(i) / 40);
-            ctx.beginPath();
-            ctx.ellipse(rx, ry, 8, 2, 0, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(232, 200, 112, ${alpha})`;
-            ctx.fill();
-        }
-    }
 }
 
 // Moon — matches real current phase
