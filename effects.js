@@ -141,6 +141,100 @@ function drawIsland() {
     }
 }
 
+function drawCottage() {
+    const baseY = H() * 0.72;
+    const cx = W() * 0.30;
+    const cy = baseY - 38;
+    const w = 28;
+    const h = 18;
+
+    // Walls
+    ctx.beginPath();
+    ctx.rect(cx - w / 2, cy - h, w, h);
+    ctx.fillStyle = '#0C1520';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(60, 75, 90, 0.35)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+
+    // Roof
+    ctx.beginPath();
+    ctx.moveTo(cx - w / 2 - 4, cy - h);
+    ctx.lineTo(cx, cy - h - 14);
+    ctx.lineTo(cx + w / 2 + 4, cy - h);
+    ctx.closePath();
+    ctx.fillStyle = '#0A1018';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(60, 75, 90, 0.3)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+
+    // Window — warm glow
+    ctx.beginPath();
+    ctx.rect(cx - 4, cy - h + 5, 8, 7);
+    ctx.fillStyle = 'rgba(232, 200, 112, 0.5)';
+    ctx.fill();
+
+    // Window glow
+    const winGlow = ctx.createRadialGradient(cx, cy - h + 8, 1, cx, cy - h + 8, 18);
+    winGlow.addColorStop(0, 'rgba(232, 200, 112, 0.12)');
+    winGlow.addColorStop(1, 'rgba(232, 200, 112, 0)');
+    ctx.beginPath();
+    ctx.arc(cx, cy - h + 8, 18, 0, Math.PI * 2);
+    ctx.fillStyle = winGlow;
+    ctx.fill();
+
+    // Chimney
+    ctx.beginPath();
+    ctx.rect(cx + w / 4, cy - h - 14, 5, 10);
+    ctx.fillStyle = '#0A1018';
+    ctx.fill();
+}
+
+function drawBoat(time) {
+    const baseY = H() * 0.72;
+    const bx = W() * 0.60;
+    const bob = Math.sin(time * 1.2) * 2.5;
+    const by = baseY + 18 + bob;
+    const rock = Math.sin(time * 1.2 + 0.5) * 0.03;
+
+    ctx.save();
+    ctx.translate(bx, by);
+    ctx.rotate(rock);
+
+    // Hull
+    ctx.beginPath();
+    ctx.moveTo(-14, 0);
+    ctx.quadraticCurveTo(-12, 8, 0, 9);
+    ctx.quadraticCurveTo(12, 8, 14, 0);
+    ctx.lineTo(-14, 0);
+    ctx.closePath();
+    ctx.fillStyle = '#15202C';
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(60, 75, 90, 0.4)';
+    ctx.lineWidth = 0.8;
+    ctx.stroke();
+
+    // Mast
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(0, -22);
+    ctx.strokeStyle = 'rgba(70, 85, 100, 0.5)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    // Sail
+    ctx.beginPath();
+    ctx.moveTo(0, -20);
+    ctx.lineTo(0, -5);
+    ctx.lineTo(10, -10);
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(180, 175, 160, 0.12)';
+    ctx.fill();
+
+    ctx.restore();
+}
+
 function drawLighthouse() {
     const x = lhX();
     const topY = lhTopY();
@@ -358,8 +452,10 @@ function animate() {
     drawMoon();
     drawOcean(time);
     drawIsland();
+    drawCottage();
     drawLighthouse();
     drawBeam(time);
+    drawBoat(time);
 
     // Position moon clickable hitbox
     const moonLink = document.getElementById('moon-link');
