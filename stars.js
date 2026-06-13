@@ -21,7 +21,7 @@ for (let i = 0; i < 300; i++) {
         size: 0.3 + Math.random() * 2,
         twinkle: Math.random() * Math.PI * 2,
         speed: 0.01 + Math.random() * 0.04,
-        brightness: 0.3 + Math.random() * 0.7,
+        brightness: 0.5 + Math.random() * 0.5,
     });
 }
 
@@ -29,26 +29,26 @@ for (let i = 0; i < 300; i++) {
 function animate() {
     // Dark sky
     const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    grad.addColorStop(0, '#06080C');
-    grad.addColorStop(0.5, '#0A0E16');
-    grad.addColorStop(1, '#0E1420');
+    grad.addColorStop(0, '#0E1320');
+    grad.addColorStop(0.5, '#111822');
+    grad.addColorStop(1, '#151E2C');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     for (const s of stars) {
         s.twinkle += s.speed;
         const raw = Math.sin(s.twinkle);
-        const alpha = s.brightness * (raw > 0.6 ? 1 : 0.12);
+        const alpha = s.brightness * (0.25 + 0.75 * Math.max(0, (raw - 0.2) / 0.8));
 
         ctx.beginPath();
         ctx.arc(s.x * canvas.width, s.y * canvas.height, s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 225, 240, ${alpha})`;
+        ctx.fillStyle = `rgba(230, 235, 250, ${alpha})`;
         ctx.fill();
 
-        if (raw > 0.6 && s.size > 1) {
+        if (raw > 0.5 && s.size > 0.8) {
             ctx.beginPath();
-            ctx.arc(s.x * canvas.width, s.y * canvas.height, s.size + 2, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(200, 210, 240, ${alpha * 0.2})`;
+            ctx.arc(s.x * canvas.width, s.y * canvas.height, s.size + 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(210, 220, 250, ${alpha * 0.25})`;
             ctx.fill();
         }
     }
