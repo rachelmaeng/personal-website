@@ -141,12 +141,37 @@ function drawIsland() {
     }
 }
 
-function drawCottage() {
+function getCliffY(xFrac) {
+    // Sample the cliff bezier curve at a given x fraction
+    // Segment 3: start=(0.25, -50), control=(0.32, -30), end=(0.38, -20)
+    // Segment 2: start=(0.12, -60), control=(0.18, -80), end=(0.25, -50)
     const baseY = H() * 0.72;
-    // Place cottage between the trees and lighthouse, on the cliff surface
-    // The cliff curve at x=0.28 is approximately baseY - 45 (interpolating between 0.25:-50 and 0.32:-30)
+    let segments = [
+        { x0: 0, y0: 0, cx: 0.05, cy: -40, x1: 0.12, y1: -60 },
+        { x0: 0.12, y0: -60, cx: 0.18, cy: -80, x1: 0.25, y1: -50 },
+        { x0: 0.25, y0: -50, cx: 0.32, cy: -30, x1: 0.38, y1: -20 },
+        { x0: 0.38, y0: -20, cx: 0.42, cy: -15, x1: 0.46, y1: -18 },
+    ];
+    for (const s of segments) {
+        if (xFrac >= s.x0 && xFrac <= s.x1) {
+            // Find t by bisection on x
+            let lo = 0, hi = 1;
+            for (let i = 0; i < 20; i++) {
+                const mid = (lo + hi) / 2;
+                const x = (1-mid)*(1-mid)*s.x0 + 2*(1-mid)*mid*s.cx + mid*mid*s.x1;
+                if (x < xFrac) lo = mid; else hi = mid;
+            }
+            const t = (lo + hi) / 2;
+            const y = (1-t)*(1-t)*s.y0 + 2*(1-t)*t*s.cy + t*t*s.y1;
+            return baseY + y;
+        }
+    }
+    return baseY;
+}
+
+function drawCottage() {
     const cx = W() * 0.28;
-    const cy = baseY - 45;
+    const cy = getCliffY(0.28);
     const w = 26;
     const h = 16;
 
@@ -400,9 +425,9 @@ function animate() {
 
     // Dark sky gradient
     const skyGrad = ctx.createLinearGradient(0, 0, 0, H() * 0.72);
-    skyGrad.addColorStop(0, '#161E2E');
-    skyGrad.addColorStop(0.5, '#1A2233');
-    skyGrad.addColorStop(1, '#1E2840');
+    skyGrad.addColorStop(0, '#0C1320');
+    skyGrad.addColorStop(0.5, '#101828');
+    skyGrad.addColorStop(1, '#141E30');
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, W(), H() * 0.72);
 

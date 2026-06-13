@@ -29,9 +29,9 @@ for (let i = 0; i < 300; i++) {
 function animate() {
     // Dark sky
     const grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    grad.addColorStop(0, '#161E2E');
-    grad.addColorStop(0.5, '#1A2233');
-    grad.addColorStop(1, '#1E2840');
+    grad.addColorStop(0, '#0C1320');
+    grad.addColorStop(0.5, '#101828');
+    grad.addColorStop(1, '#141E30');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
