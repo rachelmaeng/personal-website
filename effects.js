@@ -30,7 +30,7 @@ for (let i = 0; i < 120; i++) {
         size: 0.3 + Math.random() * 1.5,
         twinkle: Math.random() * Math.PI * 2,
         speed: 0.008 + Math.random() * 0.02,
-        brightness: 0.3 + Math.random() * 0.7,
+        brightness: 0.6 + Math.random() * 0.4,
     });
 }
 
@@ -38,10 +38,10 @@ function drawStars(time) {
     for (const s of stars) {
         s.twinkle += s.speed;
         const raw = Math.sin(s.twinkle);
-        const alpha = s.brightness * (raw > 0.7 ? 1 : 0.15);
+        const alpha = s.brightness * (0.35 + 0.65 * Math.max(0, (raw - 0.1) / 0.9));
         ctx.beginPath();
         ctx.arc(s.x * W(), s.y * H(), s.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(220, 225, 240, ${alpha})`;
+        ctx.fillStyle = `rgba(230, 235, 250, ${alpha})`;
         ctx.fill();
     }
 }
@@ -50,7 +50,7 @@ function drawOcean(time) {
     const baseY = H() * 0.72;
 
     // Ocean fill
-    ctx.fillStyle = '#080C12';
+    ctx.fillStyle = '#121A24';
     ctx.fillRect(0, baseY, W(), H() - baseY);
 
     // Wave lines
@@ -324,9 +324,9 @@ function animate() {
 
     // Dark sky gradient
     const skyGrad = ctx.createLinearGradient(0, 0, 0, H() * 0.72);
-    skyGrad.addColorStop(0, '#06080C');
-    skyGrad.addColorStop(0.5, '#0A0E16');
-    skyGrad.addColorStop(1, '#0E1420');
+    skyGrad.addColorStop(0, '#161E2E');
+    skyGrad.addColorStop(0.5, '#1A2233');
+    skyGrad.addColorStop(1, '#1E2840');
     ctx.fillStyle = skyGrad;
     ctx.fillRect(0, 0, W(), H() * 0.72);
 
