@@ -10,6 +10,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
+        #age {
+            font-variant-numeric: tabular-nums;
+        }
         .copy-email:hover {
             opacity: 0.7;
         }
@@ -50,7 +53,23 @@
         <section class="content-section">
             <div style="max-width: 650px;">
                 <p class="drop-cap" style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    Hi, my name is Rachel H Maeng (yes, my middle name is really just H, haha) and I'm <span id="age"></span> years old. I'm a recent graduate from UT Austin with a degree in History.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    I started college pre-med, spent a few years as a biology major, and graduated in history. The thread through all of it is that I care more about understanding how things work than practicing inside any one field. I genuinely enjoy digging into archives and figuring out why systems function the way they do, whether that system is a body, an institution, or a marketing funnel.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
                     By day I do marketing at a startup. On the side, I'm building a wellness app that treats the menstrual cycle as an integrated system for nutrition, movement, and mood. Most health tech overlooks this entirely. The research gap is significant (women weren't routinely included in clinical trials until the 1990s) and the product gap is even larger. I'm working to address both.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    I cook a lot, because good food is one of life's genuine pleasures. I play the flute, and I fall into Wikipedia spirals far too often.
+                </p>
+
+                <p style="font-size: 1rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--medium-gray);">
+                    This site is where I archive the things I'm thinking about, watching, reading, and making.
                 </p>
 
                 <p style="font-size: 1rem; line-height: 1.6; color: var(--medium-gray);">
@@ -69,20 +88,16 @@
 
     <script src="stars.js"></script>
     <script>
-        // Live Age Counter - Born July 24, 2003 at 1:10 PM
-        const birthDate = new Date(2003, 6, 24, 13, 10, 0);
-        const ageEl = document.getElementById('live-age');
-
-        function updateAge() {
-            const now = new Date();
-            const ageInMs = now - birthDate;
-            const ageInYears = ageInMs / (1000 * 60 * 60 * 24 * 365.25);
-            const formatted = ageInYears.toFixed(9);
-            if (ageEl) ageEl.textContent = formatted;
+        const BIRTH = new Date(2003, 6, 24);
+        const DECIMALS = 8;
+        const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000;
+        const ageEl = document.getElementById("age");
+        function tick() {
+            const years = (Date.now() - BIRTH.getTime()) / MS_PER_YEAR;
+            ageEl.textContent = years.toFixed(DECIMALS);
+            requestAnimationFrame(tick);
         }
-
-        updateAge();
-        setInterval(updateAge, 50);
+        tick();
 
         function copyEmail(event) {
             const email = 'rachelmaeng03@gmail.com';

@@ -141,83 +141,6 @@ function drawIsland() {
     }
 }
 
-function getCliffY(xFrac) {
-    // Sample the cliff bezier curve at a given x fraction
-    // Segment 3: start=(0.25, -50), control=(0.32, -30), end=(0.38, -20)
-    // Segment 2: start=(0.12, -60), control=(0.18, -80), end=(0.25, -50)
-    const baseY = H() * 0.72;
-    let segments = [
-        { x0: 0, y0: 0, cx: 0.05, cy: -40, x1: 0.12, y1: -60 },
-        { x0: 0.12, y0: -60, cx: 0.18, cy: -80, x1: 0.25, y1: -50 },
-        { x0: 0.25, y0: -50, cx: 0.32, cy: -30, x1: 0.38, y1: -20 },
-        { x0: 0.38, y0: -20, cx: 0.42, cy: -15, x1: 0.46, y1: -18 },
-    ];
-    for (const s of segments) {
-        if (xFrac >= s.x0 && xFrac <= s.x1) {
-            // Find t by bisection on x
-            let lo = 0, hi = 1;
-            for (let i = 0; i < 20; i++) {
-                const mid = (lo + hi) / 2;
-                const x = (1-mid)*(1-mid)*s.x0 + 2*(1-mid)*mid*s.cx + mid*mid*s.x1;
-                if (x < xFrac) lo = mid; else hi = mid;
-            }
-            const t = (lo + hi) / 2;
-            const y = (1-t)*(1-t)*s.y0 + 2*(1-t)*t*s.cy + t*t*s.y1;
-            return baseY + y;
-        }
-    }
-    return baseY;
-}
-
-function drawCottage() {
-    const cx = W() * 0.28;
-    const cy = getCliffY(0.28);
-    const w = 26;
-    const h = 16;
-
-    // Walls — bottom edge sits on the cliff
-    ctx.beginPath();
-    ctx.rect(cx - w / 2, cy - h, w, h);
-    ctx.fillStyle = '#0C1520';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(60, 75, 90, 0.35)';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-
-    // Roof
-    ctx.beginPath();
-    ctx.moveTo(cx - w / 2 - 4, cy - h);
-    ctx.lineTo(cx, cy - h - 12);
-    ctx.lineTo(cx + w / 2 + 4, cy - h);
-    ctx.closePath();
-    ctx.fillStyle = '#0A1018';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(60, 75, 90, 0.3)';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-
-    // Window — warm glow
-    ctx.beginPath();
-    ctx.rect(cx - 3.5, cy - h + 4, 7, 6);
-    ctx.fillStyle = 'rgba(232, 200, 112, 0.5)';
-    ctx.fill();
-
-    // Window glow
-    const winGlow = ctx.createRadialGradient(cx, cy - h + 7, 1, cx, cy - h + 7, 16);
-    winGlow.addColorStop(0, 'rgba(232, 200, 112, 0.12)');
-    winGlow.addColorStop(1, 'rgba(232, 200, 112, 0)');
-    ctx.beginPath();
-    ctx.arc(cx, cy - h + 7, 16, 0, Math.PI * 2);
-    ctx.fillStyle = winGlow;
-    ctx.fill();
-
-    // Chimney
-    ctx.beginPath();
-    ctx.rect(cx + w / 4, cy - h - 12, 4, 9);
-    ctx.fillStyle = '#0A1018';
-    ctx.fill();
-}
-
 function drawLighthouse() {
     const x = lhX();
     const topY = lhTopY();
@@ -435,7 +358,6 @@ function animate() {
     drawMoon();
     drawOcean(time);
     drawIsland();
-    drawCottage();
     drawLighthouse();
     drawBeam(time);
 
