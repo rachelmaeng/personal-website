@@ -5,7 +5,7 @@
     --dark-gray: #333333;
     --medium-gray: #7A8890;
     --light-gray: #E0E0E0;
-    --dark-green: #111822;
+    --dark-green: #1A2233;
     --light-green: #D4D8DC;
     --accent: #E8C870;
     --border: #000000;
@@ -31,6 +31,9 @@ body {
     cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="6" fill="%23E8C870" opacity="0.15"/><circle cx="10" cy="10" r="3" fill="%23E8C870" opacity="0.3"/><circle cx="10" cy="10" r="1.5" fill="%23E8C870" opacity="0.9"/></svg>') 10 10, auto;
     position: relative;
     overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 body::after {
@@ -755,7 +758,7 @@ a, button {
 
 /* Other pages footer - keep margin */
 .content-page ~ .site-footer {
-    margin-top: 10rem;
+    margin-top: auto;
 }
 
 .footer-content {
