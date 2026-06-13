@@ -245,31 +245,66 @@ function drawMoon() {
     const r = 16;
     const phase = getMoonPhase();
 
-    // Glow
-    const moonGlow = ctx.createRadialGradient(mx, my, 5, mx, my, 60);
-    moonGlow.addColorStop(0, 'rgba(230, 220, 180, 0.12)');
+    // Subtle glow
+    const moonGlow = ctx.createRadialGradient(mx, my, r * 0.5, mx, my, r * 3);
+    moonGlow.addColorStop(0, 'rgba(230, 220, 180, 0.08)');
     moonGlow.addColorStop(1, 'rgba(230, 220, 180, 0)');
     ctx.beginPath();
-    ctx.arc(mx, my, 60, 0, Math.PI * 2);
+    ctx.arc(mx, my, r * 3, 0, Math.PI * 2);
     ctx.fillStyle = moonGlow;
     ctx.fill();
 
-    // Full moon disc
-    ctx.beginPath();
-    ctx.arc(mx, my, r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(235, 225, 190, 0.7)';
-    ctx.fill();
+    // Draw crescent by tracing a single filled path:
+    // One side is the outer circular arc, the other side is an elliptical terminator.
+    // The terminator is drawn by scaling the x-axis before drawing a second arc.
+    //
+    // phase: 0=new, 0.25=first quarter, 0.5=full, 0.75=last quarter
+    // tX: terminator squeeze factor. 1=full circle, 0=half moon, -1=thin crescent
+    const tX = -Math.cos(phase * Math.PI * 2);
 
-    // Shadow overlay to create phase
-    // phase 0=new(all dark), 0.25=first quarter, 0.5=full(no shadow), 0.75=last quarter
-    const shadowOffset = Math.cos(phase * Math.PI * 2) * r * 1.2;
+    ctx.save();
+    ctx.translate(mx, my);
+
     ctx.beginPath();
-    ctx.arc(mx + shadowOffset, my, r * 0.95, 0, Math.PI * 2);
-    ctx.fillStyle = '#0A0E14';
-    // Only draw shadow if not full moon
-    if (Math.abs(phase - 0.5) > 0.05) {
-        ctx.fill();
+
+    if (Math.abs(phase - 0.5) <= 0.05) {
+        // Full moon
+        ctx.arc(0, 0, r, 0, Math.PI * 2);
+    } else if (phase < 0.5) {
+        // Waxing: lit side is on the RIGHT
+        // Outer arc: right semicircle (top to bottom going clockwise)
+        ctx.arc(0, 0, r, -Math.PI / 2, Math.PI / 2, false);
+        // Terminator: squeezed arc from bottom back to top
+        ctx.save();
+        ctx.scale(Math.abs(tX) < 0.01 ? 0.01 : Math.abs(tX), 1);
+        if (tX >= 0) {
+            // More than half lit: terminator bulges right
+            ctx.arc(0, 0, r, Math.PI / 2, -Math.PI / 2, false);
+        } else {
+            // Less than half lit: terminator curves left (into lit area)
+            ctx.arc(0, 0, r, Math.PI / 2, -Math.PI / 2, true);
+        }
+        ctx.restore();
+    } else {
+        // Waning: lit side is on the LEFT
+        // Outer arc: left semicircle (bottom to top going clockwise)
+        ctx.arc(0, 0, r, Math.PI / 2, -Math.PI / 2, false);
+        // Terminator: squeezed arc from top back to bottom
+        ctx.save();
+        ctx.scale(Math.abs(tX) < 0.01 ? 0.01 : Math.abs(tX), 1);
+        if (tX >= 0) {
+            // More than half lit: terminator bulges left
+            ctx.arc(0, 0, r, -Math.PI / 2, Math.PI / 2, false);
+        } else {
+            // Less than half lit: terminator curves right (into lit area)
+            ctx.arc(0, 0, r, -Math.PI / 2, Math.PI / 2, true);
+        }
+        ctx.restore();
     }
+
+    ctx.fillStyle = 'rgba(235, 225, 190, 0.85)';
+    ctx.fill();
+    ctx.restore();
 }
 
 // ===== MAIN ANIMATION =====
