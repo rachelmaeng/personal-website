@@ -239,18 +239,29 @@ function getMoonPhase() {
     return (days % 29.53058867) / 29.53058867; // 0=new, 0.5=full
 }
 
+// Check if mouse is hovering over the moon hitbox
+let moonHovered = false;
+const moonLink = document.getElementById('moon-link');
+if (moonLink) {
+    moonLink.addEventListener('mouseenter', () => { moonHovered = true; });
+    moonLink.addEventListener('mouseleave', () => { moonHovered = false; });
+}
+
 function drawMoon() {
     const mx = W() * 0.82;
     const my = H() * 0.12;
     const r = 16;
     const phase = getMoonPhase();
+    const hoverBoost = moonHovered ? 1.8 : 1;
 
-    // Subtle glow
-    const moonGlow = ctx.createRadialGradient(mx, my, r * 0.5, mx, my, r * 3);
-    moonGlow.addColorStop(0, 'rgba(230, 220, 180, 0.08)');
+    // Glow — brighter on hover
+    const glowAlpha = moonHovered ? 0.25 : 0.15;
+    const glowRadius = moonHovered ? r * 4.5 : r * 3.5;
+    const moonGlow = ctx.createRadialGradient(mx, my, r * 0.5, mx, my, glowRadius);
+    moonGlow.addColorStop(0, `rgba(230, 220, 180, ${glowAlpha})`);
     moonGlow.addColorStop(1, 'rgba(230, 220, 180, 0)');
     ctx.beginPath();
-    ctx.arc(mx, my, r * 3, 0, Math.PI * 2);
+    ctx.arc(mx, my, glowRadius, 0, Math.PI * 2);
     ctx.fillStyle = moonGlow;
     ctx.fill();
 
@@ -302,7 +313,7 @@ function drawMoon() {
         ctx.restore();
     }
 
-    ctx.fillStyle = 'rgba(235, 225, 190, 0.85)';
+    ctx.fillStyle = moonHovered ? 'rgba(245, 238, 210, 1)' : 'rgba(240, 232, 200, 0.95)';
     ctx.fill();
     ctx.restore();
 }
