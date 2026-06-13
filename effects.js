@@ -98,22 +98,37 @@ function drawIsland() {
     ctx.lineWidth = 1;
     ctx.stroke();
 
-    // Simple tree silhouettes on the left
-    const trees = [[W() * 0.08, baseY - 55, 10], [W() * 0.14, baseY - 70, 11], [W() * 0.20, baseY - 65, 9], [W() * 0.10, baseY - 48, 8]];
+    // Tree silhouettes on the left
+    const trees = [[W() * 0.08, baseY - 55, 11], [W() * 0.14, baseY - 70, 13], [W() * 0.20, baseY - 65, 10], [W() * 0.10, baseY - 48, 9]];
     for (const [tx, ty, r] of trees) {
         // Trunk
         ctx.beginPath();
-        ctx.moveTo(tx, ty);
-        ctx.lineTo(tx - 1, ty + 18);
-        ctx.lineTo(tx + 1, ty + 18);
+        ctx.moveTo(tx - 2.5, ty + r * 0.3);
+        ctx.lineTo(tx - 2, ty + 22);
+        ctx.lineTo(tx + 2, ty + 22);
+        ctx.lineTo(tx + 2.5, ty + r * 0.3);
         ctx.closePath();
-        ctx.fillStyle = '#0A0F14';
+        ctx.fillStyle = '#060A10';
         ctx.fill();
-        // Foliage
+        // Foliage — layered circles for a fuller canopy
         ctx.beginPath();
-        ctx.arc(tx, ty - 4, r, 0, Math.PI * 2);
-        ctx.fillStyle = '#0C1118';
+        ctx.arc(tx - r * 0.35, ty, r * 0.75, 0, Math.PI * 2);
+        ctx.fillStyle = '#0A1018';
         ctx.fill();
+        ctx.beginPath();
+        ctx.arc(tx + r * 0.35, ty, r * 0.75, 0, Math.PI * 2);
+        ctx.fillStyle = '#0A1018';
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(tx, ty - r * 0.45, r * 0.8, 0, Math.PI * 2);
+        ctx.fillStyle = '#080E16';
+        ctx.fill();
+        // Subtle edge highlight
+        ctx.beginPath();
+        ctx.arc(tx, ty - r * 0.2, r, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(50, 70, 90, 0.25)';
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
     }
 }
 
