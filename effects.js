@@ -143,12 +143,14 @@ function drawIsland() {
 
 function drawCottage() {
     const baseY = H() * 0.72;
-    const cx = W() * 0.30;
-    const cy = baseY - 38;
-    const w = 28;
-    const h = 18;
+    // Place cottage between the trees and lighthouse, on the cliff surface
+    // The cliff curve at x=0.28 is approximately baseY - 45 (interpolating between 0.25:-50 and 0.32:-30)
+    const cx = W() * 0.28;
+    const cy = baseY - 45;
+    const w = 26;
+    const h = 16;
 
-    // Walls
+    // Walls — bottom edge sits on the cliff
     ctx.beginPath();
     ctx.rect(cx - w / 2, cy - h, w, h);
     ctx.fillStyle = '#0C1520';
@@ -160,7 +162,7 @@ function drawCottage() {
     // Roof
     ctx.beginPath();
     ctx.moveTo(cx - w / 2 - 4, cy - h);
-    ctx.lineTo(cx, cy - h - 14);
+    ctx.lineTo(cx, cy - h - 12);
     ctx.lineTo(cx + w / 2 + 4, cy - h);
     ctx.closePath();
     ctx.fillStyle = '#0A1018';
@@ -171,68 +173,24 @@ function drawCottage() {
 
     // Window — warm glow
     ctx.beginPath();
-    ctx.rect(cx - 4, cy - h + 5, 8, 7);
+    ctx.rect(cx - 3.5, cy - h + 4, 7, 6);
     ctx.fillStyle = 'rgba(232, 200, 112, 0.5)';
     ctx.fill();
 
     // Window glow
-    const winGlow = ctx.createRadialGradient(cx, cy - h + 8, 1, cx, cy - h + 8, 18);
+    const winGlow = ctx.createRadialGradient(cx, cy - h + 7, 1, cx, cy - h + 7, 16);
     winGlow.addColorStop(0, 'rgba(232, 200, 112, 0.12)');
     winGlow.addColorStop(1, 'rgba(232, 200, 112, 0)');
     ctx.beginPath();
-    ctx.arc(cx, cy - h + 8, 18, 0, Math.PI * 2);
+    ctx.arc(cx, cy - h + 7, 16, 0, Math.PI * 2);
     ctx.fillStyle = winGlow;
     ctx.fill();
 
     // Chimney
     ctx.beginPath();
-    ctx.rect(cx + w / 4, cy - h - 14, 5, 10);
+    ctx.rect(cx + w / 4, cy - h - 12, 4, 9);
     ctx.fillStyle = '#0A1018';
     ctx.fill();
-}
-
-function drawBoat(time) {
-    const baseY = H() * 0.72;
-    const bx = W() * 0.60;
-    const bob = Math.sin(time * 1.2) * 2.5;
-    const by = baseY + 18 + bob;
-    const rock = Math.sin(time * 1.2 + 0.5) * 0.03;
-
-    ctx.save();
-    ctx.translate(bx, by);
-    ctx.rotate(rock);
-
-    // Hull
-    ctx.beginPath();
-    ctx.moveTo(-14, 0);
-    ctx.quadraticCurveTo(-12, 8, 0, 9);
-    ctx.quadraticCurveTo(12, 8, 14, 0);
-    ctx.lineTo(-14, 0);
-    ctx.closePath();
-    ctx.fillStyle = '#15202C';
-    ctx.fill();
-    ctx.strokeStyle = 'rgba(60, 75, 90, 0.4)';
-    ctx.lineWidth = 0.8;
-    ctx.stroke();
-
-    // Mast
-    ctx.beginPath();
-    ctx.moveTo(0, 0);
-    ctx.lineTo(0, -22);
-    ctx.strokeStyle = 'rgba(70, 85, 100, 0.5)';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-
-    // Sail
-    ctx.beginPath();
-    ctx.moveTo(0, -20);
-    ctx.lineTo(0, -5);
-    ctx.lineTo(10, -10);
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(180, 175, 160, 0.12)';
-    ctx.fill();
-
-    ctx.restore();
 }
 
 function drawLighthouse() {
@@ -455,7 +413,6 @@ function animate() {
     drawCottage();
     drawLighthouse();
     drawBeam(time);
-    drawBoat(time);
 
     // Position moon clickable hitbox
     const moonLink = document.getElementById('moon-link');
