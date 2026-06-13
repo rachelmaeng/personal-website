@@ -23,13 +23,13 @@ const lhWidth = 28;
 
 // Stars
 const stars = [];
-for (let i = 0; i < 120; i++) {
+for (let i = 0; i < 200; i++) {
     stars.push({
         x: Math.random(),
         y: Math.random() * 0.55,
-        size: 0.3 + Math.random() * 1.5,
+        size: 0.3 + Math.random() * 1.8,
         twinkle: Math.random() * Math.PI * 2,
-        speed: 0.008 + Math.random() * 0.02,
+        speed: 0.015 + Math.random() * 0.04,
         brightness: 0.6 + Math.random() * 0.4,
     });
 }
@@ -38,11 +38,20 @@ function drawStars(time) {
     for (const s of stars) {
         s.twinkle += s.speed;
         const raw = Math.sin(s.twinkle);
-        const alpha = s.brightness * (0.35 + 0.65 * Math.max(0, (raw - 0.1) / 0.9));
+        const twinkle = raw * 0.5 + 0.5; // 0 to 1
+        const alpha = s.brightness * (0.08 + 0.92 * twinkle * twinkle);
         ctx.beginPath();
         ctx.arc(s.x * W(), s.y * H(), s.size, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(230, 235, 250, ${alpha})`;
         ctx.fill();
+
+        // Glow on bright stars
+        if (twinkle > 0.7 && s.size > 0.8) {
+            ctx.beginPath();
+            ctx.arc(s.x * W(), s.y * H(), s.size + 3, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(210, 220, 250, ${alpha * 0.2})`;
+            ctx.fill();
+        }
     }
 }
 
